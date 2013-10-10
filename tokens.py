@@ -128,8 +128,6 @@ def t_CTEI(t):
 	t.value = int(t.value)
 	return t
 
-
-
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += t.value.count("\n")
@@ -140,3 +138,29 @@ def t_error(t):
 	print ("Caracter no identificado '%s'" % t.value[0])
 	t.lexer.skip(1)
 
+if __name__ == '__main__':
+	# Build the lexer
+	from ply import lex
+	import sys 
+
+	lex.lex()
+
+	if len(sys.argv) > 1:
+		f = open(sys.argv[1],"r")
+		data = f.read()
+		f.close()
+	else:
+		data = ""
+		while 1:
+			try:
+				data += raw_input() + "\n"
+			except:
+				break
+
+	lex.input(data)
+
+	# Tokenize
+	while 1:
+	    tok = lex.token()
+	    if not tok: break      # No more input
+	    print tok

@@ -1,0 +1,180 @@
+Created by PLY version 3.4 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> programa
+Rule 1     varcte -> CTEI
+Rule 2     varcte -> CTEF
+Rule 3     varcte -> CTESTRING
+Rule 4     varcte -> CTEBOOL
+Rule 5     varcte -> ID
+Rule 6     varcte -> llamadafuncion
+Rule 7     data -> DATA LCURLY listaasignacion RCURLY
+Rule 8     listaasignacion -> asignacion SEMIC lasignacion
+Rule 9     lasignacion -> empty
+Rule 10    lasignacion -> listaasignacion
+Rule 11    funcionoptimizacion -> MIN EQUALS restricciones
+Rule 12    funcionoptimizacion -> MAX EQUALS restricciones
+Rule 13    restricciones -> WHERE restricciones2
+Rule 14    restricciones2 -> expresion
+Rule 15    restricciones2 -> suma SEMIC listafor
+Rule 16    for -> FOR ID IN DOT ID LBRACKET estatuto RBRACKET
+Rule 17    listafor -> for SEMIC lfor
+Rule 18    lfor -> empty
+Rule 19    lfor -> listafor
+Rule 20    suma -> SUM LPAREN ID POINTS expresion RPAREN
+Rule 21    factor -> PLUS varcte
+Rule 22    factor -> MINUS varcte
+Rule 23    factor -> varcte
+Rule 24    factor -> LPAREN expresion RPAREN
+Rule 25    termino -> factor
+Rule 26    termino -> factor STAR termino
+Rule 27    termino -> factor SLASH termino
+Rule 28    condicion -> IF LPAREN expresion RPAREN bloque SEMIC
+Rule 29    condicion -> IF LPAREN expresion RPAREN bloque ELSE bloque SEMIC
+Rule 30    expresion -> exp
+Rule 31    expresion -> exp LESSTHAN exp
+Rule 32    expresion -> exp GREATERTHAN exp
+Rule 33    expresion -> exp BETWEEN exp
+Rule 34    exp -> termino
+Rule 35    exp -> termino PLUS exp
+Rule 36    exp -> termino MINUS exp
+Rule 37    escritura -> PRINT LPAREN escritura2 RPAREN SEMIC
+Rule 38    escritura2 -> expresion
+Rule 39    escritura2 -> STRING
+Rule 40    escritura2 -> expresion DOT escritura2
+Rule 41    escritura2 -> STRING DOT escritura2
+Rule 42    asignacion -> ID POINTS expresion SEMIC
+Rule 43    estatuto -> asignacion
+Rule 44    estatuto -> condicion
+Rule 45    estatuto -> escritura
+Rule 46    estatuto -> funcionoptimizacion
+Rule 47    estatuto -> ciclo
+Rule 48    estatuto -> retorno
+Rule 49    ciclo -> for
+Rule 50    retorno -> RETURN asignacion
+Rule 51    funcion -> FUNC ID LPAREN listaargs RPAREN LCURLY declaravarsdata bloque RCURLY
+Rule 52    listaargs -> empty
+Rule 53    listaargs -> tipo ID liargs
+Rule 54    liargs -> empty
+Rule 55    liargs -> COMMA listaargs
+Rule 56    bloque -> LCURLY bloque2 RCURLY
+Rule 57    bloque -> LCURLY RCURLY
+Rule 58    bloque2 -> estatuto bloque2
+Rule 59    bloque2 -> estatuto
+Rule 60    tipo -> TINT
+Rule 61    tipo -> TFLOAT
+Rule 62    tipo -> TBOOL
+Rule 63    vars -> VARS LCURLY listavars RCURLY
+Rule 64    matriz -> LBRACKET CTEI RBRACKET LBRACKET CTEI RBRACKET
+Rule 65    arreglo -> LBRACKET CTEI RBRACKET
+Rule 66    declaracion -> arreglo
+Rule 67    declaracion -> matriz
+Rule 68    declaracion -> tipo
+Rule 69    lid -> COMMA listaids
+Rule 70    lid -> empty
+Rule 71    listaids -> ID lid
+Rule 72    lvars -> listavars seen_vars
+Rule 73    lvars -> empty
+Rule 74    seen_vars -> <empty>
+Rule 75    listavars -> declaracion POINTS listaids SEMIC
+Rule 76    declaravarsdata -> vars data
+Rule 77    declaravarsdata -> empty
+Rule 78    declarafuncion -> funcion
+Rule 79    declarafuncion -> empty
+Rule 80    declaravars -> vars
+Rule 81    declaravars -> empty
+Rule 82    programa -> declaravars declarafuncion MODEL POINTS declaravarsdata bloque
+Rule 83    empty -> <empty>
+
+Terminals, with rules where they appear
+
+BETWEEN              : 33
+COMMA                : 55 69
+CTEBOOL              : 4
+CTEF                 : 2
+CTEI                 : 1 64 64 65
+CTESTRING            : 3
+DATA                 : 7
+DOT                  : 16 40 41
+ELSE                 : 29
+EQUALS               : 11 12
+FOR                  : 16
+FUNC                 : 51
+GREATERTHAN          : 32
+ID                   : 5 16 16 20 42 51 53 71
+IF                   : 28 29
+IN                   : 16
+LBRACKET             : 16 64 64 65
+LCURLY               : 7 51 56 57 63
+LESSTHAN             : 31
+LPAREN               : 20 24 28 29 37 51
+MAX                  : 12
+MIN                  : 11
+MINUS                : 22 36
+MODEL                : 82
+PLUS                 : 21 35
+POINTS               : 20 42 75 82
+PRINT                : 37
+RBRACKET             : 16 64 64 65
+RCURLY               : 7 51 56 57 63
+RETURN               : 50
+RPAREN               : 20 24 28 29 37 51
+SEMIC                : 8 15 17 28 29 37 42 75
+SLASH                : 27
+STAR                 : 26
+SUM                  : 20
+TBOOL                : 62
+TFLOAT               : 61
+TINT                 : 60
+VARS                 : 63
+WHERE                : 13
+error                : 
+
+Nonterminals, with rules where they appear
+
+STRING               : 39 41
+arreglo              : 66
+asignacion           : 8 43 50
+bloque               : 28 29 29 51 82
+bloque2              : 56 58
+ciclo                : 47
+condicion            : 44
+data                 : 76
+declaracion          : 75
+declarafuncion       : 82
+declaravars          : 82
+declaravarsdata      : 51 82
+empty                : 9 18 52 54 70 73 77 79 81
+escritura            : 45
+escritura2           : 37 40 41
+estatuto             : 16 58 59
+exp                  : 30 31 31 32 32 33 33 35 36
+expresion            : 14 20 24 28 29 38 40 42
+factor               : 25 26 27
+for                  : 17 49
+funcion              : 78
+funcionoptimizacion  : 46
+lasignacion          : 8
+lfor                 : 17
+liargs               : 53
+lid                  : 71
+listaargs            : 51 55
+listaasignacion      : 7 10
+listafor             : 15 19
+listaids             : 69 75
+listavars            : 63 72
+llamadafuncion       : 6
+lvars                : 
+matriz               : 67
+programa             : 0
+restricciones        : 11 12
+restricciones2       : 13
+retorno              : 48
+seen_vars            : 72
+suma                 : 15
+termino              : 26 27 34 35 36
+tipo                 : 53 68
+varcte               : 21 22 23
+vars                 : 76 80
+
