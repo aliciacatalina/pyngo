@@ -126,6 +126,9 @@ def t_CTEI(t):
 	t.value = int(t.value)
 	return t
 
+def t_error(t):
+	print "Caracter no identificado '%s'" % t.value[0]
+	t.lexer.skip(1)
 
 #Grammar
 
@@ -137,6 +140,12 @@ def p_varcte(p):
 		| ID
 		| llamadafuncion'''
 	p[0] = ('var', p[1])
+
+def p_llamadafuncion(p):
+	'''llamadafuncion : ID LPAREN expresion RPAREN
+						| ID LPAREN CTEI RPAREN
+						| ID LPAREN CTEF RPAREN'''
+	p[0] = ('llamadafuncion', p[3])
 
 def p_data(p):
 	'''data : DATA LCURLY listaasignacion RCURLY'''
@@ -227,9 +236,9 @@ def p_escritura(p):
 
 def p_escritura2(p):
 	'''escritura2 : expresion
-				| STRING
+				| CTESTRING
 				| expresion DOT escritura2
-				| STRING DOT escritura2'''
+				| CTESTRING DOT escritura2'''
 	if len(p) > 2 :
 		p[0] = (p[3])
 	else : p[0] = ( p[1])
@@ -322,13 +331,9 @@ def p_listaids(p):
 	p[0] = ('listaids', p[2])
 
 def p_lvars(p):
-	'''lvars : listavars seen_vars
+	'''lvars : listavars
 			| empty'''
-	#p[0] = ('lvars', p[1])
-
-def p_seen_vars(p):
-	'''seen_vars :'''
-	print p[-1]
+	p[0] = ('lvars', p[1])
 
 def p_listavars(p):
     '''listavars : declaracion POINTS listaids SEMIC'''
@@ -383,5 +388,5 @@ def test(input_string):
     return "ERROR" 
 
 print 'Caso 1'
-print test('model : {}')
+print test('func r(int p) {} model : { vars { int a; } data { a = 10; } }')
 
