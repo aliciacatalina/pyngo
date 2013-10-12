@@ -1,9 +1,5 @@
 # parser.py | Lexico de PYNGO 
 # Alicia Gonzalez 1088149 | Ernesto Garcia
-
-import sys
-sys.path.insert(0,'../..')
-
 import ply.lex as lex
 
 # tokens
@@ -12,8 +8,8 @@ tokens = (
 
 		#control de flujo
 		'IF', 
-		'ELSE'
-		'FOR'
+		'ELSE',
+		'FOR',
 
 		#operadores artimeticos
 		'STAR', 
@@ -51,7 +47,7 @@ tokens = (
 		'CTEI', 
 		'CTEF',
 		'CTEBOOL',
-		'CTESTRING'
+		'CTESTRING',
 
 		#palabras reservadas
 		'MAX', 
@@ -100,7 +96,7 @@ reserved = {
 	'int' : 'CTEINT',
 	'string': 'CTESTRING',
 	'float': 'CTEF',
-	'bool': 'CTEBOOL'
+	'bool': 'CTEBOOL',
 	'where': 'WHERE',
 	'sum': 'SUM',
 	'return' : 'RETURN',
@@ -132,10 +128,9 @@ def t_newline(t):
     r'\n+'
     t.lexer.lineno += t.value.count("\n")
 
-t_ignore  = ' \r\t'
 
 def t_error(t):
-	print ("Caracter no identificado '%s'" % t.value[0])
+	print ("Illegal character '%s'" % t.value[0])
 	t.lexer.skip(1)
 
 if __name__ == '__main__':
