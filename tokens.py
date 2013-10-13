@@ -10,6 +10,7 @@ tokens = (
 		'IF', 
 		'ELSE',
 		'FOR',
+		'IN',
 
 		#operadores artimeticos
 		'STAR', 
@@ -36,9 +37,9 @@ tokens = (
 		'EQUALS',  
 	 
 		#variables	 
-		'STRING', 
-		'INTEGER', 
-		'FLOAT',
+		'TBOOL', 
+		'TINT', 
+		'TFLOAT',
 
  		#accion
 		'PRINT', 
@@ -81,7 +82,6 @@ t_COMMA			= r'\,'
 t_DOT			= r'\.'
 t_LBRACKET		= r'\['
 t_RBRACKET		= r'\]'
-t_ignore        = ' \t\v\r'
 
 reserved = {
 	'if':	'IF', 
@@ -93,15 +93,16 @@ reserved = {
 	'print': 'PRINT',
 	'false': 'FALSE',
 	'true': 'TRUE',
-	'int' : 'CTEINT',
-	'string': 'CTESTRING',
-	'float': 'CTEF',
-	'bool': 'CTEBOOL',
+	'int' : 'TINT',
+	'string': 'TSTRING',
+	'float': 'TFLOAT',
+	'bool': 'TBOOL',
 	'where': 'WHERE',
 	'sum': 'SUM',
 	'return' : 'RETURN',
 	'vars' : 'VARS',
-	'data' : 'DATA'
+	'data' : 'DATA', 
+	'in'	: 'IN'
 }
 
 def t_ID(t):
@@ -128,6 +129,7 @@ def t_newline(t):
     r'\n+'
     t.lexer.lineno += t.value.count("\n")
 
+t_ignore  = ' \r\t'
 
 def t_error(t):
 	print ("Illegal character '%s'" % t.value[0])
