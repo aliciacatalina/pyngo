@@ -133,7 +133,8 @@ def p_retorno(p):
 	p[0] = ('retorno', p[2])
 
 def p_funcion(p):
-	'''funcion : FUNC ID LPAREN listaargs RPAREN LCURLY declaravarsdata bloque RCURLY'''
+	'''funcion : FUNC ID LPAREN listaargs RPAREN LCURLY declaravarsdata RCURLY'''
+	print "funcion"
 	p[0] = ('funcion', p[4], p[7], p[8])
 
 def p_listaargs(p):
@@ -212,7 +213,7 @@ def p_declaravarsdata(p):
 	if len(p) > 2 : p[0] = ('declaravarsdata', p[1], p[2])
 	else : p[0] = ('declaravarsdata', p[1])
 
-def p_declarafuncion(p):
+def  p_declarafuncion(p):
 	'''declarafuncion : funcion
 			| empty'''
 	p[0] = ('declarafuncion', p[1])
@@ -223,7 +224,7 @@ def p_declaravars(p):
 	p[0] = ('declaravars', p[1])
 
 def p_programa(p):
-    '''programa : declaravars declarafuncion MODEL POINTS declaravarsdata bloque'''
+    '''programa : declaravars declarafuncion MODEL POINTS LCURLY declaravarsdata bloque RCURLY'''
     p[0]= ('programa', p[1], p[2], p[5], p[6])
 
 def p_empty(p):
