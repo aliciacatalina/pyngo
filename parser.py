@@ -10,7 +10,7 @@ import sys
 import scanner
 import ply.yacc as yacc
 
-tokens = scanner.tokens
+# tokens = scanner.tokens
 start = 'programa'
 
 def t_ID(t):
