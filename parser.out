@@ -14,7 +14,6 @@ Rule 8     llamadafuncion -> ID LPAREN CTEI RPAREN
 Rule 9     llamadafuncion -> ID LPAREN CTEF RPAREN
 Rule 10    data -> DATA LCURLY listaasignacion RCURLY
 Rule 11    listaasignacion -> asignacion SEMIC lasignacion
-<<<<<<< HEAD
 Rule 12    listaasignacion -> asignacion
 Rule 13    lasignacion -> empty
 Rule 14    lasignacion -> listaasignacion
@@ -49,7 +48,7 @@ Rule 42    escritura2 -> expresion
 Rule 43    escritura2 -> CTESTRING
 Rule 44    escritura2 -> expresion DOT escritura2
 Rule 45    escritura2 -> CTESTRING DOT escritura2
-Rule 46    asignacion -> ID POINTS expresion SEMIC
+Rule 46    asignacion -> ID EQUALS expresion SEMIC
 Rule 47    estatuto -> asignacion
 Rule 48    estatuto -> condicion
 Rule 49    estatuto -> escritura
@@ -92,92 +91,6 @@ Rule 85    declaravars -> vars
 Rule 86    declaravars -> empty
 Rule 87    programa -> declaravars declarafuncion MODEL LCURLY declaravarsdata bloque2 RCURLY
 Rule 88    empty -> <empty>
-=======
-Rule 12    lasignacion -> empty
-Rule 13    lasignacion -> listaasignacion
-Rule 14    funcionoptimizacion -> MIN EQUALS restricciones
-Rule 15    funcionoptimizacion -> MAX EQUALS restricciones
-Rule 16    restricciones -> WHERE restricciones2
-Rule 17    restricciones2 -> expresion
-Rule 18    restricciones2 -> suma SEMIC listafor
-Rule 19    for -> FOR ID IN DOT ID LBRACKET estatuto RBRACKET
-Rule 20    listafor -> for SEMIC lfor
-Rule 21    lfor -> empty
-Rule 22    lfor -> listafor
-Rule 23    suma -> SUM LPAREN ID POINTS expresion RPAREN
-Rule 24    factor -> PLUS varcte
-Rule 25    factor -> MINUS varcte
-Rule 26    factor -> varcte
-Rule 27    factor -> LPAREN expresion RPAREN
-Rule 28    termino -> factor
-Rule 29    termino -> factor STAR termino
-Rule 30    termino -> factor SLASH termino
-Rule 31    condicion -> IF LPAREN expresion RPAREN bloque SEMIC
-Rule 32    condicion -> IF LPAREN expresion RPAREN bloque ELSE bloque SEMIC
-Rule 33    expresion -> exp
-Rule 34    expresion -> exp LESSTHAN exp
-Rule 35    expresion -> exp GREATERTHAN exp
-Rule 36    expresion -> exp BETWEEN exp
-Rule 37    exp -> termino
-Rule 38    exp -> termino PLUS exp
-Rule 39    exp -> termino MINUS exp
-Rule 40    escritura -> PRINT LPAREN escritura2 RPAREN SEMIC
-Rule 41    escritura2 -> expresion
-Rule 42    escritura2 -> CTESTRING
-Rule 43    escritura2 -> expresion DOT escritura2
-Rule 44    escritura2 -> CTESTRING DOT escritura2
-Rule 45    asignacion -> ID EQUALS expresion SEMIC
-Rule 46    estatuto -> asignacion
-Rule 47    estatuto -> condicion
-Rule 48    estatuto -> escritura
-Rule 49    estatuto -> funcionoptimizacion
-Rule 50    estatuto -> ciclo
-Rule 51    estatuto -> retorno
-Rule 52    ciclo -> for
-Rule 53    retorno -> RETURN asignacion
-Rule 54    funcion -> FUNC ID LPAREN listaargs RPAREN LCURLY declaravarsdata RCURLY
-Rule 55    listaargs -> empty
-Rule 56    listaargs -> tipo ID liargs
-Rule 57    liargs -> empty
-Rule 58    liargs -> COMMA listaargs
-Rule 59    bloque -> bloque2
-Rule 60    bloque -> LCURLY RCURLY
-Rule 61    bloque2 -> estatuto bloque2
-Rule 62    bloque2 -> estatuto
-Rule 63    tipo -> TINT
-Rule 64    tipo -> TFLOAT
-Rule 65    tipo -> TBOOL
-Rule 66    vars -> VARS LCURLY listavars RCURLY
-Rule 67    matriz -> LBRACKET CTEI RBRACKET LBRACKET CTEI RBRACKET
-Rule 68    arreglo -> LBRACKET CTEI RBRACKET
-Rule 69    declaracion -> arreglo
-Rule 70    declaracion -> matriz
-Rule 71    declaracion -> tipo
-Rule 72    lid -> COMMA listaids
-Rule 73    lid -> empty
-Rule 74    listaids -> ID lid
-Rule 75    lvars -> listavars
-Rule 76    lvars -> empty
-Rule 77    listavars -> declaracion POINTS listaids SEMIC
-Rule 78    declaravarsdata -> vars data
-Rule 79    declaravarsdata -> empty
-<<<<<<< HEAD
-Rule 80    declarafuncion -> funcion
-Rule 81    declarafuncion -> empty
-Rule 82    declaravars -> vars
-Rule 83    declaravars -> empty
-Rule 84    programa -> declaravars declarafuncion MODEL POINTS LCURLY declaravarsdata bloque RCURLY
-Rule 85    empty -> <empty>
-=======
-Rule 80    declaravarsdata -> vars
-Rule 81    declarafuncion -> funcion
-Rule 82    declarafuncion -> empty
-Rule 83    declaravars -> vars
-Rule 84    declaravars -> empty
-Rule 85    programa -> declaravars declarafuncion MODEL LCURLY declaravarsdata bloque2 RCURLY
-Rule 86    empty -> <empty>
->>>>>>> 8f8d0b716d216a97329208a35b615a1b1ee757e9
->>>>>>> 6f59fd02d623ddb59d8ad8b3632a2abe03e5b319
 
 Terminals, with rules where they appear
 
@@ -188,10 +101,9 @@ CTEF                 : 2 9
 CTEI                 : 1 8 69 69 70
 CTESTRING            : 3 43 45
 DATA                 : 10
-<<<<<<< HEAD
 DOT                  : 20 44 45
 ELSE                 : 33
-EQUALS               : 15 16
+EQUALS               : 15 16 46
 FOR                  : 20
 FUNC                 : 55
 GREATERTHAN          : 36
@@ -207,7 +119,7 @@ MIN                  : 15
 MINUS                : 26 40
 MODEL                : 87
 PLUS                 : 25 39
-POINTS               : 24 46 79
+POINTS               : 24 79
 PRINT                : 41
 RBRACKET             : 20 69 69 70
 RCURLY               : 10 55 61 68 87
@@ -222,49 +134,6 @@ TFLOAT               : 66
 TINT                 : 65
 VARS                 : 68
 WHERE                : 17
-=======
-DOT                  : 19 43 44
-ELSE                 : 32
-EQUALS               : 14 15 45
-FOR                  : 19
-FUNC                 : 54
-GREATERTHAN          : 35
-ID                   : 5 7 8 9 19 19 23 45 54 56 74
-IF                   : 31 32
-IN                   : 19
-LBRACKET             : 19 67 67 68
-<<<<<<< HEAD
-LCURLY               : 10 54 59 60 66 84
-=======
-LCURLY               : 10 54 60 66 85
->>>>>>> 8f8d0b716d216a97329208a35b615a1b1ee757e9
-LESSTHAN             : 34
-LPAREN               : 7 8 9 23 27 31 32 40 54
-MAX                  : 15
-MIN                  : 14
-MINUS                : 25 39
-MODEL                : 85
-PLUS                 : 24 38
-POINTS               : 23 77
-PRINT                : 40
-RBRACKET             : 19 67 67 68
-<<<<<<< HEAD
-RCURLY               : 10 54 59 60 66 84
-=======
-RCURLY               : 10 54 60 66 85
->>>>>>> 8f8d0b716d216a97329208a35b615a1b1ee757e9
-RETURN               : 53
-RPAREN               : 7 8 9 23 27 31 32 40 54
-SEMIC                : 11 18 20 31 32 40 45 77
-SLASH                : 30
-STAR                 : 29
-SUM                  : 23
-TBOOL                : 65
-TFLOAT               : 64
-TINT                 : 63
-VARS                 : 66
-WHERE                : 16
->>>>>>> 6f59fd02d623ddb59d8ad8b3632a2abe03e5b319
 error                : 
 
 Nonterminals, with rules where they appear
@@ -634,7 +503,6 @@ state 30
 
 state 31
 
-<<<<<<< HEAD
     (87) programa -> declaravars declarafuncion MODEL LCURLY declaravarsdata . bloque2 RCURLY
     (62) bloque2 -> . estatuto bloque2
     (63) bloque2 -> . estatuto
@@ -646,7 +514,7 @@ state 31
     (51) estatuto -> . ciclo
     (52) estatuto -> . retorno
     (88) empty -> .
-    (46) asignacion -> . ID POINTS expresion SEMIC
+    (46) asignacion -> . ID EQUALS expresion SEMIC
     (32) condicion -> . IF LPAREN expresion RPAREN bloque SEMIC
     (33) condicion -> . IF LPAREN expresion RPAREN bloque ELSE bloque SEMIC
     (41) escritura -> . PRINT LPAREN escritura2 RPAREN SEMIC
@@ -659,35 +527,6 @@ state 31
     RCURLY          reduce using rule 88 (empty -> .)
     ID              shift and go to state 54
     IF              shift and go to state 55
-=======
-<<<<<<< HEAD
-    (56) listaargs -> tipo . ID liargs
-
-    ID              shift and go to state 42
-
-=======
-    (85) programa -> declaravars declarafuncion MODEL LCURLY declaravarsdata . bloque2 RCURLY
-    (61) bloque2 -> . estatuto bloque2
-    (62) bloque2 -> . estatuto
-    (46) estatuto -> . asignacion
-    (47) estatuto -> . condicion
-    (48) estatuto -> . escritura
-    (49) estatuto -> . funcionoptimizacion
-    (50) estatuto -> . ciclo
-    (51) estatuto -> . retorno
-    (45) asignacion -> . ID EQUALS expresion SEMIC
-    (31) condicion -> . IF LPAREN expresion RPAREN bloque SEMIC
-    (32) condicion -> . IF LPAREN expresion RPAREN bloque ELSE bloque SEMIC
-    (40) escritura -> . PRINT LPAREN escritura2 RPAREN SEMIC
-    (14) funcionoptimizacion -> . MIN EQUALS restricciones
-    (15) funcionoptimizacion -> . MAX EQUALS restricciones
-    (52) ciclo -> . for
-    (53) retorno -> . RETURN asignacion
-    (19) for -> . FOR ID IN DOT ID LBRACKET estatuto RBRACKET
-
-    ID              shift and go to state 53
-    IF              shift and go to state 54
->>>>>>> 6f59fd02d623ddb59d8ad8b3632a2abe03e5b319
     PRINT           shift and go to state 45
     MIN             shift and go to state 44
     MAX             shift and go to state 58
@@ -801,16 +640,9 @@ state 42
 state 43
 
     (54) retorno -> RETURN . asignacion
-    (46) asignacion -> . ID POINTS expresion SEMIC
+    (46) asignacion -> . ID EQUALS expresion SEMIC
 
-<<<<<<< HEAD
     ID              shift and go to state 54
-=======
-state 59
-=======
-    (53) retorno -> RETURN . asignacion
-    (45) asignacion -> . ID EQUALS expresion SEMIC
->>>>>>> 6f59fd02d623ddb59d8ad8b3632a2abe03e5b319
 
     asignacion                     shift and go to state 65
 
@@ -863,52 +695,6 @@ state 47
 
 
 state 48
-<<<<<<< HEAD
-=======
->>>>>>> 8f8d0b716d216a97329208a35b615a1b1ee757e9
-
-    (61) bloque2 -> estatuto . bloque2
-    (62) bloque2 -> estatuto .
-    (61) bloque2 -> . estatuto bloque2
-    (62) bloque2 -> . estatuto
-    (46) estatuto -> . asignacion
-    (47) estatuto -> . condicion
-    (48) estatuto -> . escritura
-    (49) estatuto -> . funcionoptimizacion
-    (50) estatuto -> . ciclo
-    (51) estatuto -> . retorno
-    (45) asignacion -> . ID EQUALS expresion SEMIC
-    (31) condicion -> . IF LPAREN expresion RPAREN bloque SEMIC
-    (32) condicion -> . IF LPAREN expresion RPAREN bloque ELSE bloque SEMIC
-    (40) escritura -> . PRINT LPAREN escritura2 RPAREN SEMIC
-    (14) funcionoptimizacion -> . MIN EQUALS restricciones
-    (15) funcionoptimizacion -> . MAX EQUALS restricciones
-    (52) ciclo -> . for
-    (53) retorno -> . RETURN asignacion
-    (19) for -> . FOR ID IN DOT ID LBRACKET estatuto RBRACKET
-
-    SEMIC           reduce using rule 62 (bloque2 -> estatuto .)
-    ELSE            reduce using rule 62 (bloque2 -> estatuto .)
-    RCURLY          reduce using rule 62 (bloque2 -> estatuto .)
-<<<<<<< HEAD
-    ID              shift and go to state 67
-    IF              shift and go to state 68
-    PRINT           shift and go to state 58
-    MIN             shift and go to state 57
-    MAX             shift and go to state 71
-    RETURN          shift and go to state 56
-    FOR             shift and go to state 64
-
-    bloque2                        shift and go to state 81
-    ciclo                          shift and go to state 59
-    asignacion                     shift and go to state 70
-    funcionoptimizacion            shift and go to state 65
-    estatuto                       shift and go to state 62
-    for                            shift and go to state 60
-    condicion                      shift and go to state 66
-    retorno                        shift and go to state 63
-    escritura                      shift and go to state 72
->>>>>>> 6f59fd02d623ddb59d8ad8b3632a2abe03e5b319
 
     (62) bloque2 -> estatuto . bloque2
     (63) bloque2 -> estatuto .
@@ -922,7 +708,7 @@ state 48
     (51) estatuto -> . ciclo
     (52) estatuto -> . retorno
     (88) empty -> .
-    (46) asignacion -> . ID POINTS expresion SEMIC
+    (46) asignacion -> . ID EQUALS expresion SEMIC
     (32) condicion -> . IF LPAREN expresion RPAREN bloque SEMIC
     (33) condicion -> . IF LPAREN expresion RPAREN bloque ELSE bloque SEMIC
     (41) escritura -> . PRINT LPAREN escritura2 RPAREN SEMIC
@@ -1013,7 +799,6 @@ state 52
 
 state 53
 
-<<<<<<< HEAD
     (50) estatuto -> funcionoptimizacion .
 
     ID              reduce using rule 50 (estatuto -> funcionoptimizacion .)
@@ -1027,18 +812,13 @@ state 53
     SEMIC           reduce using rule 50 (estatuto -> funcionoptimizacion .)
     ELSE            reduce using rule 50 (estatuto -> funcionoptimizacion .)
     RBRACKET        reduce using rule 50 (estatuto -> funcionoptimizacion .)
-=======
-    (45) asignacion -> ID . EQUALS expresion SEMIC
-
-    EQUALS          shift and go to state 69
->>>>>>> 6f59fd02d623ddb59d8ad8b3632a2abe03e5b319
 
 
 state 54
 
-    (46) asignacion -> ID . POINTS expresion SEMIC
+    (46) asignacion -> ID . EQUALS expresion SEMIC
 
-    POINTS          shift and go to state 70
+    EQUALS          shift and go to state 70
 
 
 state 55
@@ -1126,13 +906,7 @@ state 62
 
 state 63
 
-<<<<<<< HEAD
     (74) lid -> COMMA listaids .
-=======
-    (10) data -> DATA LCURLY . listaasignacion RCURLY
-    (11) listaasignacion -> . asignacion SEMIC lasignacion
-    (45) asignacion -> . ID EQUALS expresion SEMIC
->>>>>>> 6f59fd02d623ddb59d8ad8b3632a2abe03e5b319
 
     SEMIC           reduce using rule 74 (lid -> COMMA listaids .)
 
@@ -1142,7 +916,7 @@ state 64
     (10) data -> DATA LCURLY . listaasignacion RCURLY
     (11) listaasignacion -> . asignacion SEMIC lasignacion
     (12) listaasignacion -> . asignacion
-    (46) asignacion -> . ID POINTS expresion SEMIC
+    (46) asignacion -> . ID EQUALS expresion SEMIC
 
     ID              shift and go to state 54
 
@@ -1241,8 +1015,7 @@ state 69
 
 state 70
 
-<<<<<<< HEAD
-    (46) asignacion -> ID POINTS . expresion SEMIC
+    (46) asignacion -> ID EQUALS . expresion SEMIC
     (34) expresion -> . exp
     (35) expresion -> . exp LESSTHAN exp
     (36) expresion -> . exp GREATERTHAN exp
@@ -1257,26 +1030,6 @@ state 70
     (26) factor -> . MINUS varcte
     (27) factor -> . varcte
     (28) factor -> . LPAREN expresion RPAREN
-=======
-state 69
->>>>>>> 8f8d0b716d216a97329208a35b615a1b1ee757e9
-
-    (45) asignacion -> ID EQUALS . expresion SEMIC
-    (33) expresion -> . exp
-    (34) expresion -> . exp LESSTHAN exp
-    (35) expresion -> . exp GREATERTHAN exp
-    (36) expresion -> . exp BETWEEN exp
-    (37) exp -> . termino
-    (38) exp -> . termino PLUS exp
-    (39) exp -> . termino MINUS exp
-    (28) termino -> . factor
-    (29) termino -> . factor STAR termino
-    (30) termino -> . factor SLASH termino
-    (24) factor -> . PLUS varcte
-    (25) factor -> . MINUS varcte
-    (26) factor -> . varcte
-    (27) factor -> . LPAREN expresion RPAREN
->>>>>>> 6f59fd02d623ddb59d8ad8b3632a2abe03e5b319
     (1) varcte -> . CTEI
     (2) varcte -> . CTEF
     (3) varcte -> . CTESTRING
@@ -1896,34 +1649,11 @@ state 99
     RCURLY          reduce using rule 3 (varcte -> CTESTRING .)
     ELSE            reduce using rule 3 (varcte -> CTESTRING .)
     RBRACKET        reduce using rule 3 (varcte -> CTESTRING .)
-<<<<<<< HEAD
-=======
-    LESSTHAN        reduce using rule 3 (varcte -> CTESTRING .)
-    GREATERTHAN     reduce using rule 3 (varcte -> CTESTRING .)
-    BETWEEN         reduce using rule 3 (varcte -> CTESTRING .)
-
-
-<<<<<<< HEAD
-state 109
-
-    (45) asignacion -> ID POINTS expresion . SEMIC
-
-    SEMIC           shift and go to state 134
-
-
-state 110
-=======
-state 99
-
-    (45) asignacion -> ID EQUALS expresion . SEMIC
-
-    SEMIC           shift and go to state 125
->>>>>>> 6f59fd02d623ddb59d8ad8b3632a2abe03e5b319
 
 
 state 100
 
-    (46) asignacion -> ID POINTS expresion . SEMIC
+    (46) asignacion -> ID EQUALS expresion . SEMIC
 
     SEMIC           shift and go to state 126
 
@@ -1955,41 +1685,9 @@ state 102
 
 state 103
 
-<<<<<<< HEAD
     (59) liargs -> COMMA listaargs .
 
     RPAREN          reduce using rule 59 (liargs -> COMMA listaargs .)
-=======
-    (54) funcion -> FUNC ID LPAREN listaargs RPAREN LCURLY declaravarsdata . bloque RCURLY
-    (59) bloque -> . bloque2
-    (60) bloque -> . LCURLY RCURLY
-    (61) bloque2 -> . estatuto bloque2
-    (62) bloque2 -> . estatuto
-    (46) estatuto -> . asignacion
-    (47) estatuto -> . condicion
-    (48) estatuto -> . escritura
-    (49) estatuto -> . funcionoptimizacion
-    (50) estatuto -> . ciclo
-    (51) estatuto -> . retorno
-    (45) asignacion -> . ID EQUALS expresion SEMIC
-    (31) condicion -> . IF LPAREN expresion RPAREN bloque SEMIC
-    (32) condicion -> . IF LPAREN expresion RPAREN bloque ELSE bloque SEMIC
-    (40) escritura -> . PRINT LPAREN escritura2 RPAREN SEMIC
-    (14) funcionoptimizacion -> . MIN EQUALS restricciones
-    (15) funcionoptimizacion -> . MAX EQUALS restricciones
-    (52) ciclo -> . for
-    (53) retorno -> . RETURN asignacion
-    (19) for -> . FOR ID IN DOT ID LBRACKET estatuto RBRACKET
-
-    LCURLY          shift and go to state 127
-    ID              shift and go to state 53
-    IF              shift and go to state 54
-    PRINT           shift and go to state 45
-    MIN             shift and go to state 44
-    MAX             shift and go to state 57
-    RETURN          shift and go to state 43
-    FOR             shift and go to state 51
->>>>>>> 6f59fd02d623ddb59d8ad8b3632a2abe03e5b319
 
 
 state 104
@@ -2006,12 +1704,8 @@ state 105
     (14) lasignacion -> . listaasignacion
     (88) empty -> .
     (11) listaasignacion -> . asignacion SEMIC lasignacion
-<<<<<<< HEAD
     (12) listaasignacion -> . asignacion
-    (46) asignacion -> . ID POINTS expresion SEMIC
-=======
-    (45) asignacion -> . ID EQUALS expresion SEMIC
->>>>>>> 6f59fd02d623ddb59d8ad8b3632a2abe03e5b319
+    (46) asignacion -> . ID EQUALS expresion SEMIC
 
     RCURLY          reduce using rule 88 (empty -> .)
     ID              shift and go to state 54
@@ -2557,72 +2251,22 @@ state 125
 
 state 126
 
-<<<<<<< HEAD
-    (46) asignacion -> ID POINTS expresion SEMIC .
+    (46) asignacion -> ID EQUALS expresion SEMIC .
 
-    ID              reduce using rule 46 (asignacion -> ID POINTS expresion SEMIC .)
-    IF              reduce using rule 46 (asignacion -> ID POINTS expresion SEMIC .)
-    PRINT           reduce using rule 46 (asignacion -> ID POINTS expresion SEMIC .)
-    MIN             reduce using rule 46 (asignacion -> ID POINTS expresion SEMIC .)
-    MAX             reduce using rule 46 (asignacion -> ID POINTS expresion SEMIC .)
-    RETURN          reduce using rule 46 (asignacion -> ID POINTS expresion SEMIC .)
-    FOR             reduce using rule 46 (asignacion -> ID POINTS expresion SEMIC .)
-    RCURLY          reduce using rule 46 (asignacion -> ID POINTS expresion SEMIC .)
-    SEMIC           reduce using rule 46 (asignacion -> ID POINTS expresion SEMIC .)
-    ELSE            reduce using rule 46 (asignacion -> ID POINTS expresion SEMIC .)
-    RBRACKET        reduce using rule 46 (asignacion -> ID POINTS expresion SEMIC .)
+    ID              reduce using rule 46 (asignacion -> ID EQUALS expresion SEMIC .)
+    IF              reduce using rule 46 (asignacion -> ID EQUALS expresion SEMIC .)
+    PRINT           reduce using rule 46 (asignacion -> ID EQUALS expresion SEMIC .)
+    MIN             reduce using rule 46 (asignacion -> ID EQUALS expresion SEMIC .)
+    MAX             reduce using rule 46 (asignacion -> ID EQUALS expresion SEMIC .)
+    RETURN          reduce using rule 46 (asignacion -> ID EQUALS expresion SEMIC .)
+    FOR             reduce using rule 46 (asignacion -> ID EQUALS expresion SEMIC .)
+    RCURLY          reduce using rule 46 (asignacion -> ID EQUALS expresion SEMIC .)
+    SEMIC           reduce using rule 46 (asignacion -> ID EQUALS expresion SEMIC .)
+    ELSE            reduce using rule 46 (asignacion -> ID EQUALS expresion SEMIC .)
+    RBRACKET        reduce using rule 46 (asignacion -> ID EQUALS expresion SEMIC .)
 
 
 state 127
-=======
-    (45) asignacion -> ID EQUALS expresion SEMIC .
-
-    SEMIC           reduce using rule 45 (asignacion -> ID EQUALS expresion SEMIC .)
-    ID              reduce using rule 45 (asignacion -> ID EQUALS expresion SEMIC .)
-    IF              reduce using rule 45 (asignacion -> ID EQUALS expresion SEMIC .)
-    PRINT           reduce using rule 45 (asignacion -> ID EQUALS expresion SEMIC .)
-    MIN             reduce using rule 45 (asignacion -> ID EQUALS expresion SEMIC .)
-    MAX             reduce using rule 45 (asignacion -> ID EQUALS expresion SEMIC .)
-    RETURN          reduce using rule 45 (asignacion -> ID EQUALS expresion SEMIC .)
-    FOR             reduce using rule 45 (asignacion -> ID EQUALS expresion SEMIC .)
-    RCURLY          reduce using rule 45 (asignacion -> ID EQUALS expresion SEMIC .)
-    ELSE            reduce using rule 45 (asignacion -> ID EQUALS expresion SEMIC .)
-    RBRACKET        reduce using rule 45 (asignacion -> ID EQUALS expresion SEMIC .)
-
-
-<<<<<<< HEAD
-state 135
-=======
-state 126
->>>>>>> 8f8d0b716d216a97329208a35b615a1b1ee757e9
-
-    (31) condicion -> IF LPAREN expresion RPAREN . bloque SEMIC
-    (32) condicion -> IF LPAREN expresion RPAREN . bloque ELSE bloque SEMIC
-    (59) bloque -> . bloque2
-    (60) bloque -> . LCURLY RCURLY
-    (61) bloque2 -> . estatuto bloque2
-    (62) bloque2 -> . estatuto
-    (46) estatuto -> . asignacion
-    (47) estatuto -> . condicion
-    (48) estatuto -> . escritura
-    (49) estatuto -> . funcionoptimizacion
-    (50) estatuto -> . ciclo
-    (51) estatuto -> . retorno
-    (45) asignacion -> . ID EQUALS expresion SEMIC
-    (31) condicion -> . IF LPAREN expresion RPAREN bloque SEMIC
-    (32) condicion -> . IF LPAREN expresion RPAREN bloque ELSE bloque SEMIC
-    (40) escritura -> . PRINT LPAREN escritura2 RPAREN SEMIC
-    (14) funcionoptimizacion -> . MIN EQUALS restricciones
-    (15) funcionoptimizacion -> . MAX EQUALS restricciones
-    (52) ciclo -> . for
-    (53) retorno -> . RETURN asignacion
-    (19) for -> . FOR ID IN DOT ID LBRACKET estatuto RBRACKET
-
-<<<<<<< HEAD
-    LCURLY          shift and go to state 48
-
-    bloque                         shift and go to state 153
->>>>>>> 6f59fd02d623ddb59d8ad8b3632a2abe03e5b319
 
     (32) condicion -> IF LPAREN expresion RPAREN . bloque SEMIC
     (33) condicion -> IF LPAREN expresion RPAREN . bloque ELSE bloque SEMIC
@@ -2638,7 +2282,7 @@ state 126
     (51) estatuto -> . ciclo
     (52) estatuto -> . retorno
     (88) empty -> .
-    (46) asignacion -> . ID POINTS expresion SEMIC
+    (46) asignacion -> . ID EQUALS expresion SEMIC
     (32) condicion -> . IF LPAREN expresion RPAREN bloque SEMIC
     (33) condicion -> . IF LPAREN expresion RPAREN bloque ELSE bloque SEMIC
     (41) escritura -> . PRINT LPAREN escritura2 RPAREN SEMIC
@@ -3108,7 +2752,6 @@ state 157
 
 state 158
 
-<<<<<<< HEAD
     (20) for -> FOR ID IN DOT ID LBRACKET . estatuto RBRACKET
     (47) estatuto -> . asignacion
     (48) estatuto -> . condicion
@@ -3116,7 +2759,7 @@ state 158
     (50) estatuto -> . funcionoptimizacion
     (51) estatuto -> . ciclo
     (52) estatuto -> . retorno
-    (46) asignacion -> . ID POINTS expresion SEMIC
+    (46) asignacion -> . ID EQUALS expresion SEMIC
     (32) condicion -> . IF LPAREN expresion RPAREN bloque SEMIC
     (33) condicion -> . IF LPAREN expresion RPAREN bloque ELSE bloque SEMIC
     (41) escritura -> . PRINT LPAREN escritura2 RPAREN SEMIC
@@ -3128,45 +2771,6 @@ state 158
 
     ID              shift and go to state 54
     IF              shift and go to state 55
-=======
-    (19) for -> FOR ID IN DOT ID LBRACKET . estatuto RBRACKET
-    (46) estatuto -> . asignacion
-    (47) estatuto -> . condicion
-    (48) estatuto -> . escritura
-    (49) estatuto -> . funcionoptimizacion
-    (50) estatuto -> . ciclo
-    (51) estatuto -> . retorno
-    (45) asignacion -> . ID EQUALS expresion SEMIC
-    (31) condicion -> . IF LPAREN expresion RPAREN bloque SEMIC
-    (32) condicion -> . IF LPAREN expresion RPAREN bloque ELSE bloque SEMIC
-    (40) escritura -> . PRINT LPAREN escritura2 RPAREN SEMIC
-    (14) funcionoptimizacion -> . MIN EQUALS restricciones
-    (15) funcionoptimizacion -> . MAX EQUALS restricciones
-    (52) ciclo -> . for
-    (53) retorno -> . RETURN asignacion
-    (19) for -> . FOR ID IN DOT ID LBRACKET estatuto RBRACKET
-
-<<<<<<< HEAD
-    ID              shift and go to state 67
-    IF              shift and go to state 68
-    PRINT           shift and go to state 58
-    MIN             shift and go to state 57
-    MAX             shift and go to state 71
-    RETURN          shift and go to state 56
-    FOR             shift and go to state 64
-
-    ciclo                          shift and go to state 59
-    asignacion                     shift and go to state 70
-    funcionoptimizacion            shift and go to state 65
-    estatuto                       shift and go to state 165
-    for                            shift and go to state 60
-    condicion                      shift and go to state 66
-    retorno                        shift and go to state 63
-    escritura                      shift and go to state 72
-=======
-    ID              shift and go to state 53
-    IF              shift and go to state 54
->>>>>>> 6f59fd02d623ddb59d8ad8b3632a2abe03e5b319
     PRINT           shift and go to state 45
     MIN             shift and go to state 44
     MAX             shift and go to state 58
@@ -3206,7 +2810,6 @@ state 160
     ELSE            reduce using rule 32 (condicion -> IF LPAREN expresion RPAREN bloque SEMIC .)
     RCURLY          reduce using rule 32 (condicion -> IF LPAREN expresion RPAREN bloque SEMIC .)
 
-<<<<<<< HEAD
 
 state 161
 
@@ -3223,7 +2826,7 @@ state 161
     (51) estatuto -> . ciclo
     (52) estatuto -> . retorno
     (88) empty -> .
-    (46) asignacion -> . ID POINTS expresion SEMIC
+    (46) asignacion -> . ID EQUALS expresion SEMIC
     (32) condicion -> . IF LPAREN expresion RPAREN bloque SEMIC
     (33) condicion -> . IF LPAREN expresion RPAREN bloque ELSE bloque SEMIC
     (41) escritura -> . PRINT LPAREN escritura2 RPAREN SEMIC
@@ -3237,37 +2840,6 @@ state 161
     SEMIC           reduce using rule 88 (empty -> .)
     ID              shift and go to state 54
     IF              shift and go to state 55
-=======
-    (32) condicion -> IF LPAREN expresion RPAREN bloque ELSE . bloque SEMIC
-    (59) bloque -> . bloque2
-    (60) bloque -> . LCURLY RCURLY
-    (61) bloque2 -> . estatuto bloque2
-    (62) bloque2 -> . estatuto
-    (46) estatuto -> . asignacion
-    (47) estatuto -> . condicion
-    (48) estatuto -> . escritura
-    (49) estatuto -> . funcionoptimizacion
-    (50) estatuto -> . ciclo
-    (51) estatuto -> . retorno
-    (45) asignacion -> . ID EQUALS expresion SEMIC
-    (31) condicion -> . IF LPAREN expresion RPAREN bloque SEMIC
-    (32) condicion -> . IF LPAREN expresion RPAREN bloque ELSE bloque SEMIC
-    (40) escritura -> . PRINT LPAREN escritura2 RPAREN SEMIC
-    (14) funcionoptimizacion -> . MIN EQUALS restricciones
-    (15) funcionoptimizacion -> . MAX EQUALS restricciones
-    (52) ciclo -> . for
-    (53) retorno -> . RETURN asignacion
-    (19) for -> . FOR ID IN DOT ID LBRACKET estatuto RBRACKET
-
-<<<<<<< HEAD
-    LCURLY          shift and go to state 48
-
-    bloque                         shift and go to state 166
-=======
-    LCURLY          shift and go to state 127
-    ID              shift and go to state 53
-    IF              shift and go to state 54
->>>>>>> 6f59fd02d623ddb59d8ad8b3632a2abe03e5b319
     PRINT           shift and go to state 45
     MIN             shift and go to state 44
     MAX             shift and go to state 58
