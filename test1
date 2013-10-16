@@ -1,2 +1,2 @@
-func r(int p) {} model { vars { int a; } data { a = 10; } }
+func r(int p) {} model { vars { int : a; } data { a = 10; } }
 

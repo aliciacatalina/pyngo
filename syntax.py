@@ -111,7 +111,7 @@ def p_escritura2(p):
 
 
 def p_asignacion(p):
-	'asignacion : ID POINTS expresion SEMIC'
+	'asignacion : ID EQUALS expresion SEMIC'
 	p[0] = ('asignacion', p[1], p[2], p[3], p[4])
 
 def p_estatuto(p):

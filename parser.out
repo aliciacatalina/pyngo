@@ -47,7 +47,7 @@ Rule 41    escritura2 -> expresion
 Rule 42    escritura2 -> CTESTRING
 Rule 43    escritura2 -> expresion DOT escritura2
 Rule 44    escritura2 -> CTESTRING DOT escritura2
-Rule 45    asignacion -> ID POINTS expresion SEMIC
+Rule 45    asignacion -> ID EQUALS expresion SEMIC
 Rule 46    estatuto -> asignacion
 Rule 47    estatuto -> condicion
 Rule 48    estatuto -> escritura
@@ -101,7 +101,7 @@ CTESTRING            : 3 42 44
 DATA                 : 10
 DOT                  : 19 43 44
 ELSE                 : 32
-EQUALS               : 14 15
+EQUALS               : 14 15 45
 FOR                  : 19
 FUNC                 : 54
 GREATERTHAN          : 35
@@ -117,7 +117,7 @@ MIN                  : 14
 MINUS                : 25 39
 MODEL                : 85
 PLUS                 : 24 38
-POINTS               : 23 45 77
+POINTS               : 23 77
 PRINT                : 40
 RBRACKET             : 19 67 67 68
 RCURLY               : 10 54 60 66 85
@@ -509,7 +509,7 @@ state 31
     (49) estatuto -> . funcionoptimizacion
     (50) estatuto -> . ciclo
     (51) estatuto -> . retorno
-    (45) asignacion -> . ID POINTS expresion SEMIC
+    (45) asignacion -> . ID EQUALS expresion SEMIC
     (31) condicion -> . IF LPAREN expresion RPAREN bloque SEMIC
     (32) condicion -> . IF LPAREN expresion RPAREN bloque ELSE bloque SEMIC
     (40) escritura -> . PRINT LPAREN escritura2 RPAREN SEMIC
@@ -633,7 +633,7 @@ state 42
 state 43
 
     (53) retorno -> RETURN . asignacion
-    (45) asignacion -> . ID POINTS expresion SEMIC
+    (45) asignacion -> . ID EQUALS expresion SEMIC
 
     ID              shift and go to state 53
 
@@ -699,7 +699,7 @@ state 48
     (49) estatuto -> . funcionoptimizacion
     (50) estatuto -> . ciclo
     (51) estatuto -> . retorno
-    (45) asignacion -> . ID POINTS expresion SEMIC
+    (45) asignacion -> . ID EQUALS expresion SEMIC
     (31) condicion -> . IF LPAREN expresion RPAREN bloque SEMIC
     (32) condicion -> . IF LPAREN expresion RPAREN bloque ELSE bloque SEMIC
     (40) escritura -> . PRINT LPAREN escritura2 RPAREN SEMIC
@@ -790,9 +790,9 @@ state 52
 
 state 53
 
-    (45) asignacion -> ID . POINTS expresion SEMIC
+    (45) asignacion -> ID . EQUALS expresion SEMIC
 
-    POINTS          shift and go to state 69
+    EQUALS          shift and go to state 69
 
 
 state 54
@@ -889,7 +889,7 @@ state 63
 
     (10) data -> DATA LCURLY . listaasignacion RCURLY
     (11) listaasignacion -> . asignacion SEMIC lasignacion
-    (45) asignacion -> . ID POINTS expresion SEMIC
+    (45) asignacion -> . ID EQUALS expresion SEMIC
 
     ID              shift and go to state 53
 
@@ -988,7 +988,7 @@ state 68
 
 state 69
 
-    (45) asignacion -> ID POINTS . expresion SEMIC
+    (45) asignacion -> ID EQUALS . expresion SEMIC
     (33) expresion -> . exp
     (34) expresion -> . exp LESSTHAN exp
     (35) expresion -> . exp GREATERTHAN exp
@@ -1631,7 +1631,7 @@ state 98
 
 state 99
 
-    (45) asignacion -> ID POINTS expresion . SEMIC
+    (45) asignacion -> ID EQUALS expresion . SEMIC
 
     SEMIC           shift and go to state 125
 
@@ -1681,7 +1681,7 @@ state 103
     (49) estatuto -> . funcionoptimizacion
     (50) estatuto -> . ciclo
     (51) estatuto -> . retorno
-    (45) asignacion -> . ID POINTS expresion SEMIC
+    (45) asignacion -> . ID EQUALS expresion SEMIC
     (31) condicion -> . IF LPAREN expresion RPAREN bloque SEMIC
     (32) condicion -> . IF LPAREN expresion RPAREN bloque ELSE bloque SEMIC
     (40) escritura -> . PRINT LPAREN escritura2 RPAREN SEMIC
@@ -1718,7 +1718,7 @@ state 104
     (13) lasignacion -> . listaasignacion
     (86) empty -> .
     (11) listaasignacion -> . asignacion SEMIC lasignacion
-    (45) asignacion -> . ID POINTS expresion SEMIC
+    (45) asignacion -> . ID EQUALS expresion SEMIC
 
     RCURLY          reduce using rule 86 (empty -> .)
     ID              shift and go to state 53
@@ -2264,19 +2264,19 @@ state 124
 
 state 125
 
-    (45) asignacion -> ID POINTS expresion SEMIC .
+    (45) asignacion -> ID EQUALS expresion SEMIC .
 
-    SEMIC           reduce using rule 45 (asignacion -> ID POINTS expresion SEMIC .)
-    ID              reduce using rule 45 (asignacion -> ID POINTS expresion SEMIC .)
-    IF              reduce using rule 45 (asignacion -> ID POINTS expresion SEMIC .)
-    PRINT           reduce using rule 45 (asignacion -> ID POINTS expresion SEMIC .)
-    MIN             reduce using rule 45 (asignacion -> ID POINTS expresion SEMIC .)
-    MAX             reduce using rule 45 (asignacion -> ID POINTS expresion SEMIC .)
-    RETURN          reduce using rule 45 (asignacion -> ID POINTS expresion SEMIC .)
-    FOR             reduce using rule 45 (asignacion -> ID POINTS expresion SEMIC .)
-    RCURLY          reduce using rule 45 (asignacion -> ID POINTS expresion SEMIC .)
-    ELSE            reduce using rule 45 (asignacion -> ID POINTS expresion SEMIC .)
-    RBRACKET        reduce using rule 45 (asignacion -> ID POINTS expresion SEMIC .)
+    SEMIC           reduce using rule 45 (asignacion -> ID EQUALS expresion SEMIC .)
+    ID              reduce using rule 45 (asignacion -> ID EQUALS expresion SEMIC .)
+    IF              reduce using rule 45 (asignacion -> ID EQUALS expresion SEMIC .)
+    PRINT           reduce using rule 45 (asignacion -> ID EQUALS expresion SEMIC .)
+    MIN             reduce using rule 45 (asignacion -> ID EQUALS expresion SEMIC .)
+    MAX             reduce using rule 45 (asignacion -> ID EQUALS expresion SEMIC .)
+    RETURN          reduce using rule 45 (asignacion -> ID EQUALS expresion SEMIC .)
+    FOR             reduce using rule 45 (asignacion -> ID EQUALS expresion SEMIC .)
+    RCURLY          reduce using rule 45 (asignacion -> ID EQUALS expresion SEMIC .)
+    ELSE            reduce using rule 45 (asignacion -> ID EQUALS expresion SEMIC .)
+    RBRACKET        reduce using rule 45 (asignacion -> ID EQUALS expresion SEMIC .)
 
 
 state 126
@@ -2293,7 +2293,7 @@ state 126
     (49) estatuto -> . funcionoptimizacion
     (50) estatuto -> . ciclo
     (51) estatuto -> . retorno
-    (45) asignacion -> . ID POINTS expresion SEMIC
+    (45) asignacion -> . ID EQUALS expresion SEMIC
     (31) condicion -> . IF LPAREN expresion RPAREN bloque SEMIC
     (32) condicion -> . IF LPAREN expresion RPAREN bloque ELSE bloque SEMIC
     (40) escritura -> . PRINT LPAREN escritura2 RPAREN SEMIC
@@ -2784,7 +2784,7 @@ state 159
     (49) estatuto -> . funcionoptimizacion
     (50) estatuto -> . ciclo
     (51) estatuto -> . retorno
-    (45) asignacion -> . ID POINTS expresion SEMIC
+    (45) asignacion -> . ID EQUALS expresion SEMIC
     (31) condicion -> . IF LPAREN expresion RPAREN bloque SEMIC
     (32) condicion -> . IF LPAREN expresion RPAREN bloque ELSE bloque SEMIC
     (40) escritura -> . PRINT LPAREN escritura2 RPAREN SEMIC
@@ -2841,7 +2841,7 @@ state 161
     (49) estatuto -> . funcionoptimizacion
     (50) estatuto -> . ciclo
     (51) estatuto -> . retorno
-    (45) asignacion -> . ID POINTS expresion SEMIC
+    (45) asignacion -> . ID EQUALS expresion SEMIC
     (31) condicion -> . IF LPAREN expresion RPAREN bloque SEMIC
     (32) condicion -> . IF LPAREN expresion RPAREN bloque ELSE bloque SEMIC
     (40) escritura -> . PRINT LPAREN escritura2 RPAREN SEMIC
