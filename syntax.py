@@ -224,11 +224,7 @@ def p_declaravars(p):
 	p[0] = ('declaravars', p[1])
 
 def p_programa(p):
-<<<<<<< HEAD
-    '''programa : declaravars declarafuncion MODEL POINTS LCURLY declaravarsdata bloque RCURLY'''
-=======
     '''programa : declaravars declarafuncion MODEL LCURLY declaravarsdata bloque2 RCURLY'''
->>>>>>> 8f8d0b716d216a97329208a35b615a1b1ee757e9
     p[0]= ('programa', p[1], p[2], p[5], p[6])
 
 def p_empty(p):
