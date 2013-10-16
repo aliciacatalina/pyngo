@@ -19,8 +19,9 @@ def p_data(p):
 	p[0] = ('data', p[3])
 
 def p_listaasignacion(p):
-	'''listaasignacion : asignacion SEMIC lasignacion'''
-	p[0] = ('listaasignacion', p[1], p[3])
+	'''listaasignacion : asignacion SEMIC lasignacion
+						| asignacion'''
+	#p[0] = ('listaasignacion', p[1], p[3])
 
 def p_lasignacion(p):
 	'''lasignacion : empty
@@ -157,7 +158,8 @@ def p_bloque(p):
 
 def p_bloque2(p):
 	'''bloque2 : estatuto bloque2
-				| estatuto'''
+				| estatuto
+				| empty'''
 	if len(p) > 2 :
 		p[0] = (p[2])
 	else : p[0]= (p[1])
