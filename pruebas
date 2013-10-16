@@ -1,0 +1,22 @@
+func iva (float p) {
+	float precio_iva = p * .16;
+
+	return precio_iva;
+}
+
+model {
+	vars {
+		float[10] precios;
+		float[10] precios_coniva;
+	}
+
+	data {
+		precios = 10.0, 23.50, 24.10, 1.50, 2.30, 4.50, 60.0, 8.90, 34.90, 3.99;
+	}
+
+	MIN = for i in .precios {
+		precios = precios[i] + iva(precios[i]);
+	}
+}
+
+

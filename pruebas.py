@@ -1,5 +1,3 @@
-#Caso 1
-# Programa simple exitoso
 model {
 	vars {
 		int : gasolina;
@@ -26,8 +24,6 @@ model {
 	}
 }
 
-#Caso 2
-#Incluyendo funciones y cambio de scope
 
 func iva (float p) {
 	float precio_iva = p * .16;
@@ -50,4 +46,4 @@ model {
 	}
 }
 
-#Caso 3
+
