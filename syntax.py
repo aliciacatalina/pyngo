@@ -6,7 +6,7 @@ def p_varcte(p):
 		| CTEBOOL
 		| ID
 		| llamadafuncion'''
-	p[0] = ('var', p[1])
+	p[0] = ('varcte', p[1])
 
 def p_llamadafuncion(p):
 	'''llamadafuncion : ID LPAREN expresion RPAREN
@@ -40,7 +40,7 @@ def p_restricciones2(p):
 	'''restricciones2 : expresion
 					| suma SEMIC listafor'''
 	if len(p) > 2 : p[0] = ('restricciones2', p[1], p[3])
-	else : p[0] = p[1]
+	else : p[0] = ('restricciones2', p[1])
 
 def p_for(p):
 	'''for : FOR ID IN DOT ID LBRACKET estatuto RBRACKET'''
@@ -106,9 +106,8 @@ def p_escritura2(p):
 				| CTESTRING
 				| expresion DOT escritura2
 				| CTESTRING DOT escritura2'''
-	if len(p) > 2 :
-		p[0] = (p[3])
-	else : p[0] = ( p[1])
+	if len(p) > 2 : p[0] = ('escritura2', p[1], p[3])
+	else : p[0] = ('escritura2', p[1])
 
 
 def p_asignacion(p):
@@ -149,7 +148,7 @@ def p_liargs(p):
 	else : p[0] = ('liargs', p[1])
 
 def p_bloque(p):
-	'''bloque : LCURLY bloque2 RCURLY
+	'''bloque : bloque2
 				| LCURLY RCURLY'''
 	if len(p) > 3 :
 		p[0] = ('bloque', p[2])
@@ -208,7 +207,8 @@ def p_listavars(p):
 
 def p_declaravarsdata(p):
 	'''declaravarsdata : vars data
-			| empty'''
+			| empty
+			| vars'''
 	if len(p) > 2 : p[0] = ('declaravarsdata', p[1], p[2])
 	else : p[0] = ('declaravarsdata', p[1])
 
@@ -223,7 +223,7 @@ def p_declaravars(p):
 	p[0] = ('declaravars', p[1])
 
 def p_programa(p):
-    '''programa : declaravars declarafuncion MODEL POINTS declaravarsdata bloque'''
+    '''programa : declaravars declarafuncion MODEL LCURLY declaravarsdata bloque2 RCURLY'''
     p[0]= ('programa', p[1], p[2], p[5], p[6])
 
 def p_empty(p):

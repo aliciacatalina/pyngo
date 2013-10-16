@@ -1,4 +1,4 @@
-# parser.py | Lexico de PYNGO 
+# tokens.py | Lexico de PYNGO 
 # Alicia Gonzalez 1088149 | Ernesto Garcia
 import ply.lex as lex
 
