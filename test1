@@ -1,2 +1,6 @@
+<<<<<<< HEAD
 func r(int p) {} model { vars { int: a; } data { a : 10; } }
+=======
+func r(int p) {} model { vars { int : a; } data { a = 10; } }
+>>>>>>> 6f59fd02d623ddb59d8ad8b3632a2abe03e5b319
 
