@@ -2,6 +2,7 @@
 import sys
 import ply.lex as lex
 import ply.yacc as yacc
+from semantics import *
 from syntax import *
 from tokens import *
 lexer = lex.lex() 
@@ -13,11 +14,11 @@ def test(input_string):
     print list(lexer)
     parser = yacc.yacc() 
     parse_tree = parser.parse(input_string, lexer=lexer) 
-
-    print 'Success!'
-    #if isinstance(parse_tree, Node):
     print parse_tree
-    #else:
-        #print 'Failed program'
+    print 'Success!'
+    if isinstance(parse_tree, Node):
+        print (parse_tree.semantic_all())
+    else:
+        print 'Failed program'
 
 print test (f)

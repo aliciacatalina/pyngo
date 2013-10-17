@@ -382,10 +382,10 @@ state 22
 
     (68) vars -> VARS LCURLY listavars RCURLY .
 
-    FUNC            reduce using rule 68 (vars -> VARS LCURLY listavars RCURLY .)
-    MODEL           reduce using rule 68 (vars -> VARS LCURLY listavars RCURLY .)
     DATA            reduce using rule 68 (vars -> VARS LCURLY listavars RCURLY .)
     RCURLY          reduce using rule 68 (vars -> VARS LCURLY listavars RCURLY .)
+    FUNC            reduce using rule 68 (vars -> VARS LCURLY listavars RCURLY .)
+    MODEL           reduce using rule 68 (vars -> VARS LCURLY listavars RCURLY .)
     ID              reduce using rule 68 (vars -> VARS LCURLY listavars RCURLY .)
     IF              reduce using rule 68 (vars -> VARS LCURLY listavars RCURLY .)
     PRINT           reduce using rule 68 (vars -> VARS LCURLY listavars RCURLY .)
