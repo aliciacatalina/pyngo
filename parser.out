@@ -57,7 +57,7 @@ Rule 51    estatuto -> ciclo
 Rule 52    estatuto -> retorno
 Rule 53    ciclo -> for
 Rule 54    retorno -> RETURN asignacion
-Rule 55    funcion -> FUNC ID LPAREN listaargs RPAREN LCURLY declaravarsdata RCURLY
+Rule 55    funcion -> FUNC ID LPAREN listaargs RPAREN LCURLY declaravarsdata bloque2 RCURLY
 Rule 56    listaargs -> empty
 Rule 57    listaargs -> tipo ID liargs
 Rule 58    liargs -> empty
@@ -141,7 +141,7 @@ Nonterminals, with rules where they appear
 arreglo              : 71
 asignacion           : 11 12 47 54
 bloque               : 32 33 33
-bloque2              : 60 62 87
+bloque2              : 55 60 62 87
 ciclo                : 51
 condicion            : 48
 data                 : 80
@@ -221,7 +221,7 @@ state 3
     (87) programa -> declaravars . declarafuncion MODEL LCURLY declaravarsdata bloque2 RCURLY
     (83) declarafuncion -> . funcion
     (84) declarafuncion -> . empty
-    (55) funcion -> . FUNC ID LPAREN listaargs RPAREN LCURLY declaravarsdata RCURLY
+    (55) funcion -> . FUNC ID LPAREN listaargs RPAREN LCURLY declaravarsdata bloque2 RCURLY
     (88) empty -> .
 
     FUNC            shift and go to state 8
@@ -278,7 +278,7 @@ state 7
 
 state 8
 
-    (55) funcion -> FUNC . ID LPAREN listaargs RPAREN LCURLY declaravarsdata RCURLY
+    (55) funcion -> FUNC . ID LPAREN listaargs RPAREN LCURLY declaravarsdata bloque2 RCURLY
 
     ID              shift and go to state 21
 
@@ -373,7 +373,7 @@ state 20
 
 state 21
 
-    (55) funcion -> FUNC ID . LPAREN listaargs RPAREN LCURLY declaravarsdata RCURLY
+    (55) funcion -> FUNC ID . LPAREN listaargs RPAREN LCURLY declaravarsdata bloque2 RCURLY
 
     LPAREN          shift and go to state 26
 
@@ -382,10 +382,9 @@ state 22
 
     (68) vars -> VARS LCURLY listavars RCURLY .
 
-    DATA            reduce using rule 68 (vars -> VARS LCURLY listavars RCURLY .)
-    RCURLY          reduce using rule 68 (vars -> VARS LCURLY listavars RCURLY .)
     FUNC            reduce using rule 68 (vars -> VARS LCURLY listavars RCURLY .)
     MODEL           reduce using rule 68 (vars -> VARS LCURLY listavars RCURLY .)
+    DATA            reduce using rule 68 (vars -> VARS LCURLY listavars RCURLY .)
     ID              reduce using rule 68 (vars -> VARS LCURLY listavars RCURLY .)
     IF              reduce using rule 68 (vars -> VARS LCURLY listavars RCURLY .)
     PRINT           reduce using rule 68 (vars -> VARS LCURLY listavars RCURLY .)
@@ -393,6 +392,7 @@ state 22
     MAX             reduce using rule 68 (vars -> VARS LCURLY listavars RCURLY .)
     RETURN          reduce using rule 68 (vars -> VARS LCURLY listavars RCURLY .)
     FOR             reduce using rule 68 (vars -> VARS LCURLY listavars RCURLY .)
+    RCURLY          reduce using rule 68 (vars -> VARS LCURLY listavars RCURLY .)
 
 
 state 23
@@ -437,7 +437,7 @@ state 25
 
 state 26
 
-    (55) funcion -> FUNC ID LPAREN . listaargs RPAREN LCURLY declaravarsdata RCURLY
+    (55) funcion -> FUNC ID LPAREN . listaargs RPAREN LCURLY declaravarsdata bloque2 RCURLY
     (56) listaargs -> . empty
     (57) listaargs -> . tipo ID liargs
     (88) empty -> .
@@ -450,8 +450,8 @@ state 26
     TFLOAT          shift and go to state 18
     TBOOL           shift and go to state 17
 
-    listaargs                      shift and go to state 34
     tipo                           shift and go to state 33
+    listaargs                      shift and go to state 34
     empty                          shift and go to state 35
 
 state 27
@@ -567,7 +567,7 @@ state 33
 
 state 34
 
-    (55) funcion -> FUNC ID LPAREN listaargs . RPAREN LCURLY declaravarsdata RCURLY
+    (55) funcion -> FUNC ID LPAREN listaargs . RPAREN LCURLY declaravarsdata bloque2 RCURLY
 
     RPAREN          shift and go to state 61
 
@@ -892,7 +892,7 @@ state 60
 
 state 61
 
-    (55) funcion -> FUNC ID LPAREN listaargs RPAREN . LCURLY declaravarsdata RCURLY
+    (55) funcion -> FUNC ID LPAREN listaargs RPAREN . LCURLY declaravarsdata bloque2 RCURLY
 
     LCURLY          shift and go to state 77
 
@@ -927,7 +927,6 @@ state 65
 
     (54) retorno -> RETURN asignacion .
 
-    RBRACKET        reduce using rule 54 (retorno -> RETURN asignacion .)
     ID              reduce using rule 54 (retorno -> RETURN asignacion .)
     IF              reduce using rule 54 (retorno -> RETURN asignacion .)
     PRINT           reduce using rule 54 (retorno -> RETURN asignacion .)
@@ -938,6 +937,7 @@ state 65
     RCURLY          reduce using rule 54 (retorno -> RETURN asignacion .)
     SEMIC           reduce using rule 54 (retorno -> RETURN asignacion .)
     ELSE            reduce using rule 54 (retorno -> RETURN asignacion .)
+    RBRACKET        reduce using rule 54 (retorno -> RETURN asignacion .)
 
 
 state 66
@@ -1151,7 +1151,7 @@ state 76
 
 state 77
 
-    (55) funcion -> FUNC ID LPAREN listaargs RPAREN LCURLY . declaravarsdata RCURLY
+    (55) funcion -> FUNC ID LPAREN listaargs RPAREN LCURLY . declaravarsdata bloque2 RCURLY
     (80) declaravarsdata -> . vars data
     (81) declaravarsdata -> . empty
     (82) declaravarsdata -> . vars
@@ -1159,6 +1159,13 @@ state 77
     (88) empty -> .
 
     VARS            shift and go to state 1
+    ID              reduce using rule 88 (empty -> .)
+    IF              reduce using rule 88 (empty -> .)
+    PRINT           reduce using rule 88 (empty -> .)
+    MIN             reduce using rule 88 (empty -> .)
+    MAX             reduce using rule 88 (empty -> .)
+    RETURN          reduce using rule 88 (empty -> .)
+    FOR             reduce using rule 88 (empty -> .)
     RCURLY          reduce using rule 88 (empty -> .)
 
     vars                           shift and go to state 30
@@ -1250,8 +1257,8 @@ state 82
     FOR             reduce using rule 15 (funcionoptimizacion -> MIN EQUALS restricciones .)
     RCURLY          reduce using rule 15 (funcionoptimizacion -> MIN EQUALS restricciones .)
     SEMIC           reduce using rule 15 (funcionoptimizacion -> MIN EQUALS restricciones .)
-    ELSE            reduce using rule 15 (funcionoptimizacion -> MIN EQUALS restricciones .)
     RBRACKET        reduce using rule 15 (funcionoptimizacion -> MIN EQUALS restricciones .)
+    ELSE            reduce using rule 15 (funcionoptimizacion -> MIN EQUALS restricciones .)
 
 
 state 83
@@ -1378,8 +1385,8 @@ state 87
     LESSTHAN        reduce using rule 27 (factor -> varcte .)
     GREATERTHAN     reduce using rule 27 (factor -> varcte .)
     BETWEEN         reduce using rule 27 (factor -> varcte .)
-    DOT             reduce using rule 27 (factor -> varcte .)
     RPAREN          reduce using rule 27 (factor -> varcte .)
+    DOT             reduce using rule 27 (factor -> varcte .)
     SEMIC           reduce using rule 27 (factor -> varcte .)
     ID              reduce using rule 27 (factor -> varcte .)
     IF              reduce using rule 27 (factor -> varcte .)
@@ -1574,8 +1581,8 @@ state 96
     (36) expresion -> exp . GREATERTHAN exp
     (37) expresion -> exp . BETWEEN exp
 
-    SEMIC           reduce using rule 34 (expresion -> exp .)
     RPAREN          reduce using rule 34 (expresion -> exp .)
+    SEMIC           reduce using rule 34 (expresion -> exp .)
     DOT             reduce using rule 34 (expresion -> exp .)
     ID              reduce using rule 34 (expresion -> exp .)
     IF              reduce using rule 34 (expresion -> exp .)
@@ -1679,8 +1686,8 @@ state 102
     FOR             reduce using rule 16 (funcionoptimizacion -> MAX EQUALS restricciones .)
     RCURLY          reduce using rule 16 (funcionoptimizacion -> MAX EQUALS restricciones .)
     SEMIC           reduce using rule 16 (funcionoptimizacion -> MAX EQUALS restricciones .)
-    ELSE            reduce using rule 16 (funcionoptimizacion -> MAX EQUALS restricciones .)
     RBRACKET        reduce using rule 16 (funcionoptimizacion -> MAX EQUALS restricciones .)
+    ELSE            reduce using rule 16 (funcionoptimizacion -> MAX EQUALS restricciones .)
 
 
 state 103
@@ -1692,10 +1699,46 @@ state 103
 
 state 104
 
-    (55) funcion -> FUNC ID LPAREN listaargs RPAREN LCURLY declaravarsdata . RCURLY
+    (55) funcion -> FUNC ID LPAREN listaargs RPAREN LCURLY declaravarsdata . bloque2 RCURLY
+    (62) bloque2 -> . estatuto bloque2
+    (63) bloque2 -> . estatuto
+    (64) bloque2 -> . empty
+    (47) estatuto -> . asignacion
+    (48) estatuto -> . condicion
+    (49) estatuto -> . escritura
+    (50) estatuto -> . funcionoptimizacion
+    (51) estatuto -> . ciclo
+    (52) estatuto -> . retorno
+    (88) empty -> .
+    (46) asignacion -> . ID EQUALS expresion SEMIC
+    (32) condicion -> . IF LPAREN expresion RPAREN bloque SEMIC
+    (33) condicion -> . IF LPAREN expresion RPAREN bloque ELSE bloque SEMIC
+    (41) escritura -> . PRINT LPAREN escritura2 RPAREN SEMIC
+    (15) funcionoptimizacion -> . MIN EQUALS restricciones
+    (16) funcionoptimizacion -> . MAX EQUALS restricciones
+    (53) ciclo -> . for
+    (54) retorno -> . RETURN asignacion
+    (20) for -> . FOR ID IN DOT ID LBRACKET estatuto RBRACKET
 
-    RCURLY          shift and go to state 128
+    RCURLY          reduce using rule 88 (empty -> .)
+    ID              shift and go to state 54
+    IF              shift and go to state 55
+    PRINT           shift and go to state 45
+    MIN             shift and go to state 44
+    MAX             shift and go to state 58
+    RETURN          shift and go to state 43
+    FOR             shift and go to state 52
 
+    bloque2                        shift and go to state 128
+    ciclo                          shift and go to state 46
+    asignacion                     shift and go to state 57
+    funcionoptimizacion            shift and go to state 53
+    estatuto                       shift and go to state 48
+    for                            shift and go to state 47
+    condicion                      shift and go to state 49
+    retorno                        shift and go to state 50
+    empty                          shift and go to state 51
+    escritura                      shift and go to state 59
 
 state 105
 
@@ -1919,8 +1962,8 @@ state 115
     LESSTHAN        reduce using rule 26 (factor -> MINUS varcte .)
     GREATERTHAN     reduce using rule 26 (factor -> MINUS varcte .)
     BETWEEN         reduce using rule 26 (factor -> MINUS varcte .)
-    DOT             reduce using rule 26 (factor -> MINUS varcte .)
     RPAREN          reduce using rule 26 (factor -> MINUS varcte .)
+    DOT             reduce using rule 26 (factor -> MINUS varcte .)
     SEMIC           reduce using rule 26 (factor -> MINUS varcte .)
     ID              reduce using rule 26 (factor -> MINUS varcte .)
     IF              reduce using rule 26 (factor -> MINUS varcte .)
@@ -1945,8 +1988,8 @@ state 116
     LESSTHAN        reduce using rule 25 (factor -> PLUS varcte .)
     GREATERTHAN     reduce using rule 25 (factor -> PLUS varcte .)
     BETWEEN         reduce using rule 25 (factor -> PLUS varcte .)
-    DOT             reduce using rule 25 (factor -> PLUS varcte .)
     RPAREN          reduce using rule 25 (factor -> PLUS varcte .)
+    DOT             reduce using rule 25 (factor -> PLUS varcte .)
     SEMIC           reduce using rule 25 (factor -> PLUS varcte .)
     ID              reduce using rule 25 (factor -> PLUS varcte .)
     IF              reduce using rule 25 (factor -> PLUS varcte .)
@@ -2317,9 +2360,9 @@ state 127
 
 state 128
 
-    (55) funcion -> FUNC ID LPAREN listaargs RPAREN LCURLY declaravarsdata RCURLY .
+    (55) funcion -> FUNC ID LPAREN listaargs RPAREN LCURLY declaravarsdata bloque2 . RCURLY
 
-    MODEL           reduce using rule 55 (funcion -> FUNC ID LPAREN listaargs RPAREN LCURLY declaravarsdata RCURLY .)
+    RCURLY          shift and go to state 152
 
 
 state 129
@@ -2347,7 +2390,7 @@ state 132
 
     (24) suma -> SUM LPAREN . ID POINTS expresion RPAREN
 
-    ID              shift and go to state 152
+    ID              shift and go to state 153
 
 
 state 133
@@ -2358,8 +2401,8 @@ state 133
 
     FOR             shift and go to state 52
 
-    listafor                       shift and go to state 153
-    for                            shift and go to state 154
+    listafor                       shift and go to state 154
+    for                            shift and go to state 155
 
 state 134
 
@@ -2372,8 +2415,8 @@ state 134
     LESSTHAN        reduce using rule 28 (factor -> LPAREN expresion RPAREN .)
     GREATERTHAN     reduce using rule 28 (factor -> LPAREN expresion RPAREN .)
     BETWEEN         reduce using rule 28 (factor -> LPAREN expresion RPAREN .)
-    DOT             reduce using rule 28 (factor -> LPAREN expresion RPAREN .)
     RPAREN          reduce using rule 28 (factor -> LPAREN expresion RPAREN .)
+    DOT             reduce using rule 28 (factor -> LPAREN expresion RPAREN .)
     SEMIC           reduce using rule 28 (factor -> LPAREN expresion RPAREN .)
     ID              reduce using rule 28 (factor -> LPAREN expresion RPAREN .)
     IF              reduce using rule 28 (factor -> LPAREN expresion RPAREN .)
@@ -2490,7 +2533,6 @@ state 140
 
     (41) escritura -> PRINT LPAREN escritura2 RPAREN SEMIC .
 
-    RBRACKET        reduce using rule 41 (escritura -> PRINT LPAREN escritura2 RPAREN SEMIC .)
     ID              reduce using rule 41 (escritura -> PRINT LPAREN escritura2 RPAREN SEMIC .)
     IF              reduce using rule 41 (escritura -> PRINT LPAREN escritura2 RPAREN SEMIC .)
     PRINT           reduce using rule 41 (escritura -> PRINT LPAREN escritura2 RPAREN SEMIC .)
@@ -2498,16 +2540,17 @@ state 140
     MAX             reduce using rule 41 (escritura -> PRINT LPAREN escritura2 RPAREN SEMIC .)
     RETURN          reduce using rule 41 (escritura -> PRINT LPAREN escritura2 RPAREN SEMIC .)
     FOR             reduce using rule 41 (escritura -> PRINT LPAREN escritura2 RPAREN SEMIC .)
-    SEMIC           reduce using rule 41 (escritura -> PRINT LPAREN escritura2 RPAREN SEMIC .)
     RCURLY          reduce using rule 41 (escritura -> PRINT LPAREN escritura2 RPAREN SEMIC .)
+    SEMIC           reduce using rule 41 (escritura -> PRINT LPAREN escritura2 RPAREN SEMIC .)
     ELSE            reduce using rule 41 (escritura -> PRINT LPAREN escritura2 RPAREN SEMIC .)
+    RBRACKET        reduce using rule 41 (escritura -> PRINT LPAREN escritura2 RPAREN SEMIC .)
 
 
 state 141
 
     (7) llamadafuncion -> ID LPAREN expresion . RPAREN
 
-    RPAREN          shift and go to state 155
+    RPAREN          shift and go to state 156
 
 
 state 142
@@ -2516,7 +2559,7 @@ state 142
     (2) varcte -> CTEF .
 
   ! shift/reduce conflict for RPAREN resolved as shift
-    RPAREN          shift and go to state 156
+    RPAREN          shift and go to state 157
     STAR            reduce using rule 2 (varcte -> CTEF .)
     SLASH           reduce using rule 2 (varcte -> CTEF .)
     PLUS            reduce using rule 2 (varcte -> CTEF .)
@@ -2534,7 +2577,7 @@ state 143
     (1) varcte -> CTEI .
 
   ! shift/reduce conflict for RPAREN resolved as shift
-    RPAREN          shift and go to state 157
+    RPAREN          shift and go to state 158
     STAR            reduce using rule 1 (varcte -> CTEI .)
     SLASH           reduce using rule 1 (varcte -> CTEI .)
     PLUS            reduce using rule 1 (varcte -> CTEI .)
@@ -2557,8 +2600,8 @@ state 145
 
     (35) expresion -> exp LESSTHAN exp .
 
-    SEMIC           reduce using rule 35 (expresion -> exp LESSTHAN exp .)
     RPAREN          reduce using rule 35 (expresion -> exp LESSTHAN exp .)
+    SEMIC           reduce using rule 35 (expresion -> exp LESSTHAN exp .)
     DOT             reduce using rule 35 (expresion -> exp LESSTHAN exp .)
     ID              reduce using rule 35 (expresion -> exp LESSTHAN exp .)
     IF              reduce using rule 35 (expresion -> exp LESSTHAN exp .)
@@ -2576,8 +2619,8 @@ state 146
 
     (36) expresion -> exp GREATERTHAN exp .
 
-    SEMIC           reduce using rule 36 (expresion -> exp GREATERTHAN exp .)
     RPAREN          reduce using rule 36 (expresion -> exp GREATERTHAN exp .)
+    SEMIC           reduce using rule 36 (expresion -> exp GREATERTHAN exp .)
     DOT             reduce using rule 36 (expresion -> exp GREATERTHAN exp .)
     ID              reduce using rule 36 (expresion -> exp GREATERTHAN exp .)
     IF              reduce using rule 36 (expresion -> exp GREATERTHAN exp .)
@@ -2595,8 +2638,8 @@ state 147
 
     (37) expresion -> exp BETWEEN exp .
 
-    SEMIC           reduce using rule 37 (expresion -> exp BETWEEN exp .)
     RPAREN          reduce using rule 37 (expresion -> exp BETWEEN exp .)
+    SEMIC           reduce using rule 37 (expresion -> exp BETWEEN exp .)
     DOT             reduce using rule 37 (expresion -> exp BETWEEN exp .)
     ID              reduce using rule 37 (expresion -> exp BETWEEN exp .)
     IF              reduce using rule 37 (expresion -> exp BETWEEN exp .)
@@ -2614,14 +2657,14 @@ state 148
 
     (20) for -> FOR ID IN DOT ID . LBRACKET estatuto RBRACKET
 
-    LBRACKET        shift and go to state 158
+    LBRACKET        shift and go to state 159
 
 
 state 149
 
     (61) bloque -> LCURLY . RCURLY
 
-    RCURLY          shift and go to state 159
+    RCURLY          shift and go to state 160
 
 
 state 150
@@ -2629,8 +2672,8 @@ state 150
     (32) condicion -> IF LPAREN expresion RPAREN bloque . SEMIC
     (33) condicion -> IF LPAREN expresion RPAREN bloque . ELSE bloque SEMIC
 
-    SEMIC           shift and go to state 160
-    ELSE            shift and go to state 161
+    SEMIC           shift and go to state 161
+    ELSE            shift and go to state 162
 
 
 state 151
@@ -2643,12 +2686,19 @@ state 151
 
 state 152
 
-    (24) suma -> SUM LPAREN ID . POINTS expresion RPAREN
+    (55) funcion -> FUNC ID LPAREN listaargs RPAREN LCURLY declaravarsdata bloque2 RCURLY .
 
-    POINTS          shift and go to state 162
+    MODEL           reduce using rule 55 (funcion -> FUNC ID LPAREN listaargs RPAREN LCURLY declaravarsdata bloque2 RCURLY .)
 
 
 state 153
+
+    (24) suma -> SUM LPAREN ID . POINTS expresion RPAREN
+
+    POINTS          shift and go to state 163
+
+
+state 154
 
     (19) restricciones2 -> suma SEMIC listafor .
 
@@ -2665,14 +2715,14 @@ state 153
     RBRACKET        reduce using rule 19 (restricciones2 -> suma SEMIC listafor .)
 
 
-state 154
+state 155
 
     (21) listafor -> for . SEMIC lfor
 
-    SEMIC           shift and go to state 163
+    SEMIC           shift and go to state 164
 
 
-state 155
+state 156
 
     (7) llamadafuncion -> ID LPAREN expresion RPAREN .
 
@@ -2698,7 +2748,7 @@ state 155
     RBRACKET        reduce using rule 7 (llamadafuncion -> ID LPAREN expresion RPAREN .)
 
 
-state 156
+state 157
 
     (9) llamadafuncion -> ID LPAREN CTEF RPAREN .
 
@@ -2724,7 +2774,7 @@ state 156
     RBRACKET        reduce using rule 9 (llamadafuncion -> ID LPAREN CTEF RPAREN .)
 
 
-state 157
+state 158
 
     (8) llamadafuncion -> ID LPAREN CTEI RPAREN .
 
@@ -2750,7 +2800,7 @@ state 157
     RBRACKET        reduce using rule 8 (llamadafuncion -> ID LPAREN CTEI RPAREN .)
 
 
-state 158
+state 159
 
     (20) for -> FOR ID IN DOT ID LBRACKET . estatuto RBRACKET
     (47) estatuto -> . asignacion
@@ -2780,13 +2830,13 @@ state 158
     ciclo                          shift and go to state 46
     asignacion                     shift and go to state 57
     funcionoptimizacion            shift and go to state 53
-    estatuto                       shift and go to state 164
+    estatuto                       shift and go to state 165
     for                            shift and go to state 47
     condicion                      shift and go to state 49
     retorno                        shift and go to state 50
     escritura                      shift and go to state 59
 
-state 159
+state 160
 
     (61) bloque -> LCURLY RCURLY .
 
@@ -2794,7 +2844,7 @@ state 159
     ELSE            reduce using rule 61 (bloque -> LCURLY RCURLY .)
 
 
-state 160
+state 161
 
     (32) condicion -> IF LPAREN expresion RPAREN bloque SEMIC .
 
@@ -2811,7 +2861,7 @@ state 160
     RCURLY          reduce using rule 32 (condicion -> IF LPAREN expresion RPAREN bloque SEMIC .)
 
 
-state 161
+state 162
 
     (33) condicion -> IF LPAREN expresion RPAREN bloque ELSE . bloque SEMIC
     (60) bloque -> . bloque2
@@ -2854,11 +2904,11 @@ state 161
     for                            shift and go to state 47
     condicion                      shift and go to state 49
     retorno                        shift and go to state 50
-    bloque                         shift and go to state 165
+    bloque                         shift and go to state 166
     empty                          shift and go to state 51
     escritura                      shift and go to state 59
 
-state 162
+state 163
 
     (24) suma -> SUM LPAREN ID POINTS . expresion RPAREN
     (34) expresion -> . exp
@@ -2894,14 +2944,14 @@ state 162
     CTEBOOL         shift and go to state 94
     ID              shift and go to state 92
 
-    expresion                      shift and go to state 166
+    expresion                      shift and go to state 167
     varcte                         shift and go to state 87
     termino                        shift and go to state 84
     exp                            shift and go to state 96
     factor                         shift and go to state 89
     llamadafuncion                 shift and go to state 90
 
-state 163
+state 164
 
     (21) listafor -> for SEMIC . lfor
     (22) lfor -> . empty
@@ -2925,33 +2975,33 @@ state 163
 
   ! FOR             [ reduce using rule 88 (empty -> .) ]
 
-    listafor                       shift and go to state 167
-    empty                          shift and go to state 169
-    lfor                           shift and go to state 168
-    for                            shift and go to state 154
-
-state 164
-
-    (20) for -> FOR ID IN DOT ID LBRACKET estatuto . RBRACKET
-
-    RBRACKET        shift and go to state 170
-
+    listafor                       shift and go to state 168
+    empty                          shift and go to state 170
+    lfor                           shift and go to state 169
+    for                            shift and go to state 155
 
 state 165
 
-    (33) condicion -> IF LPAREN expresion RPAREN bloque ELSE bloque . SEMIC
+    (20) for -> FOR ID IN DOT ID LBRACKET estatuto . RBRACKET
 
-    SEMIC           shift and go to state 171
+    RBRACKET        shift and go to state 171
 
 
 state 166
 
-    (24) suma -> SUM LPAREN ID POINTS expresion . RPAREN
+    (33) condicion -> IF LPAREN expresion RPAREN bloque ELSE bloque . SEMIC
 
-    RPAREN          shift and go to state 172
+    SEMIC           shift and go to state 172
 
 
 state 167
+
+    (24) suma -> SUM LPAREN ID POINTS expresion . RPAREN
+
+    RPAREN          shift and go to state 173
+
+
+state 168
 
     (23) lfor -> listafor .
 
@@ -2968,7 +3018,7 @@ state 167
     RBRACKET        reduce using rule 23 (lfor -> listafor .)
 
 
-state 168
+state 169
 
     (21) listafor -> for SEMIC lfor .
 
@@ -2985,7 +3035,7 @@ state 168
     RBRACKET        reduce using rule 21 (listafor -> for SEMIC lfor .)
 
 
-state 169
+state 170
 
     (22) lfor -> empty .
 
@@ -3002,7 +3052,7 @@ state 169
     RBRACKET        reduce using rule 22 (lfor -> empty .)
 
 
-state 170
+state 171
 
     (20) for -> FOR ID IN DOT ID LBRACKET estatuto RBRACKET .
 
@@ -3019,7 +3069,7 @@ state 170
     RBRACKET        reduce using rule 20 (for -> FOR ID IN DOT ID LBRACKET estatuto RBRACKET .)
 
 
-state 171
+state 172
 
     (33) condicion -> IF LPAREN expresion RPAREN bloque ELSE bloque SEMIC .
 
@@ -3036,7 +3086,7 @@ state 171
     RCURLY          reduce using rule 33 (condicion -> IF LPAREN expresion RPAREN bloque ELSE bloque SEMIC .)
 
 
-state 172
+state 173
 
     (24) suma -> SUM LPAREN ID POINTS expresion RPAREN .
 
@@ -3048,7 +3098,7 @@ WARNING:
 WARNING: shift/reduce conflict for DOT in state 85 resolved as shift
 WARNING: shift/reduce conflict for RPAREN in state 142 resolved as shift
 WARNING: shift/reduce conflict for RPAREN in state 143 resolved as shift
-WARNING: shift/reduce conflict for FOR in state 163 resolved as shift
+WARNING: shift/reduce conflict for FOR in state 164 resolved as shift
 WARNING: reduce/reduce conflict in state 48 resolved using rule (bloque2 -> estatuto)
 WARNING: rejected rule (empty -> <empty>) in state 48
 WARNING: reduce/reduce conflict in state 85 resolved using rule (varcte -> CTESTRING)
