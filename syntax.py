@@ -198,7 +198,7 @@ def p_lid(p):
 
 def p_listaids(p):
 	'''listaids : ID lid'''
-	p[0] = Node('listaids', p[2])
+	p[0] = Node('listaids', p[1], p[2])
 
 def p_lvars(p):
 	'''lvars : listavars
