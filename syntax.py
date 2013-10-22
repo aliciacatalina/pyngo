@@ -196,15 +196,9 @@ def p_lid(p):
 	if len(p) > 2 : p[0] = Node('lid', p[2])
 	else : p[0] = Node('lid', p[1])
 
-<<<<<<< HEAD
-def p_listaids(p):
-	'''listaids : ID lid'''
-	p[0] = Node('listaids', p[1], p[2])
-=======
 def p_listofids(p):
 	'''listofids : ID lid'''
-	p[0] = Node('listofids', p[2])
->>>>>>> 244b6b97088550d31b3ec075c26a6328872da01c
+	p[0] = Node('listofids', p[1], p[2])
 
 def p_lvars(p):
 	'''lvars : listofvars
