@@ -1,0 +1,5 @@
+
+
+func r(int p) {} model { vars { int: a; } data { a = 10; } }
+
+
