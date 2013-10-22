@@ -15,7 +15,9 @@ model {
 	}
 
 	MIN = for i in .precios {
+			for j in .precios {
 		precios = precios[i] + iva(precios[i]);
+		}
 	}
 }
 
