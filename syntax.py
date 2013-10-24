@@ -83,6 +83,10 @@ def p_condition(p):
 	if len(p) > 8 : p[0] = Node('condition', p[1], p[2], p[3], p[4], p[5], p[7], p[8])
 	else : p[0] = Node('condition', p[1], p[2], p[3], p[4], p[5], p[6])
 
+def p_expresiones(p):
+	'''expresiones : expresion COMMA expresiones
+					| expresion'''
+
 def p_expresion(p):
 	'''expresion : exp
 			| exp LESSTHAN exp
@@ -113,7 +117,7 @@ def p_write2(p):
 
 
 def p_asign(p):
-	'asign : ID EQUALS expresion SEMIC'
+	'asign : ID EQUALS expresiones SEMIC'
 	p[0] = Node('asign', p[1], p[2], p[3], p[4])
 
 def p_statement(p):
@@ -185,8 +189,8 @@ def p_array(p):
 	p[0] = p[2]
 
 def p_declaracion(p):
-	'''declaracion : array
-					| matrix
+	'''declaracion : tipo array
+					| tipo matrix
 					| tipo'''
 	p[0] = Node('declaracion', p[1])
 
@@ -206,7 +210,7 @@ def p_lvars(p):
 	p[0] = Node('lvars', p[1])
 
 def p_listofvars(p):
-    '''listofvars : declaracion POINTS listofids SEMIC'''
+    '''listofvars : declaracion POINTS listofids SEMIC lvars'''
     p[0]= Node('listofvars', p[1], p[3])
 
 def p_varsdata(p):

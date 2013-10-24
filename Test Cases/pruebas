@@ -4,8 +4,8 @@ func iva (float p) {
 
 model {
 	vars {
-		float[10] precios;
-		float[10] preciosconiva;
+		float[10]: precios;
+		float[10]: preciosconiva;
 	}
 
 	data {
