@@ -7,7 +7,11 @@ Rule 1     constant -> CTEI
 Rule 2     constant -> CTEF
 Rule 3     constant -> CTESTRING
 Rule 4     constant -> CTEBOOL
+<<<<<<< HEAD
 Rule 5     constant -> ID
+=======
+Rule 5     constant -> id
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 Rule 6     constant -> functioncall
 Rule 7     functioncall -> ID LPAREN expresion RPAREN
 Rule 8     functioncall -> ID LPAREN CTEI RPAREN
@@ -17,12 +21,21 @@ Rule 11    asignmany -> asign SEMIC asignlist
 Rule 12    asignmany -> asign
 Rule 13    asignlist -> empty
 Rule 14    asignlist -> asignmany
+<<<<<<< HEAD
 Rule 15    optimize -> MIN EQUALS restrictions
 Rule 16    optimize -> MAX EQUALS restrictions
 Rule 17    restrictions -> WHERE restrictions2
 Rule 18    restrictions2 -> expresion
 Rule 19    restrictions2 -> sum SEMIC forlist
 Rule 20    for -> FOR ID IN DOT ID LBRACKET statement RBRACKET
+=======
+Rule 15    optimize -> MIN EQUALS statement
+Rule 16    optimize -> MAX EQUALS statement
+Rule 17    restrictions -> WHERE restrictions2
+Rule 18    restrictions2 -> expresion
+Rule 19    restrictions2 -> sum SEMIC forlist
+Rule 20    for -> FOR ID IN DOT ID LCURLY block2 RCURLY
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 Rule 21    forlist -> for SEMIC lfor
 Rule 22    lfor -> empty
 Rule 23    lfor -> forlist
@@ -36,6 +49,7 @@ Rule 30    term -> factor STAR term
 Rule 31    term -> factor SLASH term
 Rule 32    condition -> IF LPAREN expresion RPAREN block SEMIC
 Rule 33    condition -> IF LPAREN expresion RPAREN block ELSE block SEMIC
+<<<<<<< HEAD
 Rule 34    expresion -> exp
 Rule 35    expresion -> exp LESSTHAN exp
 Rule 36    expresion -> exp GREATERTHAN exp
@@ -91,53 +105,116 @@ Rule 85    declarevars -> vars
 Rule 86    declarevars -> empty
 Rule 87    program -> declarevars declarefunc MODEL LCURLY varsdata block2 RCURLY
 Rule 88    empty -> <empty>
+=======
+Rule 34    expresiones -> expresion COMMA expresiones
+Rule 35    expresiones -> expresion
+Rule 36    expresion -> exp
+Rule 37    expresion -> exp LESSTHAN exp
+Rule 38    expresion -> exp GREATERTHAN exp
+Rule 39    expresion -> exp BETWEEN exp
+Rule 40    exp -> term
+Rule 41    exp -> term PLUS exp
+Rule 42    exp -> term MINUS exp
+Rule 43    write -> PRINT LPAREN write2 RPAREN SEMIC
+Rule 44    write2 -> expresion
+Rule 45    write2 -> CTESTRING
+Rule 46    write2 -> expresion DOT write2
+Rule 47    write2 -> CTESTRING DOT write2
+Rule 48    asign -> ID EQUALS expresiones SEMIC
+Rule 49    statement -> asign
+Rule 50    statement -> condition
+Rule 51    statement -> write
+Rule 52    statement -> optimize
+Rule 53    statement -> for
+Rule 54    statement -> return
+Rule 55    loop -> for
+Rule 56    return -> RETURN asign
+Rule 57    function -> FUNC ID LPAREN manyargs RPAREN LCURLY varsdata block2 RCURLY
+Rule 58    manyargs -> empty
+Rule 59    manyargs -> tipo ID liargs
+Rule 60    liargs -> empty
+Rule 61    liargs -> COMMA manyargs
+Rule 62    block -> block2
+Rule 63    block -> LCURLY RCURLY
+Rule 64    block2 -> statement block2
+Rule 65    block2 -> statement
+Rule 66    block2 -> empty
+Rule 67    tipo -> TINT
+Rule 68    tipo -> TFLOAT
+Rule 69    tipo -> TBOOL
+Rule 70    vars -> VARS LCURLY listofvars RCURLY
+Rule 71    matrix -> LBRACKET expresion RBRACKET LBRACKET expresion RBRACKET
+Rule 72    array -> LBRACKET expresion RBRACKET
+Rule 73    id -> ID array
+Rule 74    id -> ID matrix
+Rule 75    id -> ID
+Rule 76    declaracion -> tipo array
+Rule 77    declaracion -> tipo matrix
+Rule 78    declaracion -> tipo
+Rule 79    lid -> COMMA listofids
+Rule 80    lid -> empty
+Rule 81    listofids -> ID lid
+Rule 82    lvars -> listofvars
+Rule 83    lvars -> empty
+Rule 84    listofvars -> declaracion POINTS listofids SEMIC lvars
+Rule 85    varsdata -> vars data
+Rule 86    varsdata -> empty
+Rule 87    varsdata -> vars
+Rule 88    declarefunc -> function
+Rule 89    declarefunc -> empty
+Rule 90    declarevars -> vars
+Rule 91    declarevars -> empty
+Rule 92    program -> declarevars declarefunc MODEL LCURLY varsdata block2 RCURLY
+Rule 93    empty -> <empty>
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 Terminals, with rules where they appear
 
-BETWEEN              : 37
-COMMA                : 59 74
+BETWEEN              : 39
+COMMA                : 34 61 79
 CTEBOOL              : 4
 CTEF                 : 2 9
-CTEI                 : 1 8 69 69 70
-CTESTRING            : 3 43 45
+CTEI                 : 1 8
+CTESTRING            : 3 45 47
 DATA                 : 10
-DOT                  : 20 44 45
+DOT                  : 20 46 47
 ELSE                 : 33
-EQUALS               : 15 16 46
+EQUALS               : 15 16 48
 FOR                  : 20
-FUNC                 : 55
-GREATERTHAN          : 36
-ID                   : 5 7 8 9 20 20 24 46 55 57 76
+FUNC                 : 57
+GREATERTHAN          : 38
+ID                   : 7 8 9 20 20 24 48 57 59 73 74 75 81
 IF                   : 32 33
 IN                   : 20
-LBRACKET             : 20 69 69 70
-LCURLY               : 10 55 61 68 87
-LESSTHAN             : 35
-LPAREN               : 7 8 9 24 28 32 33 41 55
+LBRACKET             : 71 71 72
+LCURLY               : 10 20 57 63 70 92
+LESSTHAN             : 37
+LPAREN               : 7 8 9 24 28 32 33 43 57
 MAX                  : 16
 MIN                  : 15
-MINUS                : 26 40
-MODEL                : 87
-PLUS                 : 25 39
-POINTS               : 24 79
-PRINT                : 41
-RBRACKET             : 20 69 69 70
-RCURLY               : 10 55 61 68 87
-RETURN               : 54
-RPAREN               : 7 8 9 24 28 32 33 41 55
-SEMIC                : 11 19 21 32 33 41 46 79
+MINUS                : 26 42
+MODEL                : 92
+PLUS                 : 25 41
+POINTS               : 24 84
+PRINT                : 43
+RBRACKET             : 71 71 72
+RCURLY               : 10 20 57 63 70 92
+RETURN               : 56
+RPAREN               : 7 8 9 24 28 32 33 43 57
+SEMIC                : 11 19 21 32 33 43 48 84
 SLASH                : 31
 STAR                 : 30
 SUM                  : 24
-TBOOL                : 67
-TFLOAT               : 66
-TINT                 : 65
-VARS                 : 68
+TBOOL                : 69
+TFLOAT               : 68
+TINT                 : 67
+VARS                 : 70
 WHERE                : 17
 error                : 
 
 Nonterminals, with rules where they appear
 
+<<<<<<< HEAD
 array                : 71
 asign                : 11 12 47 54
 asignlist            : 11
@@ -180,12 +257,59 @@ vars                 : 80 82 85
 varsdata             : 55 87
 write                : 49
 write2               : 41 44 45
+=======
+array                : 73 76
+asign                : 11 12 49 56
+asignlist            : 11
+asignmany            : 10 14
+block                : 32 33 33
+block2               : 20 57 62 64 92
+condition            : 50
+constant             : 25 26 27
+data                 : 85
+declaracion          : 84
+declarefunc          : 92
+declarevars          : 92
+empty                : 13 22 58 60 66 80 83 86 89 91
+exp                  : 36 37 37 38 38 39 39 41 42
+expresion            : 7 18 24 28 32 33 34 35 44 46 71 71 72
+expresiones          : 34 48
+factor               : 29 30 31
+for                  : 21 53 55
+forlist              : 19 23
+function             : 88
+functioncall         : 6
+id                   : 5
+lfor                 : 21
+liargs               : 59
+lid                  : 81
+listofids            : 79 84
+listofvars           : 70 82
+loop                 : 
+lvars                : 84
+manyargs             : 57 61
+matrix               : 74 77
+optimize             : 52
+program              : 0
+restrictions         : 
+restrictions2        : 17
+return               : 54
+statement            : 15 16 64 65
+sum                  : 19
+term                 : 30 31 40 41 42
+tipo                 : 59 76 77 78
+vars                 : 85 87 90
+varsdata             : 57 92
+write                : 51
+write2               : 43 46 47
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 Parsing method: LALR
 
 state 0
 
     (0) S' -> . program
+<<<<<<< HEAD
     (87) program -> . declarevars declarefunc MODEL LCURLY varsdata block2 RCURLY
     (85) declarevars -> . vars
     (86) declarevars -> . empty
@@ -195,6 +319,17 @@ state 0
     VARS            shift and go to state 4
     FUNC            reduce using rule 88 (empty -> .)
     MODEL           reduce using rule 88 (empty -> .)
+=======
+    (92) program -> . declarevars declarefunc MODEL LCURLY varsdata block2 RCURLY
+    (90) declarevars -> . vars
+    (91) declarevars -> . empty
+    (70) vars -> . VARS LCURLY listofvars RCURLY
+    (93) empty -> .
+
+    VARS            shift and go to state 4
+    FUNC            reduce using rule 93 (empty -> .)
+    MODEL           reduce using rule 93 (empty -> .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
     program                        shift and go to state 1
     declarevars                    shift and go to state 2
@@ -209,6 +344,7 @@ state 1
 
 state 2
 
+<<<<<<< HEAD
     (87) program -> declarevars . declarefunc MODEL LCURLY varsdata block2 RCURLY
     (83) declarefunc -> . function
     (84) declarefunc -> . empty
@@ -217,6 +353,16 @@ state 2
 
     FUNC            shift and go to state 8
     MODEL           reduce using rule 88 (empty -> .)
+=======
+    (92) program -> declarevars . declarefunc MODEL LCURLY varsdata block2 RCURLY
+    (88) declarefunc -> . function
+    (89) declarefunc -> . empty
+    (57) function -> . FUNC ID LPAREN manyargs RPAREN LCURLY varsdata block2 RCURLY
+    (93) empty -> .
+
+    FUNC            shift and go to state 8
+    MODEL           reduce using rule 93 (empty -> .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
     function                       shift and go to state 6
     declarefunc                    shift and go to state 7
@@ -224,57 +370,96 @@ state 2
 
 state 3
 
+<<<<<<< HEAD
     (85) declarevars -> vars .
 
     FUNC            reduce using rule 85 (declarevars -> vars .)
     MODEL           reduce using rule 85 (declarevars -> vars .)
+=======
+    (90) declarevars -> vars .
+
+    FUNC            reduce using rule 90 (declarevars -> vars .)
+    MODEL           reduce using rule 90 (declarevars -> vars .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 4
 
+<<<<<<< HEAD
     (68) vars -> VARS . LCURLY listofvars RCURLY
+=======
+    (70) vars -> VARS . LCURLY listofvars RCURLY
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
     LCURLY          shift and go to state 10
 
 
 state 5
 
+<<<<<<< HEAD
     (86) declarevars -> empty .
 
     FUNC            reduce using rule 86 (declarevars -> empty .)
     MODEL           reduce using rule 86 (declarevars -> empty .)
+=======
+    (91) declarevars -> empty .
+
+    FUNC            reduce using rule 91 (declarevars -> empty .)
+    MODEL           reduce using rule 91 (declarevars -> empty .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 6
 
+<<<<<<< HEAD
     (83) declarefunc -> function .
 
     MODEL           reduce using rule 83 (declarefunc -> function .)
+=======
+    (88) declarefunc -> function .
+
+    MODEL           reduce using rule 88 (declarefunc -> function .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 7
 
+<<<<<<< HEAD
     (87) program -> declarevars declarefunc . MODEL LCURLY varsdata block2 RCURLY
+=======
+    (92) program -> declarevars declarefunc . MODEL LCURLY varsdata block2 RCURLY
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
     MODEL           shift and go to state 11
 
 
 state 8
 
+<<<<<<< HEAD
     (55) function -> FUNC . ID LPAREN manyargs RPAREN LCURLY varsdata block2 RCURLY
+=======
+    (57) function -> FUNC . ID LPAREN manyargs RPAREN LCURLY varsdata block2 RCURLY
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
     ID              shift and go to state 12
 
 
 state 9
 
+<<<<<<< HEAD
     (84) declarefunc -> empty .
 
     MODEL           reduce using rule 84 (declarefunc -> empty .)
+=======
+    (89) declarefunc -> empty .
+
+    MODEL           reduce using rule 89 (declarefunc -> empty .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 10
 
+<<<<<<< HEAD
     (68) vars -> VARS LCURLY . listofvars RCURLY
     (79) listofvars -> . declaracion POINTS listofids SEMIC
     (71) declaracion -> . array
@@ -302,62 +487,138 @@ state 11
     (87) program -> declarevars declarefunc MODEL . LCURLY varsdata block2 RCURLY
 
     LCURLY          shift and go to state 22
+=======
+    (70) vars -> VARS LCURLY . listofvars RCURLY
+    (84) listofvars -> . declaracion POINTS listofids SEMIC lvars
+    (76) declaracion -> . tipo array
+    (77) declaracion -> . tipo matrix
+    (78) declaracion -> . tipo
+    (67) tipo -> . TINT
+    (68) tipo -> . TFLOAT
+    (69) tipo -> . TBOOL
+
+    TINT            shift and go to state 13
+    TFLOAT          shift and go to state 17
+    TBOOL           shift and go to state 16
+
+    tipo                           shift and go to state 14
+    listofvars                     shift and go to state 15
+    declaracion                    shift and go to state 18
+
+state 11
+
+    (92) program -> declarevars declarefunc MODEL . LCURLY varsdata block2 RCURLY
+
+    LCURLY          shift and go to state 19
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 12
 
+<<<<<<< HEAD
     (55) function -> FUNC ID . LPAREN manyargs RPAREN LCURLY varsdata block2 RCURLY
 
     LPAREN          shift and go to state 23
+=======
+    (57) function -> FUNC ID . LPAREN manyargs RPAREN LCURLY varsdata block2 RCURLY
+
+    LPAREN          shift and go to state 20
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 13
 
+<<<<<<< HEAD
     (65) tipo -> TINT .
 
     POINTS          reduce using rule 65 (tipo -> TINT .)
     ID              reduce using rule 65 (tipo -> TINT .)
+=======
+    (67) tipo -> TINT .
+
+    LBRACKET        reduce using rule 67 (tipo -> TINT .)
+    POINTS          reduce using rule 67 (tipo -> TINT .)
+    ID              reduce using rule 67 (tipo -> TINT .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 14
 
+<<<<<<< HEAD
     (72) declaracion -> matrix .
 
     POINTS          reduce using rule 72 (declaracion -> matrix .)
+=======
+    (76) declaracion -> tipo . array
+    (77) declaracion -> tipo . matrix
+    (78) declaracion -> tipo .
+    (72) array -> . LBRACKET expresion RBRACKET
+    (71) matrix -> . LBRACKET expresion RBRACKET LBRACKET expresion RBRACKET
 
+    POINTS          reduce using rule 78 (declaracion -> tipo .)
+    LBRACKET        shift and go to state 22
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
+
+    array                          shift and go to state 23
+    matrix                         shift and go to state 21
 
 state 15
 
+<<<<<<< HEAD
     (68) vars -> VARS LCURLY listofvars . RCURLY
+=======
+    (70) vars -> VARS LCURLY listofvars . RCURLY
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
     RCURLY          shift and go to state 24
 
 
 state 16
 
+<<<<<<< HEAD
     (70) array -> LBRACKET . CTEI RBRACKET
     (69) matrix -> LBRACKET . CTEI RBRACKET LBRACKET CTEI RBRACKET
 
     CTEI            shift and go to state 25
+=======
+    (69) tipo -> TBOOL .
+
+    LBRACKET        reduce using rule 69 (tipo -> TBOOL .)
+    POINTS          reduce using rule 69 (tipo -> TBOOL .)
+    ID              reduce using rule 69 (tipo -> TBOOL .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 17
 
-    (67) tipo -> TBOOL .
+    (68) tipo -> TFLOAT .
 
+<<<<<<< HEAD
     POINTS          reduce using rule 67 (tipo -> TBOOL .)
     ID              reduce using rule 67 (tipo -> TBOOL .)
+=======
+    LBRACKET        reduce using rule 68 (tipo -> TFLOAT .)
+    POINTS          reduce using rule 68 (tipo -> TFLOAT .)
+    ID              reduce using rule 68 (tipo -> TFLOAT .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 18
 
+<<<<<<< HEAD
     (71) declaracion -> array .
 
     POINTS          reduce using rule 71 (declaracion -> array .)
+=======
+    (84) listofvars -> declaracion . POINTS listofids SEMIC lvars
+
+    POINTS          shift and go to state 25
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 19
 
+<<<<<<< HEAD
     (66) tipo -> TFLOAT .
 
     POINTS          reduce using rule 66 (tipo -> TFLOAT .)
@@ -369,17 +630,64 @@ state 20
     (79) listofvars -> declaracion . POINTS listofids SEMIC
 
     POINTS          shift and go to state 26
+=======
+    (92) program -> declarevars declarefunc MODEL LCURLY . varsdata block2 RCURLY
+    (85) varsdata -> . vars data
+    (86) varsdata -> . empty
+    (87) varsdata -> . vars
+    (70) vars -> . VARS LCURLY listofvars RCURLY
+    (93) empty -> .
 
+    VARS            shift and go to state 4
+    ID              reduce using rule 93 (empty -> .)
+    IF              reduce using rule 93 (empty -> .)
+    PRINT           reduce using rule 93 (empty -> .)
+    MIN             reduce using rule 93 (empty -> .)
+    MAX             reduce using rule 93 (empty -> .)
+    FOR             reduce using rule 93 (empty -> .)
+    RETURN          reduce using rule 93 (empty -> .)
+    RCURLY          reduce using rule 93 (empty -> .)
+
+    vars                           shift and go to state 26
+    varsdata                       shift and go to state 27
+    empty                          shift and go to state 28
+
+state 20
+
+    (57) function -> FUNC ID LPAREN . manyargs RPAREN LCURLY varsdata block2 RCURLY
+    (58) manyargs -> . empty
+    (59) manyargs -> . tipo ID liargs
+    (93) empty -> .
+    (67) tipo -> . TINT
+    (68) tipo -> . TFLOAT
+    (69) tipo -> . TBOOL
+
+    RPAREN          reduce using rule 93 (empty -> .)
+    TINT            shift and go to state 13
+    TFLOAT          shift and go to state 17
+    TBOOL           shift and go to state 16
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
+
+    tipo                           shift and go to state 29
+    manyargs                       shift and go to state 30
+    empty                          shift and go to state 31
 
 state 21
 
+<<<<<<< HEAD
     (73) declaracion -> tipo .
 
     POINTS          reduce using rule 73 (declaracion -> tipo .)
+=======
+    (77) declaracion -> tipo matrix .
+
+    POINTS          reduce using rule 77 (declaracion -> tipo matrix .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 22
 
+<<<<<<< HEAD
     (87) program -> declarevars declarefunc MODEL LCURLY . varsdata block2 RCURLY
     (80) varsdata -> . vars data
     (81) varsdata -> . empty
@@ -415,6 +723,59 @@ state 23
     TINT            shift and go to state 13
     TFLOAT          shift and go to state 19
     TBOOL           shift and go to state 17
+=======
+    (72) array -> LBRACKET . expresion RBRACKET
+    (71) matrix -> LBRACKET . expresion RBRACKET LBRACKET expresion RBRACKET
+    (36) expresion -> . exp
+    (37) expresion -> . exp LESSTHAN exp
+    (38) expresion -> . exp GREATERTHAN exp
+    (39) expresion -> . exp BETWEEN exp
+    (40) exp -> . term
+    (41) exp -> . term PLUS exp
+    (42) exp -> . term MINUS exp
+    (29) term -> . factor
+    (30) term -> . factor STAR term
+    (31) term -> . factor SLASH term
+    (25) factor -> . PLUS constant
+    (26) factor -> . MINUS constant
+    (27) factor -> . constant
+    (28) factor -> . LPAREN expresion RPAREN
+    (1) constant -> . CTEI
+    (2) constant -> . CTEF
+    (3) constant -> . CTESTRING
+    (4) constant -> . CTEBOOL
+    (5) constant -> . id
+    (6) constant -> . functioncall
+    (73) id -> . ID array
+    (74) id -> . ID matrix
+    (75) id -> . ID
+    (7) functioncall -> . ID LPAREN expresion RPAREN
+    (8) functioncall -> . ID LPAREN CTEI RPAREN
+    (9) functioncall -> . ID LPAREN CTEF RPAREN
+
+    PLUS            shift and go to state 36
+    MINUS           shift and go to state 35
+    LPAREN          shift and go to state 32
+    CTEI            shift and go to state 45
+    CTEF            shift and go to state 43
+    CTESTRING       shift and go to state 46
+    CTEBOOL         shift and go to state 42
+    ID              shift and go to state 39
+
+    expresion                      shift and go to state 40
+    term                           shift and go to state 41
+    constant                       shift and go to state 33
+    functioncall                   shift and go to state 38
+    exp                            shift and go to state 44
+    factor                         shift and go to state 37
+    id                             shift and go to state 34
+
+state 23
+
+    (76) declaracion -> tipo array .
+
+    POINTS          reduce using rule 76 (declaracion -> tipo array .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
     tipo                           shift and go to state 30
     manyargs                       shift and go to state 31
@@ -422,6 +783,7 @@ state 23
 
 state 24
 
+<<<<<<< HEAD
     (68) vars -> VARS LCURLY listofvars RCURLY .
 
     DATA            reduce using rule 68 (vars -> VARS LCURLY listofvars RCURLY .)
@@ -435,27 +797,66 @@ state 24
     RCURLY          reduce using rule 68 (vars -> VARS LCURLY listofvars RCURLY .)
     FUNC            reduce using rule 68 (vars -> VARS LCURLY listofvars RCURLY .)
     MODEL           reduce using rule 68 (vars -> VARS LCURLY listofvars RCURLY .)
+=======
+    (70) vars -> VARS LCURLY listofvars RCURLY .
+
+    DATA            reduce using rule 70 (vars -> VARS LCURLY listofvars RCURLY .)
+    ID              reduce using rule 70 (vars -> VARS LCURLY listofvars RCURLY .)
+    IF              reduce using rule 70 (vars -> VARS LCURLY listofvars RCURLY .)
+    PRINT           reduce using rule 70 (vars -> VARS LCURLY listofvars RCURLY .)
+    MIN             reduce using rule 70 (vars -> VARS LCURLY listofvars RCURLY .)
+    MAX             reduce using rule 70 (vars -> VARS LCURLY listofvars RCURLY .)
+    FOR             reduce using rule 70 (vars -> VARS LCURLY listofvars RCURLY .)
+    RETURN          reduce using rule 70 (vars -> VARS LCURLY listofvars RCURLY .)
+    RCURLY          reduce using rule 70 (vars -> VARS LCURLY listofvars RCURLY .)
+    FUNC            reduce using rule 70 (vars -> VARS LCURLY listofvars RCURLY .)
+    MODEL           reduce using rule 70 (vars -> VARS LCURLY listofvars RCURLY .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 25
 
+<<<<<<< HEAD
     (70) array -> LBRACKET CTEI . RBRACKET
     (69) matrix -> LBRACKET CTEI . RBRACKET LBRACKET CTEI RBRACKET
 
     RBRACKET        shift and go to state 33
 
+=======
+    (84) listofvars -> declaracion POINTS . listofids SEMIC lvars
+    (81) listofids -> . ID lid
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
-state 26
+    ID              shift and go to state 47
 
+<<<<<<< HEAD
     (79) listofvars -> declaracion POINTS . listofids SEMIC
     (76) listofids -> . ID lid
 
     ID              shift and go to state 35
 
     listofids                      shift and go to state 34
+=======
+    listofids                      shift and go to state 48
 
-state 27
+state 26
 
+    (85) varsdata -> vars . data
+    (87) varsdata -> vars .
+    (10) data -> . DATA LCURLY asignmany RCURLY
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
+
+    ID              reduce using rule 87 (varsdata -> vars .)
+    IF              reduce using rule 87 (varsdata -> vars .)
+    PRINT           reduce using rule 87 (varsdata -> vars .)
+    MIN             reduce using rule 87 (varsdata -> vars .)
+    MAX             reduce using rule 87 (varsdata -> vars .)
+    FOR             reduce using rule 87 (varsdata -> vars .)
+    RETURN          reduce using rule 87 (varsdata -> vars .)
+    RCURLY          reduce using rule 87 (varsdata -> vars .)
+    DATA            shift and go to state 50
+
+<<<<<<< HEAD
     (80) varsdata -> vars . data
     (82) varsdata -> vars .
     (10) data -> . DATA LCURLY asignmany RCURLY
@@ -527,47 +928,205 @@ state 29
     RETURN          reduce using rule 81 (varsdata -> empty .)
     FOR             reduce using rule 81 (varsdata -> empty .)
     RCURLY          reduce using rule 81 (varsdata -> empty .)
+=======
+    data                           shift and go to state 49
+
+state 27
+
+    (92) program -> declarevars declarefunc MODEL LCURLY varsdata . block2 RCURLY
+    (64) block2 -> . statement block2
+    (65) block2 -> . statement
+    (66) block2 -> . empty
+    (49) statement -> . asign
+    (50) statement -> . condition
+    (51) statement -> . write
+    (52) statement -> . optimize
+    (53) statement -> . for
+    (54) statement -> . return
+    (93) empty -> .
+    (48) asign -> . ID EQUALS expresiones SEMIC
+    (32) condition -> . IF LPAREN expresion RPAREN block SEMIC
+    (33) condition -> . IF LPAREN expresion RPAREN block ELSE block SEMIC
+    (43) write -> . PRINT LPAREN write2 RPAREN SEMIC
+    (15) optimize -> . MIN EQUALS statement
+    (16) optimize -> . MAX EQUALS statement
+    (20) for -> . FOR ID IN DOT ID LCURLY block2 RCURLY
+    (56) return -> . RETURN asign
+
+    RCURLY          reduce using rule 93 (empty -> .)
+    ID              shift and go to state 62
+    IF              shift and go to state 64
+    PRINT           shift and go to state 54
+    MIN             shift and go to state 53
+    MAX             shift and go to state 65
+    FOR             shift and go to state 61
+    RETURN          shift and go to state 51
+
+    return                         shift and go to state 60
+    block2                         shift and go to state 52
+    for                            shift and go to state 55
+    asign                          shift and go to state 66
+    write                          shift and go to state 57
+    condition                      shift and go to state 63
+    statement                      shift and go to state 58
+    optimize                       shift and go to state 56
+    empty                          shift and go to state 59
+
+state 28
+
+    (86) varsdata -> empty .
+
+    ID              reduce using rule 86 (varsdata -> empty .)
+    IF              reduce using rule 86 (varsdata -> empty .)
+    PRINT           reduce using rule 86 (varsdata -> empty .)
+    MIN             reduce using rule 86 (varsdata -> empty .)
+    MAX             reduce using rule 86 (varsdata -> empty .)
+    FOR             reduce using rule 86 (varsdata -> empty .)
+    RETURN          reduce using rule 86 (varsdata -> empty .)
+    RCURLY          reduce using rule 86 (varsdata -> empty .)
+
+
+state 29
+
+    (59) manyargs -> tipo . ID liargs
+
+    ID              shift and go to state 67
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 30
 
+<<<<<<< HEAD
     (57) manyargs -> tipo . ID liargs
 
     ID              shift and go to state 55
+=======
+    (57) function -> FUNC ID LPAREN manyargs . RPAREN LCURLY varsdata block2 RCURLY
+
+    RPAREN          shift and go to state 68
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 31
 
+<<<<<<< HEAD
     (55) function -> FUNC ID LPAREN manyargs . RPAREN LCURLY varsdata block2 RCURLY
 
     RPAREN          shift and go to state 56
 
+=======
+    (58) manyargs -> empty .
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
-state 32
+    RPAREN          reduce using rule 58 (manyargs -> empty .)
 
+<<<<<<< HEAD
     (56) manyargs -> empty .
 
     RPAREN          reduce using rule 56 (manyargs -> empty .)
+=======
 
+state 32
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
+
+    (28) factor -> LPAREN . expresion RPAREN
+    (36) expresion -> . exp
+    (37) expresion -> . exp LESSTHAN exp
+    (38) expresion -> . exp GREATERTHAN exp
+    (39) expresion -> . exp BETWEEN exp
+    (40) exp -> . term
+    (41) exp -> . term PLUS exp
+    (42) exp -> . term MINUS exp
+    (29) term -> . factor
+    (30) term -> . factor STAR term
+    (31) term -> . factor SLASH term
+    (25) factor -> . PLUS constant
+    (26) factor -> . MINUS constant
+    (27) factor -> . constant
+    (28) factor -> . LPAREN expresion RPAREN
+    (1) constant -> . CTEI
+    (2) constant -> . CTEF
+    (3) constant -> . CTESTRING
+    (4) constant -> . CTEBOOL
+    (5) constant -> . id
+    (6) constant -> . functioncall
+    (73) id -> . ID array
+    (74) id -> . ID matrix
+    (75) id -> . ID
+    (7) functioncall -> . ID LPAREN expresion RPAREN
+    (8) functioncall -> . ID LPAREN CTEI RPAREN
+    (9) functioncall -> . ID LPAREN CTEF RPAREN
+
+    PLUS            shift and go to state 36
+    MINUS           shift and go to state 35
+    LPAREN          shift and go to state 32
+    CTEI            shift and go to state 45
+    CTEF            shift and go to state 43
+    CTESTRING       shift and go to state 46
+    CTEBOOL         shift and go to state 42
+    ID              shift and go to state 39
+
+    expresion                      shift and go to state 69
+    term                           shift and go to state 41
+    constant                       shift and go to state 33
+    functioncall                   shift and go to state 38
+    exp                            shift and go to state 44
+    factor                         shift and go to state 37
+    id                             shift and go to state 34
 
 state 33
 
+<<<<<<< HEAD
     (70) array -> LBRACKET CTEI RBRACKET .
     (69) matrix -> LBRACKET CTEI RBRACKET . LBRACKET CTEI RBRACKET
 
     POINTS          reduce using rule 70 (array -> LBRACKET CTEI RBRACKET .)
     LBRACKET        shift and go to state 57
+=======
+    (27) factor -> constant .
+
+    STAR            reduce using rule 27 (factor -> constant .)
+    SLASH           reduce using rule 27 (factor -> constant .)
+    PLUS            reduce using rule 27 (factor -> constant .)
+    MINUS           reduce using rule 27 (factor -> constant .)
+    LESSTHAN        reduce using rule 27 (factor -> constant .)
+    GREATERTHAN     reduce using rule 27 (factor -> constant .)
+    BETWEEN         reduce using rule 27 (factor -> constant .)
+    RBRACKET        reduce using rule 27 (factor -> constant .)
+    RPAREN          reduce using rule 27 (factor -> constant .)
+    DOT             reduce using rule 27 (factor -> constant .)
+    COMMA           reduce using rule 27 (factor -> constant .)
+    SEMIC           reduce using rule 27 (factor -> constant .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 34
 
+<<<<<<< HEAD
     (79) listofvars -> declaracion POINTS listofids . SEMIC
 
     SEMIC           shift and go to state 58
+=======
+    (5) constant -> id .
+
+    STAR            reduce using rule 5 (constant -> id .)
+    SLASH           reduce using rule 5 (constant -> id .)
+    PLUS            reduce using rule 5 (constant -> id .)
+    MINUS           reduce using rule 5 (constant -> id .)
+    LESSTHAN        reduce using rule 5 (constant -> id .)
+    GREATERTHAN     reduce using rule 5 (constant -> id .)
+    BETWEEN         reduce using rule 5 (constant -> id .)
+    RBRACKET        reduce using rule 5 (constant -> id .)
+    RPAREN          reduce using rule 5 (constant -> id .)
+    DOT             reduce using rule 5 (constant -> id .)
+    COMMA           reduce using rule 5 (constant -> id .)
+    SEMIC           reduce using rule 5 (constant -> id .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 35
 
+<<<<<<< HEAD
     (76) listofids -> ID . lid
     (74) lid -> . COMMA listofids
     (75) lid -> . empty
@@ -598,10 +1157,81 @@ state 37
     (10) data -> DATA . LCURLY asignmany RCURLY
 
     LCURLY          shift and go to state 62
+=======
+    (26) factor -> MINUS . constant
+    (1) constant -> . CTEI
+    (2) constant -> . CTEF
+    (3) constant -> . CTESTRING
+    (4) constant -> . CTEBOOL
+    (5) constant -> . id
+    (6) constant -> . functioncall
+    (73) id -> . ID array
+    (74) id -> . ID matrix
+    (75) id -> . ID
+    (7) functioncall -> . ID LPAREN expresion RPAREN
+    (8) functioncall -> . ID LPAREN CTEI RPAREN
+    (9) functioncall -> . ID LPAREN CTEF RPAREN
+
+    CTEI            shift and go to state 45
+    CTEF            shift and go to state 43
+    CTESTRING       shift and go to state 46
+    CTEBOOL         shift and go to state 42
+    ID              shift and go to state 39
+
+    constant                       shift and go to state 70
+    functioncall                   shift and go to state 38
+    id                             shift and go to state 34
+
+state 36
+
+    (25) factor -> PLUS . constant
+    (1) constant -> . CTEI
+    (2) constant -> . CTEF
+    (3) constant -> . CTESTRING
+    (4) constant -> . CTEBOOL
+    (5) constant -> . id
+    (6) constant -> . functioncall
+    (73) id -> . ID array
+    (74) id -> . ID matrix
+    (75) id -> . ID
+    (7) functioncall -> . ID LPAREN expresion RPAREN
+    (8) functioncall -> . ID LPAREN CTEI RPAREN
+    (9) functioncall -> . ID LPAREN CTEF RPAREN
+
+    CTEI            shift and go to state 45
+    CTEF            shift and go to state 43
+    CTESTRING       shift and go to state 46
+    CTEBOOL         shift and go to state 42
+    ID              shift and go to state 39
+
+    constant                       shift and go to state 71
+    functioncall                   shift and go to state 38
+    id                             shift and go to state 34
+
+state 37
+
+    (29) term -> factor .
+    (30) term -> factor . STAR term
+    (31) term -> factor . SLASH term
+
+    PLUS            reduce using rule 29 (term -> factor .)
+    MINUS           reduce using rule 29 (term -> factor .)
+    LESSTHAN        reduce using rule 29 (term -> factor .)
+    GREATERTHAN     reduce using rule 29 (term -> factor .)
+    BETWEEN         reduce using rule 29 (term -> factor .)
+    RBRACKET        reduce using rule 29 (term -> factor .)
+    RPAREN          reduce using rule 29 (term -> factor .)
+    DOT             reduce using rule 29 (term -> factor .)
+    COMMA           reduce using rule 29 (term -> factor .)
+    SEMIC           reduce using rule 29 (term -> factor .)
+    STAR            shift and go to state 72
+    SLASH           shift and go to state 73
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 38
 
+<<<<<<< HEAD
     (54) return -> RETURN . asign
     (46) asign -> . ID EQUALS expresion SEMIC
 
@@ -621,17 +1251,88 @@ state 40
     (15) optimize -> MIN . EQUALS restrictions
 
     EQUALS          shift and go to state 65
+=======
+    (6) constant -> functioncall .
+
+    STAR            reduce using rule 6 (constant -> functioncall .)
+    SLASH           reduce using rule 6 (constant -> functioncall .)
+    PLUS            reduce using rule 6 (constant -> functioncall .)
+    MINUS           reduce using rule 6 (constant -> functioncall .)
+    LESSTHAN        reduce using rule 6 (constant -> functioncall .)
+    GREATERTHAN     reduce using rule 6 (constant -> functioncall .)
+    BETWEEN         reduce using rule 6 (constant -> functioncall .)
+    RBRACKET        reduce using rule 6 (constant -> functioncall .)
+    RPAREN          reduce using rule 6 (constant -> functioncall .)
+    DOT             reduce using rule 6 (constant -> functioncall .)
+    COMMA           reduce using rule 6 (constant -> functioncall .)
+    SEMIC           reduce using rule 6 (constant -> functioncall .)
+
+
+state 39
+
+    (73) id -> ID . array
+    (74) id -> ID . matrix
+    (75) id -> ID .
+    (7) functioncall -> ID . LPAREN expresion RPAREN
+    (8) functioncall -> ID . LPAREN CTEI RPAREN
+    (9) functioncall -> ID . LPAREN CTEF RPAREN
+    (72) array -> . LBRACKET expresion RBRACKET
+    (71) matrix -> . LBRACKET expresion RBRACKET LBRACKET expresion RBRACKET
+
+    STAR            reduce using rule 75 (id -> ID .)
+    SLASH           reduce using rule 75 (id -> ID .)
+    PLUS            reduce using rule 75 (id -> ID .)
+    MINUS           reduce using rule 75 (id -> ID .)
+    LESSTHAN        reduce using rule 75 (id -> ID .)
+    GREATERTHAN     reduce using rule 75 (id -> ID .)
+    BETWEEN         reduce using rule 75 (id -> ID .)
+    RBRACKET        reduce using rule 75 (id -> ID .)
+    RPAREN          reduce using rule 75 (id -> ID .)
+    DOT             reduce using rule 75 (id -> ID .)
+    COMMA           reduce using rule 75 (id -> ID .)
+    SEMIC           reduce using rule 75 (id -> ID .)
+    LPAREN          shift and go to state 75
+    LBRACKET        shift and go to state 22
+
+    array                          shift and go to state 76
+    matrix                         shift and go to state 74
+
+state 40
+
+    (72) array -> LBRACKET expresion . RBRACKET
+    (71) matrix -> LBRACKET expresion . RBRACKET LBRACKET expresion RBRACKET
+
+    RBRACKET        shift and go to state 77
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 41
 
+<<<<<<< HEAD
     (41) write -> PRINT . LPAREN write2 RPAREN SEMIC
 
     LPAREN          shift and go to state 66
+=======
+    (40) exp -> term .
+    (41) exp -> term . PLUS exp
+    (42) exp -> term . MINUS exp
+
+    LESSTHAN        reduce using rule 40 (exp -> term .)
+    GREATERTHAN     reduce using rule 40 (exp -> term .)
+    BETWEEN         reduce using rule 40 (exp -> term .)
+    RBRACKET        reduce using rule 40 (exp -> term .)
+    RPAREN          reduce using rule 40 (exp -> term .)
+    DOT             reduce using rule 40 (exp -> term .)
+    COMMA           reduce using rule 40 (exp -> term .)
+    SEMIC           reduce using rule 40 (exp -> term .)
+    PLUS            shift and go to state 78
+    MINUS           shift and go to state 79
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 42
 
+<<<<<<< HEAD
     (53) loop -> for .
 
     ID              reduce using rule 53 (loop -> for .)
@@ -645,10 +1346,27 @@ state 42
     RBRACKET        reduce using rule 53 (loop -> for .)
     SEMIC           reduce using rule 53 (loop -> for .)
     ELSE            reduce using rule 53 (loop -> for .)
+=======
+    (4) constant -> CTEBOOL .
+
+    STAR            reduce using rule 4 (constant -> CTEBOOL .)
+    SLASH           reduce using rule 4 (constant -> CTEBOOL .)
+    PLUS            reduce using rule 4 (constant -> CTEBOOL .)
+    MINUS           reduce using rule 4 (constant -> CTEBOOL .)
+    LESSTHAN        reduce using rule 4 (constant -> CTEBOOL .)
+    GREATERTHAN     reduce using rule 4 (constant -> CTEBOOL .)
+    BETWEEN         reduce using rule 4 (constant -> CTEBOOL .)
+    RBRACKET        reduce using rule 4 (constant -> CTEBOOL .)
+    RPAREN          reduce using rule 4 (constant -> CTEBOOL .)
+    DOT             reduce using rule 4 (constant -> CTEBOOL .)
+    COMMA           reduce using rule 4 (constant -> CTEBOOL .)
+    SEMIC           reduce using rule 4 (constant -> CTEBOOL .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 43
 
+<<<<<<< HEAD
     (50) statement -> optimize .
 
     ID              reduce using rule 50 (statement -> optimize .)
@@ -662,10 +1380,27 @@ state 43
     RBRACKET        reduce using rule 50 (statement -> optimize .)
     SEMIC           reduce using rule 50 (statement -> optimize .)
     ELSE            reduce using rule 50 (statement -> optimize .)
+=======
+    (2) constant -> CTEF .
+
+    STAR            reduce using rule 2 (constant -> CTEF .)
+    SLASH           reduce using rule 2 (constant -> CTEF .)
+    PLUS            reduce using rule 2 (constant -> CTEF .)
+    MINUS           reduce using rule 2 (constant -> CTEF .)
+    LESSTHAN        reduce using rule 2 (constant -> CTEF .)
+    GREATERTHAN     reduce using rule 2 (constant -> CTEF .)
+    BETWEEN         reduce using rule 2 (constant -> CTEF .)
+    RBRACKET        reduce using rule 2 (constant -> CTEF .)
+    RPAREN          reduce using rule 2 (constant -> CTEF .)
+    DOT             reduce using rule 2 (constant -> CTEF .)
+    COMMA           reduce using rule 2 (constant -> CTEF .)
+    SEMIC           reduce using rule 2 (constant -> CTEF .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 44
 
+<<<<<<< HEAD
     (49) statement -> write .
 
     ID              reduce using rule 49 (statement -> write .)
@@ -679,10 +1414,26 @@ state 44
     RBRACKET        reduce using rule 49 (statement -> write .)
     SEMIC           reduce using rule 49 (statement -> write .)
     ELSE            reduce using rule 49 (statement -> write .)
+=======
+    (36) expresion -> exp .
+    (37) expresion -> exp . LESSTHAN exp
+    (38) expresion -> exp . GREATERTHAN exp
+    (39) expresion -> exp . BETWEEN exp
+
+    COMMA           reduce using rule 36 (expresion -> exp .)
+    SEMIC           reduce using rule 36 (expresion -> exp .)
+    DOT             reduce using rule 36 (expresion -> exp .)
+    RPAREN          reduce using rule 36 (expresion -> exp .)
+    RBRACKET        reduce using rule 36 (expresion -> exp .)
+    LESSTHAN        shift and go to state 80
+    GREATERTHAN     shift and go to state 81
+    BETWEEN         shift and go to state 82
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 45
 
+<<<<<<< HEAD
     (62) block2 -> statement . block2
     (63) block2 -> statement .
     (62) block2 -> . statement block2
@@ -722,6 +1473,22 @@ state 45
   ! RCURLY          [ reduce using rule 88 (empty -> .) ]
   ! SEMIC           [ reduce using rule 88 (empty -> .) ]
   ! ELSE            [ reduce using rule 88 (empty -> .) ]
+=======
+    (1) constant -> CTEI .
+
+    STAR            reduce using rule 1 (constant -> CTEI .)
+    SLASH           reduce using rule 1 (constant -> CTEI .)
+    PLUS            reduce using rule 1 (constant -> CTEI .)
+    MINUS           reduce using rule 1 (constant -> CTEI .)
+    LESSTHAN        reduce using rule 1 (constant -> CTEI .)
+    GREATERTHAN     reduce using rule 1 (constant -> CTEI .)
+    BETWEEN         reduce using rule 1 (constant -> CTEI .)
+    RBRACKET        reduce using rule 1 (constant -> CTEI .)
+    RPAREN          reduce using rule 1 (constant -> CTEI .)
+    DOT             reduce using rule 1 (constant -> CTEI .)
+    COMMA           reduce using rule 1 (constant -> CTEI .)
+    SEMIC           reduce using rule 1 (constant -> CTEI .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
     return                         shift and go to state 47
     block2                         shift and go to state 67
@@ -736,15 +1503,33 @@ state 45
 
 state 46
 
+<<<<<<< HEAD
     (64) block2 -> empty .
 
     SEMIC           reduce using rule 64 (block2 -> empty .)
     ELSE            reduce using rule 64 (block2 -> empty .)
     RCURLY          reduce using rule 64 (block2 -> empty .)
+=======
+    (3) constant -> CTESTRING .
+
+    STAR            reduce using rule 3 (constant -> CTESTRING .)
+    SLASH           reduce using rule 3 (constant -> CTESTRING .)
+    PLUS            reduce using rule 3 (constant -> CTESTRING .)
+    MINUS           reduce using rule 3 (constant -> CTESTRING .)
+    LESSTHAN        reduce using rule 3 (constant -> CTESTRING .)
+    GREATERTHAN     reduce using rule 3 (constant -> CTESTRING .)
+    BETWEEN         reduce using rule 3 (constant -> CTESTRING .)
+    RBRACKET        reduce using rule 3 (constant -> CTESTRING .)
+    RPAREN          reduce using rule 3 (constant -> CTESTRING .)
+    DOT             reduce using rule 3 (constant -> CTESTRING .)
+    COMMA           reduce using rule 3 (constant -> CTESTRING .)
+    SEMIC           reduce using rule 3 (constant -> CTESTRING .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 47
 
+<<<<<<< HEAD
     (52) statement -> return .
 
     ID              reduce using rule 52 (statement -> return .)
@@ -758,24 +1543,55 @@ state 47
     RBRACKET        reduce using rule 52 (statement -> return .)
     SEMIC           reduce using rule 52 (statement -> return .)
     ELSE            reduce using rule 52 (statement -> return .)
+=======
+    (81) listofids -> ID . lid
+    (79) lid -> . COMMA listofids
+    (80) lid -> . empty
+    (93) empty -> .
 
+    COMMA           shift and go to state 85
+    SEMIC           reduce using rule 93 (empty -> .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
+
+    lid                            shift and go to state 83
+    empty                          shift and go to state 84
 
 state 48
 
+<<<<<<< HEAD
     (20) for -> FOR . ID IN DOT ID LBRACKET statement RBRACKET
 
     ID              shift and go to state 68
+=======
+    (84) listofvars -> declaracion POINTS listofids . SEMIC lvars
+
+    SEMIC           shift and go to state 86
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 49
 
+<<<<<<< HEAD
     (46) asign -> ID . EQUALS expresion SEMIC
 
     EQUALS          shift and go to state 69
+=======
+    (85) varsdata -> vars data .
+
+    ID              reduce using rule 85 (varsdata -> vars data .)
+    IF              reduce using rule 85 (varsdata -> vars data .)
+    PRINT           reduce using rule 85 (varsdata -> vars data .)
+    MIN             reduce using rule 85 (varsdata -> vars data .)
+    MAX             reduce using rule 85 (varsdata -> vars data .)
+    FOR             reduce using rule 85 (varsdata -> vars data .)
+    RETURN          reduce using rule 85 (varsdata -> vars data .)
+    RCURLY          reduce using rule 85 (varsdata -> vars data .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 50
 
+<<<<<<< HEAD
     (48) statement -> condition .
 
     ID              reduce using rule 48 (statement -> condition .)
@@ -789,25 +1605,45 @@ state 50
     RBRACKET        reduce using rule 48 (statement -> condition .)
     SEMIC           reduce using rule 48 (statement -> condition .)
     ELSE            reduce using rule 48 (statement -> condition .)
+=======
+    (10) data -> DATA . LCURLY asignmany RCURLY
+
+    LCURLY          shift and go to state 87
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 51
 
+<<<<<<< HEAD
     (32) condition -> IF . LPAREN expresion RPAREN block SEMIC
     (33) condition -> IF . LPAREN expresion RPAREN block ELSE block SEMIC
 
     LPAREN          shift and go to state 70
+=======
+    (56) return -> RETURN . asign
+    (48) asign -> . ID EQUALS expresiones SEMIC
 
+    ID              shift and go to state 62
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
+
+    asign                          shift and go to state 88
 
 state 52
 
+<<<<<<< HEAD
     (16) optimize -> MAX . EQUALS restrictions
 
     EQUALS          shift and go to state 71
+=======
+    (92) program -> declarevars declarefunc MODEL LCURLY varsdata block2 . RCURLY
+
+    RCURLY          shift and go to state 89
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 53
 
+<<<<<<< HEAD
     (47) statement -> asign .
 
     ID              reduce using rule 47 (statement -> asign .)
@@ -821,10 +1657,16 @@ state 53
     RBRACKET        reduce using rule 47 (statement -> asign .)
     SEMIC           reduce using rule 47 (statement -> asign .)
     ELSE            reduce using rule 47 (statement -> asign .)
+=======
+    (15) optimize -> MIN . EQUALS statement
+
+    EQUALS          shift and go to state 90
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 54
 
+<<<<<<< HEAD
     (51) statement -> loop .
 
     ID              reduce using rule 51 (statement -> loop .)
@@ -838,10 +1680,16 @@ state 54
     RBRACKET        reduce using rule 51 (statement -> loop .)
     SEMIC           reduce using rule 51 (statement -> loop .)
     ELSE            reduce using rule 51 (statement -> loop .)
+=======
+    (43) write -> PRINT . LPAREN write2 RPAREN SEMIC
+
+    LPAREN          shift and go to state 91
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 55
 
+<<<<<<< HEAD
     (57) manyargs -> tipo ID . liargs
     (58) liargs -> . empty
     (59) liargs -> . COMMA manyargs
@@ -849,26 +1697,71 @@ state 55
 
     COMMA           shift and go to state 73
     RPAREN          reduce using rule 88 (empty -> .)
+=======
+    (53) statement -> for .
+
+    ID              reduce using rule 53 (statement -> for .)
+    IF              reduce using rule 53 (statement -> for .)
+    PRINT           reduce using rule 53 (statement -> for .)
+    MIN             reduce using rule 53 (statement -> for .)
+    MAX             reduce using rule 53 (statement -> for .)
+    FOR             reduce using rule 53 (statement -> for .)
+    RETURN          reduce using rule 53 (statement -> for .)
+    RCURLY          reduce using rule 53 (statement -> for .)
+    SEMIC           reduce using rule 53 (statement -> for .)
+    ELSE            reduce using rule 53 (statement -> for .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
     liargs                         shift and go to state 72
     empty                          shift and go to state 74
 
 state 56
 
+<<<<<<< HEAD
     (55) function -> FUNC ID LPAREN manyargs RPAREN . LCURLY varsdata block2 RCURLY
 
     LCURLY          shift and go to state 75
+=======
+    (52) statement -> optimize .
+
+    ID              reduce using rule 52 (statement -> optimize .)
+    IF              reduce using rule 52 (statement -> optimize .)
+    PRINT           reduce using rule 52 (statement -> optimize .)
+    MIN             reduce using rule 52 (statement -> optimize .)
+    MAX             reduce using rule 52 (statement -> optimize .)
+    FOR             reduce using rule 52 (statement -> optimize .)
+    RETURN          reduce using rule 52 (statement -> optimize .)
+    RCURLY          reduce using rule 52 (statement -> optimize .)
+    SEMIC           reduce using rule 52 (statement -> optimize .)
+    ELSE            reduce using rule 52 (statement -> optimize .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 57
 
+<<<<<<< HEAD
     (69) matrix -> LBRACKET CTEI RBRACKET LBRACKET . CTEI RBRACKET
 
     CTEI            shift and go to state 76
+=======
+    (51) statement -> write .
+
+    ID              reduce using rule 51 (statement -> write .)
+    IF              reduce using rule 51 (statement -> write .)
+    PRINT           reduce using rule 51 (statement -> write .)
+    MIN             reduce using rule 51 (statement -> write .)
+    MAX             reduce using rule 51 (statement -> write .)
+    FOR             reduce using rule 51 (statement -> write .)
+    RETURN          reduce using rule 51 (statement -> write .)
+    RCURLY          reduce using rule 51 (statement -> write .)
+    SEMIC           reduce using rule 51 (statement -> write .)
+    ELSE            reduce using rule 51 (statement -> write .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 58
 
+<<<<<<< HEAD
     (79) listofvars -> declaracion POINTS listofids SEMIC .
 
     RCURLY          reduce using rule 79 (listofvars -> declaracion POINTS listofids SEMIC .)
@@ -879,38 +1772,124 @@ state 59
     (76) listofids -> ID lid .
 
     SEMIC           reduce using rule 76 (listofids -> ID lid .)
+=======
+    (64) block2 -> statement . block2
+    (65) block2 -> statement .
+    (64) block2 -> . statement block2
+    (65) block2 -> . statement
+    (66) block2 -> . empty
+    (49) statement -> . asign
+    (50) statement -> . condition
+    (51) statement -> . write
+    (52) statement -> . optimize
+    (53) statement -> . for
+    (54) statement -> . return
+    (93) empty -> .
+    (48) asign -> . ID EQUALS expresiones SEMIC
+    (32) condition -> . IF LPAREN expresion RPAREN block SEMIC
+    (33) condition -> . IF LPAREN expresion RPAREN block ELSE block SEMIC
+    (43) write -> . PRINT LPAREN write2 RPAREN SEMIC
+    (15) optimize -> . MIN EQUALS statement
+    (16) optimize -> . MAX EQUALS statement
+    (20) for -> . FOR ID IN DOT ID LCURLY block2 RCURLY
+    (56) return -> . RETURN asign
+
+  ! reduce/reduce conflict for RCURLY resolved using rule 65 (block2 -> statement .)
+  ! reduce/reduce conflict for SEMIC resolved using rule 65 (block2 -> statement .)
+  ! reduce/reduce conflict for ELSE resolved using rule 65 (block2 -> statement .)
+    RCURLY          reduce using rule 65 (block2 -> statement .)
+    SEMIC           reduce using rule 65 (block2 -> statement .)
+    ELSE            reduce using rule 65 (block2 -> statement .)
+    ID              shift and go to state 62
+    IF              shift and go to state 64
+    PRINT           shift and go to state 54
+    MIN             shift and go to state 53
+    MAX             shift and go to state 65
+    FOR             shift and go to state 61
+    RETURN          shift and go to state 51
+
+  ! RCURLY          [ reduce using rule 93 (empty -> .) ]
+  ! SEMIC           [ reduce using rule 93 (empty -> .) ]
+  ! ELSE            [ reduce using rule 93 (empty -> .) ]
+
+    return                         shift and go to state 60
+    block2                         shift and go to state 92
+    for                            shift and go to state 55
+    asign                          shift and go to state 66
+    write                          shift and go to state 57
+    condition                      shift and go to state 63
+    statement                      shift and go to state 58
+    optimize                       shift and go to state 56
+    empty                          shift and go to state 59
+
+state 59
+
+    (66) block2 -> empty .
+
+    RCURLY          reduce using rule 66 (block2 -> empty .)
+    SEMIC           reduce using rule 66 (block2 -> empty .)
+    ELSE            reduce using rule 66 (block2 -> empty .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 60
 
+<<<<<<< HEAD
     (75) lid -> empty .
 
     SEMIC           reduce using rule 75 (lid -> empty .)
+=======
+    (54) statement -> return .
+
+    ID              reduce using rule 54 (statement -> return .)
+    IF              reduce using rule 54 (statement -> return .)
+    PRINT           reduce using rule 54 (statement -> return .)
+    MIN             reduce using rule 54 (statement -> return .)
+    MAX             reduce using rule 54 (statement -> return .)
+    FOR             reduce using rule 54 (statement -> return .)
+    RETURN          reduce using rule 54 (statement -> return .)
+    RCURLY          reduce using rule 54 (statement -> return .)
+    SEMIC           reduce using rule 54 (statement -> return .)
+    ELSE            reduce using rule 54 (statement -> return .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 61
 
+<<<<<<< HEAD
     (74) lid -> COMMA . listofids
     (76) listofids -> . ID lid
 
     ID              shift and go to state 35
+=======
+    (20) for -> FOR . ID IN DOT ID LCURLY block2 RCURLY
+
+    ID              shift and go to state 93
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
     listofids                      shift and go to state 77
 
 state 62
 
+<<<<<<< HEAD
     (10) data -> DATA LCURLY . asignmany RCURLY
     (11) asignmany -> . asign SEMIC asignlist
     (12) asignmany -> . asign
     (46) asign -> . ID EQUALS expresion SEMIC
 
     ID              shift and go to state 49
+=======
+    (48) asign -> ID . EQUALS expresiones SEMIC
+
+    EQUALS          shift and go to state 94
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
     asignmany                      shift and go to state 78
     asign                          shift and go to state 79
 
 state 63
 
+<<<<<<< HEAD
     (54) return -> RETURN asign .
 
     ID              reduce using rule 54 (return -> RETURN asign .)
@@ -924,26 +1903,71 @@ state 63
     RCURLY          reduce using rule 54 (return -> RETURN asign .)
     ELSE            reduce using rule 54 (return -> RETURN asign .)
     RBRACKET        reduce using rule 54 (return -> RETURN asign .)
+=======
+    (50) statement -> condition .
+
+    ID              reduce using rule 50 (statement -> condition .)
+    IF              reduce using rule 50 (statement -> condition .)
+    PRINT           reduce using rule 50 (statement -> condition .)
+    MIN             reduce using rule 50 (statement -> condition .)
+    MAX             reduce using rule 50 (statement -> condition .)
+    FOR             reduce using rule 50 (statement -> condition .)
+    RETURN          reduce using rule 50 (statement -> condition .)
+    RCURLY          reduce using rule 50 (statement -> condition .)
+    SEMIC           reduce using rule 50 (statement -> condition .)
+    ELSE            reduce using rule 50 (statement -> condition .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 64
 
+<<<<<<< HEAD
     (87) program -> declarevars declarefunc MODEL LCURLY varsdata block2 RCURLY .
 
     $end            reduce using rule 87 (program -> declarevars declarefunc MODEL LCURLY varsdata block2 RCURLY .)
+=======
+    (32) condition -> IF . LPAREN expresion RPAREN block SEMIC
+    (33) condition -> IF . LPAREN expresion RPAREN block ELSE block SEMIC
+
+    LPAREN          shift and go to state 95
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 65
 
+<<<<<<< HEAD
     (15) optimize -> MIN EQUALS . restrictions
     (17) restrictions -> . WHERE restrictions2
+=======
+    (16) optimize -> MAX . EQUALS statement
 
-    WHERE           shift and go to state 81
+    EQUALS          shift and go to state 96
 
-    restrictions                   shift and go to state 80
 
 state 66
 
+    (49) statement -> asign .
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
+
+    ID              reduce using rule 49 (statement -> asign .)
+    IF              reduce using rule 49 (statement -> asign .)
+    PRINT           reduce using rule 49 (statement -> asign .)
+    MIN             reduce using rule 49 (statement -> asign .)
+    MAX             reduce using rule 49 (statement -> asign .)
+    FOR             reduce using rule 49 (statement -> asign .)
+    RETURN          reduce using rule 49 (statement -> asign .)
+    RCURLY          reduce using rule 49 (statement -> asign .)
+    SEMIC           reduce using rule 49 (statement -> asign .)
+    ELSE            reduce using rule 49 (statement -> asign .)
+
+<<<<<<< HEAD
+    restrictions                   shift and go to state 80
+=======
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
+
+state 66
+
+<<<<<<< HEAD
     (41) write -> PRINT LPAREN . write2 RPAREN SEMIC
     (42) write2 -> . expresion
     (43) write2 -> . CTESTRING
@@ -989,25 +2013,50 @@ state 66
     functioncall                   shift and go to state 87
     exp                            shift and go to state 95
     factor                         shift and go to state 86
+=======
+    (59) manyargs -> tipo ID . liargs
+    (60) liargs -> . empty
+    (61) liargs -> . COMMA manyargs
+    (93) empty -> .
+
+    COMMA           shift and go to state 98
+    RPAREN          reduce using rule 93 (empty -> .)
+
+    liargs                         shift and go to state 97
+    empty                          shift and go to state 99
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 state 67
 
+<<<<<<< HEAD
     (62) block2 -> statement block2 .
 
     SEMIC           reduce using rule 62 (block2 -> statement block2 .)
     ELSE            reduce using rule 62 (block2 -> statement block2 .)
     RCURLY          reduce using rule 62 (block2 -> statement block2 .)
+=======
+    (57) function -> FUNC ID LPAREN manyargs RPAREN . LCURLY varsdata block2 RCURLY
+
+    LCURLY          shift and go to state 100
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 68
 
+<<<<<<< HEAD
     (20) for -> FOR ID . IN DOT ID LBRACKET statement RBRACKET
 
     IN              shift and go to state 97
+=======
+    (28) factor -> LPAREN expresion . RPAREN
+
+    RPAREN          shift and go to state 101
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 69
 
+<<<<<<< HEAD
     (46) asign -> ID EQUALS . expresion SEMIC
     (34) expresion -> . exp
     (35) expresion -> . exp LESSTHAN exp
@@ -1085,6 +2134,40 @@ state 70
     CTESTRING       shift and go to state 99
     CTEBOOL         shift and go to state 92
     ID              shift and go to state 89
+=======
+    (26) factor -> MINUS constant .
+
+    STAR            reduce using rule 26 (factor -> MINUS constant .)
+    SLASH           reduce using rule 26 (factor -> MINUS constant .)
+    PLUS            reduce using rule 26 (factor -> MINUS constant .)
+    MINUS           reduce using rule 26 (factor -> MINUS constant .)
+    LESSTHAN        reduce using rule 26 (factor -> MINUS constant .)
+    GREATERTHAN     reduce using rule 26 (factor -> MINUS constant .)
+    BETWEEN         reduce using rule 26 (factor -> MINUS constant .)
+    RBRACKET        reduce using rule 26 (factor -> MINUS constant .)
+    RPAREN          reduce using rule 26 (factor -> MINUS constant .)
+    DOT             reduce using rule 26 (factor -> MINUS constant .)
+    COMMA           reduce using rule 26 (factor -> MINUS constant .)
+    SEMIC           reduce using rule 26 (factor -> MINUS constant .)
+
+
+state 71
+
+    (25) factor -> PLUS constant .
+
+    STAR            reduce using rule 25 (factor -> PLUS constant .)
+    SLASH           reduce using rule 25 (factor -> PLUS constant .)
+    PLUS            reduce using rule 25 (factor -> PLUS constant .)
+    MINUS           reduce using rule 25 (factor -> PLUS constant .)
+    LESSTHAN        reduce using rule 25 (factor -> PLUS constant .)
+    GREATERTHAN     reduce using rule 25 (factor -> PLUS constant .)
+    BETWEEN         reduce using rule 25 (factor -> PLUS constant .)
+    RBRACKET        reduce using rule 25 (factor -> PLUS constant .)
+    RPAREN          reduce using rule 25 (factor -> PLUS constant .)
+    DOT             reduce using rule 25 (factor -> PLUS constant .)
+    COMMA           reduce using rule 25 (factor -> PLUS constant .)
+    SEMIC           reduce using rule 25 (factor -> PLUS constant .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
     expresion                      shift and go to state 100
     term                           shift and go to state 91
@@ -1093,24 +2176,120 @@ state 70
     exp                            shift and go to state 95
     factor                         shift and go to state 86
 
+<<<<<<< HEAD
 state 71
 
     (16) optimize -> MAX EQUALS . restrictions
     (17) restrictions -> . WHERE restrictions2
+=======
+state 72
 
-    WHERE           shift and go to state 81
+    (30) term -> factor STAR . term
+    (29) term -> . factor
+    (30) term -> . factor STAR term
+    (31) term -> . factor SLASH term
+    (25) factor -> . PLUS constant
+    (26) factor -> . MINUS constant
+    (27) factor -> . constant
+    (28) factor -> . LPAREN expresion RPAREN
+    (1) constant -> . CTEI
+    (2) constant -> . CTEF
+    (3) constant -> . CTESTRING
+    (4) constant -> . CTEBOOL
+    (5) constant -> . id
+    (6) constant -> . functioncall
+    (73) id -> . ID array
+    (74) id -> . ID matrix
+    (75) id -> . ID
+    (7) functioncall -> . ID LPAREN expresion RPAREN
+    (8) functioncall -> . ID LPAREN CTEI RPAREN
+    (9) functioncall -> . ID LPAREN CTEF RPAREN
 
+    PLUS            shift and go to state 36
+    MINUS           shift and go to state 35
+    LPAREN          shift and go to state 32
+    CTEI            shift and go to state 45
+    CTEF            shift and go to state 43
+    CTESTRING       shift and go to state 46
+    CTEBOOL         shift and go to state 42
+    ID              shift and go to state 39
+
+    term                           shift and go to state 102
+    constant                       shift and go to state 33
+    functioncall                   shift and go to state 38
+    factor                         shift and go to state 37
+    id                             shift and go to state 34
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
+
+state 73
+
+<<<<<<< HEAD
     restrictions                   shift and go to state 101
+=======
+    (31) term -> factor SLASH . term
+    (29) term -> . factor
+    (30) term -> . factor STAR term
+    (31) term -> . factor SLASH term
+    (25) factor -> . PLUS constant
+    (26) factor -> . MINUS constant
+    (27) factor -> . constant
+    (28) factor -> . LPAREN expresion RPAREN
+    (1) constant -> . CTEI
+    (2) constant -> . CTEF
+    (3) constant -> . CTESTRING
+    (4) constant -> . CTEBOOL
+    (5) constant -> . id
+    (6) constant -> . functioncall
+    (73) id -> . ID array
+    (74) id -> . ID matrix
+    (75) id -> . ID
+    (7) functioncall -> . ID LPAREN expresion RPAREN
+    (8) functioncall -> . ID LPAREN CTEI RPAREN
+    (9) functioncall -> . ID LPAREN CTEF RPAREN
+
+    PLUS            shift and go to state 36
+    MINUS           shift and go to state 35
+    LPAREN          shift and go to state 32
+    CTEI            shift and go to state 45
+    CTEF            shift and go to state 43
+    CTESTRING       shift and go to state 46
+    CTEBOOL         shift and go to state 42
+    ID              shift and go to state 39
+
+    term                           shift and go to state 103
+    constant                       shift and go to state 33
+    functioncall                   shift and go to state 38
+    factor                         shift and go to state 37
+    id                             shift and go to state 34
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 state 72
 
+<<<<<<< HEAD
     (57) manyargs -> tipo ID liargs .
 
     RPAREN          reduce using rule 57 (manyargs -> tipo ID liargs .)
+=======
+    (74) id -> ID matrix .
+
+    STAR            reduce using rule 74 (id -> ID matrix .)
+    SLASH           reduce using rule 74 (id -> ID matrix .)
+    PLUS            reduce using rule 74 (id -> ID matrix .)
+    MINUS           reduce using rule 74 (id -> ID matrix .)
+    LESSTHAN        reduce using rule 74 (id -> ID matrix .)
+    GREATERTHAN     reduce using rule 74 (id -> ID matrix .)
+    BETWEEN         reduce using rule 74 (id -> ID matrix .)
+    RBRACKET        reduce using rule 74 (id -> ID matrix .)
+    RPAREN          reduce using rule 74 (id -> ID matrix .)
+    DOT             reduce using rule 74 (id -> ID matrix .)
+    COMMA           reduce using rule 74 (id -> ID matrix .)
+    SEMIC           reduce using rule 74 (id -> ID matrix .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 73
 
+<<<<<<< HEAD
     (59) liargs -> COMMA . manyargs
     (56) manyargs -> . empty
     (57) manyargs -> . tipo ID liargs
@@ -1127,16 +2306,76 @@ state 73
     empty                          shift and go to state 32
     manyargs                       shift and go to state 102
     tipo                           shift and go to state 30
+=======
+    (7) functioncall -> ID LPAREN . expresion RPAREN
+    (8) functioncall -> ID LPAREN . CTEI RPAREN
+    (9) functioncall -> ID LPAREN . CTEF RPAREN
+    (36) expresion -> . exp
+    (37) expresion -> . exp LESSTHAN exp
+    (38) expresion -> . exp GREATERTHAN exp
+    (39) expresion -> . exp BETWEEN exp
+    (40) exp -> . term
+    (41) exp -> . term PLUS exp
+    (42) exp -> . term MINUS exp
+    (29) term -> . factor
+    (30) term -> . factor STAR term
+    (31) term -> . factor SLASH term
+    (25) factor -> . PLUS constant
+    (26) factor -> . MINUS constant
+    (27) factor -> . constant
+    (28) factor -> . LPAREN expresion RPAREN
+    (1) constant -> . CTEI
+    (2) constant -> . CTEF
+    (3) constant -> . CTESTRING
+    (4) constant -> . CTEBOOL
+    (5) constant -> . id
+    (6) constant -> . functioncall
+    (73) id -> . ID array
+    (74) id -> . ID matrix
+    (75) id -> . ID
+    (7) functioncall -> . ID LPAREN expresion RPAREN
+    (8) functioncall -> . ID LPAREN CTEI RPAREN
+    (9) functioncall -> . ID LPAREN CTEF RPAREN
+
+    CTEI            shift and go to state 106
+    CTEF            shift and go to state 104
+    PLUS            shift and go to state 36
+    MINUS           shift and go to state 35
+    LPAREN          shift and go to state 32
+    CTESTRING       shift and go to state 46
+    CTEBOOL         shift and go to state 42
+    ID              shift and go to state 39
+
+    expresion                      shift and go to state 105
+    term                           shift and go to state 41
+    constant                       shift and go to state 33
+    functioncall                   shift and go to state 38
+    exp                            shift and go to state 44
+    factor                         shift and go to state 37
+    id                             shift and go to state 34
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 state 74
 
-    (58) liargs -> empty .
+    (73) id -> ID array .
 
-    RPAREN          reduce using rule 58 (liargs -> empty .)
+    STAR            reduce using rule 73 (id -> ID array .)
+    SLASH           reduce using rule 73 (id -> ID array .)
+    PLUS            reduce using rule 73 (id -> ID array .)
+    MINUS           reduce using rule 73 (id -> ID array .)
+    LESSTHAN        reduce using rule 73 (id -> ID array .)
+    GREATERTHAN     reduce using rule 73 (id -> ID array .)
+    BETWEEN         reduce using rule 73 (id -> ID array .)
+    RBRACKET        reduce using rule 73 (id -> ID array .)
+    RPAREN          reduce using rule 73 (id -> ID array .)
+    DOT             reduce using rule 73 (id -> ID array .)
+    COMMA           reduce using rule 73 (id -> ID array .)
+    SEMIC           reduce using rule 73 (id -> ID array .)
 
 
 state 75
 
+<<<<<<< HEAD
     (55) function -> FUNC ID LPAREN manyargs RPAREN LCURLY . varsdata block2 RCURLY
     (80) varsdata -> . vars data
     (81) varsdata -> . empty
@@ -1177,10 +2416,72 @@ state 78
     (10) data -> DATA LCURLY asignmany . RCURLY
 
     RCURLY          shift and go to state 105
+=======
+    (72) array -> LBRACKET expresion RBRACKET .
+    (71) matrix -> LBRACKET expresion RBRACKET . LBRACKET expresion RBRACKET
 
+    STAR            reduce using rule 72 (array -> LBRACKET expresion RBRACKET .)
+    SLASH           reduce using rule 72 (array -> LBRACKET expresion RBRACKET .)
+    PLUS            reduce using rule 72 (array -> LBRACKET expresion RBRACKET .)
+    MINUS           reduce using rule 72 (array -> LBRACKET expresion RBRACKET .)
+    LESSTHAN        reduce using rule 72 (array -> LBRACKET expresion RBRACKET .)
+    GREATERTHAN     reduce using rule 72 (array -> LBRACKET expresion RBRACKET .)
+    BETWEEN         reduce using rule 72 (array -> LBRACKET expresion RBRACKET .)
+    RBRACKET        reduce using rule 72 (array -> LBRACKET expresion RBRACKET .)
+    RPAREN          reduce using rule 72 (array -> LBRACKET expresion RBRACKET .)
+    DOT             reduce using rule 72 (array -> LBRACKET expresion RBRACKET .)
+    COMMA           reduce using rule 72 (array -> LBRACKET expresion RBRACKET .)
+    SEMIC           reduce using rule 72 (array -> LBRACKET expresion RBRACKET .)
+    POINTS          reduce using rule 72 (array -> LBRACKET expresion RBRACKET .)
+    LBRACKET        shift and go to state 107
+
+
+state 78
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
+
+    (41) exp -> term PLUS . exp
+    (40) exp -> . term
+    (41) exp -> . term PLUS exp
+    (42) exp -> . term MINUS exp
+    (29) term -> . factor
+    (30) term -> . factor STAR term
+    (31) term -> . factor SLASH term
+    (25) factor -> . PLUS constant
+    (26) factor -> . MINUS constant
+    (27) factor -> . constant
+    (28) factor -> . LPAREN expresion RPAREN
+    (1) constant -> . CTEI
+    (2) constant -> . CTEF
+    (3) constant -> . CTESTRING
+    (4) constant -> . CTEBOOL
+    (5) constant -> . id
+    (6) constant -> . functioncall
+    (73) id -> . ID array
+    (74) id -> . ID matrix
+    (75) id -> . ID
+    (7) functioncall -> . ID LPAREN expresion RPAREN
+    (8) functioncall -> . ID LPAREN CTEI RPAREN
+    (9) functioncall -> . ID LPAREN CTEF RPAREN
+
+    PLUS            shift and go to state 36
+    MINUS           shift and go to state 35
+    LPAREN          shift and go to state 32
+    CTEI            shift and go to state 45
+    CTEF            shift and go to state 43
+    CTESTRING       shift and go to state 46
+    CTEBOOL         shift and go to state 42
+    ID              shift and go to state 39
+
+    term                           shift and go to state 41
+    constant                       shift and go to state 33
+    functioncall                   shift and go to state 38
+    exp                            shift and go to state 108
+    factor                         shift and go to state 37
+    id                             shift and go to state 34
 
 state 79
 
+<<<<<<< HEAD
     (11) asignmany -> asign . SEMIC asignlist
     (12) asignmany -> asign .
 
@@ -1218,6 +2519,11 @@ state 81
     (38) exp -> . term
     (39) exp -> . term PLUS exp
     (40) exp -> . term MINUS exp
+=======
+    (42) exp -> term MINUS . exp
+    (40) exp -> . term
+    (41) exp -> . term PLUS exp
+    (42) exp -> . term MINUS exp
     (29) term -> . factor
     (30) term -> . factor STAR term
     (31) term -> . factor SLASH term
@@ -1229,12 +2535,106 @@ state 81
     (2) constant -> . CTEF
     (3) constant -> . CTESTRING
     (4) constant -> . CTEBOOL
-    (5) constant -> . ID
+    (5) constant -> . id
     (6) constant -> . functioncall
+    (73) id -> . ID array
+    (74) id -> . ID matrix
+    (75) id -> . ID
     (7) functioncall -> . ID LPAREN expresion RPAREN
     (8) functioncall -> . ID LPAREN CTEI RPAREN
     (9) functioncall -> . ID LPAREN CTEF RPAREN
 
+    PLUS            shift and go to state 36
+    MINUS           shift and go to state 35
+    LPAREN          shift and go to state 32
+    CTEI            shift and go to state 45
+    CTEF            shift and go to state 43
+    CTESTRING       shift and go to state 46
+    CTEBOOL         shift and go to state 42
+    ID              shift and go to state 39
+
+    term                           shift and go to state 41
+    constant                       shift and go to state 33
+    functioncall                   shift and go to state 38
+    exp                            shift and go to state 109
+    factor                         shift and go to state 37
+    id                             shift and go to state 34
+
+state 80
+
+    (37) expresion -> exp LESSTHAN . exp
+    (40) exp -> . term
+    (41) exp -> . term PLUS exp
+    (42) exp -> . term MINUS exp
+    (29) term -> . factor
+    (30) term -> . factor STAR term
+    (31) term -> . factor SLASH term
+    (25) factor -> . PLUS constant
+    (26) factor -> . MINUS constant
+    (27) factor -> . constant
+    (28) factor -> . LPAREN expresion RPAREN
+    (1) constant -> . CTEI
+    (2) constant -> . CTEF
+    (3) constant -> . CTESTRING
+    (4) constant -> . CTEBOOL
+    (5) constant -> . id
+    (6) constant -> . functioncall
+    (73) id -> . ID array
+    (74) id -> . ID matrix
+    (75) id -> . ID
+    (7) functioncall -> . ID LPAREN expresion RPAREN
+    (8) functioncall -> . ID LPAREN CTEI RPAREN
+    (9) functioncall -> . ID LPAREN CTEF RPAREN
+
+    PLUS            shift and go to state 36
+    MINUS           shift and go to state 35
+    LPAREN          shift and go to state 32
+    CTEI            shift and go to state 45
+    CTEF            shift and go to state 43
+    CTESTRING       shift and go to state 46
+    CTEBOOL         shift and go to state 42
+    ID              shift and go to state 39
+
+    term                           shift and go to state 41
+    constant                       shift and go to state 33
+    functioncall                   shift and go to state 38
+    exp                            shift and go to state 110
+    factor                         shift and go to state 37
+    id                             shift and go to state 34
+
+state 81
+
+    (38) expresion -> exp GREATERTHAN . exp
+    (40) exp -> . term
+    (41) exp -> . term PLUS exp
+    (42) exp -> . term MINUS exp
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
+    (29) term -> . factor
+    (30) term -> . factor STAR term
+    (31) term -> . factor SLASH term
+    (25) factor -> . PLUS constant
+    (26) factor -> . MINUS constant
+    (27) factor -> . constant
+    (28) factor -> . LPAREN expresion RPAREN
+    (1) constant -> . CTEI
+    (2) constant -> . CTEF
+    (3) constant -> . CTESTRING
+    (4) constant -> . CTEBOOL
+<<<<<<< HEAD
+    (5) constant -> . ID
+    (6) constant -> . functioncall
+=======
+    (5) constant -> . id
+    (6) constant -> . functioncall
+    (73) id -> . ID array
+    (74) id -> . ID matrix
+    (75) id -> . ID
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
+    (7) functioncall -> . ID LPAREN expresion RPAREN
+    (8) functioncall -> . ID LPAREN CTEI RPAREN
+    (9) functioncall -> . ID LPAREN CTEF RPAREN
+
+<<<<<<< HEAD
     SUM             shift and go to state 107
     PLUS            shift and go to state 85
     MINUS           shift and go to state 84
@@ -1264,6 +2664,30 @@ state 82
     (38) exp -> . term
     (39) exp -> . term PLUS exp
     (40) exp -> . term MINUS exp
+=======
+    PLUS            shift and go to state 36
+    MINUS           shift and go to state 35
+    LPAREN          shift and go to state 32
+    CTEI            shift and go to state 45
+    CTEF            shift and go to state 43
+    CTESTRING       shift and go to state 46
+    CTEBOOL         shift and go to state 42
+    ID              shift and go to state 39
+
+    term                           shift and go to state 41
+    constant                       shift and go to state 33
+    functioncall                   shift and go to state 38
+    exp                            shift and go to state 111
+    factor                         shift and go to state 37
+    id                             shift and go to state 34
+
+state 82
+
+    (39) expresion -> exp BETWEEN . exp
+    (40) exp -> . term
+    (41) exp -> . term PLUS exp
+    (42) exp -> . term MINUS exp
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
     (29) term -> . factor
     (30) term -> . factor STAR term
     (31) term -> . factor SLASH term
@@ -1275,12 +2699,21 @@ state 82
     (2) constant -> . CTEF
     (3) constant -> . CTESTRING
     (4) constant -> . CTEBOOL
+<<<<<<< HEAD
     (5) constant -> . ID
     (6) constant -> . functioncall
+=======
+    (5) constant -> . id
+    (6) constant -> . functioncall
+    (73) id -> . ID array
+    (74) id -> . ID matrix
+    (75) id -> . ID
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
     (7) functioncall -> . ID LPAREN expresion RPAREN
     (8) functioncall -> . ID LPAREN CTEI RPAREN
     (9) functioncall -> . ID LPAREN CTEF RPAREN
 
+<<<<<<< HEAD
     PLUS            shift and go to state 85
     MINUS           shift and go to state 84
     LPAREN          shift and go to state 82
@@ -1296,9 +2729,34 @@ state 82
     functioncall                   shift and go to state 87
     exp                            shift and go to state 95
     factor                         shift and go to state 86
+=======
+    PLUS            shift and go to state 36
+    MINUS           shift and go to state 35
+    LPAREN          shift and go to state 32
+    CTEI            shift and go to state 45
+    CTEF            shift and go to state 43
+    CTESTRING       shift and go to state 46
+    CTEBOOL         shift and go to state 42
+    ID              shift and go to state 39
+
+    term                           shift and go to state 41
+    constant                       shift and go to state 33
+    functioncall                   shift and go to state 38
+    exp                            shift and go to state 112
+    factor                         shift and go to state 37
+    id                             shift and go to state 34
 
 state 83
 
+    (81) listofids -> ID lid .
+
+    SEMIC           reduce using rule 81 (listofids -> ID lid .)
+
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
+
+state 83
+
+<<<<<<< HEAD
     (43) write2 -> CTESTRING .
     (45) write2 -> CTESTRING . DOT write2
     (3) constant -> CTESTRING .
@@ -1340,9 +2798,25 @@ state 84
 
     functioncall                   shift and go to state 87
     constant                       shift and go to state 113
+=======
+    (80) lid -> empty .
+
+    SEMIC           reduce using rule 80 (lid -> empty .)
+
 
 state 85
 
+    (79) lid -> COMMA . listofids
+    (81) listofids -> . ID lid
+
+    ID              shift and go to state 47
+
+    listofids                      shift and go to state 113
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
+
+state 85
+
+<<<<<<< HEAD
     (25) factor -> PLUS . constant
     (1) constant -> . CTEI
     (2) constant -> . CTEF
@@ -1415,10 +2889,46 @@ state 87
     RCURLY          reduce using rule 6 (constant -> functioncall .)
     ELSE            reduce using rule 6 (constant -> functioncall .)
     RBRACKET        reduce using rule 6 (constant -> functioncall .)
+=======
+    (84) listofvars -> declaracion POINTS listofids SEMIC . lvars
+    (82) lvars -> . listofvars
+    (83) lvars -> . empty
+    (84) listofvars -> . declaracion POINTS listofids SEMIC lvars
+    (93) empty -> .
+    (76) declaracion -> . tipo array
+    (77) declaracion -> . tipo matrix
+    (78) declaracion -> . tipo
+    (67) tipo -> . TINT
+    (68) tipo -> . TFLOAT
+    (69) tipo -> . TBOOL
 
+    RCURLY          reduce using rule 93 (empty -> .)
+    TINT            shift and go to state 13
+    TFLOAT          shift and go to state 17
+    TBOOL           shift and go to state 16
+
+    tipo                           shift and go to state 14
+    listofvars                     shift and go to state 114
+    lvars                          shift and go to state 115
+    declaracion                    shift and go to state 18
+    empty                          shift and go to state 116
+
+state 87
+
+    (10) data -> DATA LCURLY . asignmany RCURLY
+    (11) asignmany -> . asign SEMIC asignlist
+    (12) asignmany -> . asign
+    (48) asign -> . ID EQUALS expresiones SEMIC
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
+
+    ID              shift and go to state 62
+
+    asignmany                      shift and go to state 117
+    asign                          shift and go to state 118
 
 state 88
 
+<<<<<<< HEAD
     (27) factor -> constant .
 
     STAR            reduce using rule 27 (factor -> constant .)
@@ -1442,9 +2952,22 @@ state 88
     GREATERTHAN     reduce using rule 27 (factor -> constant .)
     BETWEEN         reduce using rule 27 (factor -> constant .)
 
+=======
+    (56) return -> RETURN asign .
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
-state 89
+    ID              reduce using rule 56 (return -> RETURN asign .)
+    IF              reduce using rule 56 (return -> RETURN asign .)
+    PRINT           reduce using rule 56 (return -> RETURN asign .)
+    MIN             reduce using rule 56 (return -> RETURN asign .)
+    MAX             reduce using rule 56 (return -> RETURN asign .)
+    FOR             reduce using rule 56 (return -> RETURN asign .)
+    RETURN          reduce using rule 56 (return -> RETURN asign .)
+    RCURLY          reduce using rule 56 (return -> RETURN asign .)
+    SEMIC           reduce using rule 56 (return -> RETURN asign .)
+    ELSE            reduce using rule 56 (return -> RETURN asign .)
 
+<<<<<<< HEAD
     (5) constant -> ID .
     (7) functioncall -> ID . LPAREN expresion RPAREN
     (8) functioncall -> ID . LPAREN CTEI RPAREN
@@ -1471,16 +2994,24 @@ state 89
     ELSE            reduce using rule 5 (constant -> ID .)
     RBRACKET        reduce using rule 5 (constant -> ID .)
     LPAREN          shift and go to state 117
+=======
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
+state 89
 
-state 90
+    (92) program -> declarevars declarefunc MODEL LCURLY varsdata block2 RCURLY .
 
+<<<<<<< HEAD
     (42) write2 -> expresion .
     (44) write2 -> expresion . DOT write2
+=======
+    $end            reduce using rule 92 (program -> declarevars declarefunc MODEL LCURLY varsdata block2 RCURLY .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
     RPAREN          reduce using rule 42 (write2 -> expresion .)
     DOT             shift and go to state 118
 
+<<<<<<< HEAD
 
 state 91
 
@@ -1506,10 +3037,97 @@ state 91
     BETWEEN         reduce using rule 38 (exp -> term .)
     PLUS            shift and go to state 119
     MINUS           shift and go to state 120
+=======
+state 90
 
+    (15) optimize -> MIN EQUALS . statement
+    (49) statement -> . asign
+    (50) statement -> . condition
+    (51) statement -> . write
+    (52) statement -> . optimize
+    (53) statement -> . for
+    (54) statement -> . return
+    (48) asign -> . ID EQUALS expresiones SEMIC
+    (32) condition -> . IF LPAREN expresion RPAREN block SEMIC
+    (33) condition -> . IF LPAREN expresion RPAREN block ELSE block SEMIC
+    (43) write -> . PRINT LPAREN write2 RPAREN SEMIC
+    (15) optimize -> . MIN EQUALS statement
+    (16) optimize -> . MAX EQUALS statement
+    (20) for -> . FOR ID IN DOT ID LCURLY block2 RCURLY
+    (56) return -> . RETURN asign
+
+    ID              shift and go to state 62
+    IF              shift and go to state 64
+    PRINT           shift and go to state 54
+    MIN             shift and go to state 53
+    MAX             shift and go to state 65
+    FOR             shift and go to state 61
+    RETURN          shift and go to state 51
+
+    return                         shift and go to state 60
+    for                            shift and go to state 55
+    asign                          shift and go to state 66
+    write                          shift and go to state 57
+    statement                      shift and go to state 119
+    optimize                       shift and go to state 56
+    condition                      shift and go to state 63
+
+state 91
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
+
+    (43) write -> PRINT LPAREN . write2 RPAREN SEMIC
+    (44) write2 -> . expresion
+    (45) write2 -> . CTESTRING
+    (46) write2 -> . expresion DOT write2
+    (47) write2 -> . CTESTRING DOT write2
+    (36) expresion -> . exp
+    (37) expresion -> . exp LESSTHAN exp
+    (38) expresion -> . exp GREATERTHAN exp
+    (39) expresion -> . exp BETWEEN exp
+    (40) exp -> . term
+    (41) exp -> . term PLUS exp
+    (42) exp -> . term MINUS exp
+    (29) term -> . factor
+    (30) term -> . factor STAR term
+    (31) term -> . factor SLASH term
+    (25) factor -> . PLUS constant
+    (26) factor -> . MINUS constant
+    (27) factor -> . constant
+    (28) factor -> . LPAREN expresion RPAREN
+    (1) constant -> . CTEI
+    (2) constant -> . CTEF
+    (3) constant -> . CTESTRING
+    (4) constant -> . CTEBOOL
+    (5) constant -> . id
+    (6) constant -> . functioncall
+    (73) id -> . ID array
+    (74) id -> . ID matrix
+    (75) id -> . ID
+    (7) functioncall -> . ID LPAREN expresion RPAREN
+    (8) functioncall -> . ID LPAREN CTEI RPAREN
+    (9) functioncall -> . ID LPAREN CTEF RPAREN
+
+    CTESTRING       shift and go to state 120
+    PLUS            shift and go to state 36
+    MINUS           shift and go to state 35
+    LPAREN          shift and go to state 32
+    CTEI            shift and go to state 45
+    CTEF            shift and go to state 43
+    CTEBOOL         shift and go to state 42
+    ID              shift and go to state 39
+
+    expresion                      shift and go to state 121
+    term                           shift and go to state 41
+    constant                       shift and go to state 33
+    write2                         shift and go to state 122
+    functioncall                   shift and go to state 38
+    exp                            shift and go to state 44
+    factor                         shift and go to state 37
+    id                             shift and go to state 34
 
 state 92
 
+<<<<<<< HEAD
     (4) constant -> CTEBOOL .
 
     STAR            reduce using rule 4 (constant -> CTEBOOL .)
@@ -1532,17 +3150,31 @@ state 92
     RCURLY          reduce using rule 4 (constant -> CTEBOOL .)
     ELSE            reduce using rule 4 (constant -> CTEBOOL .)
     RBRACKET        reduce using rule 4 (constant -> CTEBOOL .)
+=======
+    (64) block2 -> statement block2 .
+
+    RCURLY          reduce using rule 64 (block2 -> statement block2 .)
+    SEMIC           reduce using rule 64 (block2 -> statement block2 .)
+    ELSE            reduce using rule 64 (block2 -> statement block2 .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 93
 
+<<<<<<< HEAD
     (41) write -> PRINT LPAREN write2 . RPAREN SEMIC
 
     RPAREN          shift and go to state 121
+=======
+    (20) for -> FOR ID . IN DOT ID LCURLY block2 RCURLY
+
+    IN              shift and go to state 123
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 94
 
+<<<<<<< HEAD
     (2) constant -> CTEF .
 
     STAR            reduce using rule 2 (constant -> CTEF .)
@@ -1591,6 +3223,137 @@ state 95
     GREATERTHAN     shift and go to state 123
     BETWEEN         shift and go to state 124
 
+=======
+    (48) asign -> ID EQUALS . expresiones SEMIC
+    (34) expresiones -> . expresion COMMA expresiones
+    (35) expresiones -> . expresion
+    (36) expresion -> . exp
+    (37) expresion -> . exp LESSTHAN exp
+    (38) expresion -> . exp GREATERTHAN exp
+    (39) expresion -> . exp BETWEEN exp
+    (40) exp -> . term
+    (41) exp -> . term PLUS exp
+    (42) exp -> . term MINUS exp
+    (29) term -> . factor
+    (30) term -> . factor STAR term
+    (31) term -> . factor SLASH term
+    (25) factor -> . PLUS constant
+    (26) factor -> . MINUS constant
+    (27) factor -> . constant
+    (28) factor -> . LPAREN expresion RPAREN
+    (1) constant -> . CTEI
+    (2) constant -> . CTEF
+    (3) constant -> . CTESTRING
+    (4) constant -> . CTEBOOL
+    (5) constant -> . id
+    (6) constant -> . functioncall
+    (73) id -> . ID array
+    (74) id -> . ID matrix
+    (75) id -> . ID
+    (7) functioncall -> . ID LPAREN expresion RPAREN
+    (8) functioncall -> . ID LPAREN CTEI RPAREN
+    (9) functioncall -> . ID LPAREN CTEF RPAREN
+
+    PLUS            shift and go to state 36
+    MINUS           shift and go to state 35
+    LPAREN          shift and go to state 32
+    CTEI            shift and go to state 45
+    CTEF            shift and go to state 43
+    CTESTRING       shift and go to state 46
+    CTEBOOL         shift and go to state 42
+    ID              shift and go to state 39
+
+    expresion                      shift and go to state 125
+    expresiones                    shift and go to state 124
+    constant                       shift and go to state 33
+    term                           shift and go to state 41
+    functioncall                   shift and go to state 38
+    exp                            shift and go to state 44
+    factor                         shift and go to state 37
+    id                             shift and go to state 34
+
+state 95
+
+    (32) condition -> IF LPAREN . expresion RPAREN block SEMIC
+    (33) condition -> IF LPAREN . expresion RPAREN block ELSE block SEMIC
+    (36) expresion -> . exp
+    (37) expresion -> . exp LESSTHAN exp
+    (38) expresion -> . exp GREATERTHAN exp
+    (39) expresion -> . exp BETWEEN exp
+    (40) exp -> . term
+    (41) exp -> . term PLUS exp
+    (42) exp -> . term MINUS exp
+    (29) term -> . factor
+    (30) term -> . factor STAR term
+    (31) term -> . factor SLASH term
+    (25) factor -> . PLUS constant
+    (26) factor -> . MINUS constant
+    (27) factor -> . constant
+    (28) factor -> . LPAREN expresion RPAREN
+    (1) constant -> . CTEI
+    (2) constant -> . CTEF
+    (3) constant -> . CTESTRING
+    (4) constant -> . CTEBOOL
+    (5) constant -> . id
+    (6) constant -> . functioncall
+    (73) id -> . ID array
+    (74) id -> . ID matrix
+    (75) id -> . ID
+    (7) functioncall -> . ID LPAREN expresion RPAREN
+    (8) functioncall -> . ID LPAREN CTEI RPAREN
+    (9) functioncall -> . ID LPAREN CTEF RPAREN
+
+    PLUS            shift and go to state 36
+    MINUS           shift and go to state 35
+    LPAREN          shift and go to state 32
+    CTEI            shift and go to state 45
+    CTEF            shift and go to state 43
+    CTESTRING       shift and go to state 46
+    CTEBOOL         shift and go to state 42
+    ID              shift and go to state 39
+
+    expresion                      shift and go to state 126
+    term                           shift and go to state 41
+    constant                       shift and go to state 33
+    functioncall                   shift and go to state 38
+    exp                            shift and go to state 44
+    factor                         shift and go to state 37
+    id                             shift and go to state 34
+
+state 96
+
+    (16) optimize -> MAX EQUALS . statement
+    (49) statement -> . asign
+    (50) statement -> . condition
+    (51) statement -> . write
+    (52) statement -> . optimize
+    (53) statement -> . for
+    (54) statement -> . return
+    (48) asign -> . ID EQUALS expresiones SEMIC
+    (32) condition -> . IF LPAREN expresion RPAREN block SEMIC
+    (33) condition -> . IF LPAREN expresion RPAREN block ELSE block SEMIC
+    (43) write -> . PRINT LPAREN write2 RPAREN SEMIC
+    (15) optimize -> . MIN EQUALS statement
+    (16) optimize -> . MAX EQUALS statement
+    (20) for -> . FOR ID IN DOT ID LCURLY block2 RCURLY
+    (56) return -> . RETURN asign
+
+    ID              shift and go to state 62
+    IF              shift and go to state 64
+    PRINT           shift and go to state 54
+    MIN             shift and go to state 53
+    MAX             shift and go to state 65
+    FOR             shift and go to state 61
+    RETURN          shift and go to state 51
+
+    return                         shift and go to state 60
+    for                            shift and go to state 55
+    asign                          shift and go to state 66
+    write                          shift and go to state 57
+    statement                      shift and go to state 127
+    optimize                       shift and go to state 56
+    condition                      shift and go to state 63
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 state 96
 
@@ -1620,20 +3383,45 @@ state 96
 
 state 97
 
+<<<<<<< HEAD
     (20) for -> FOR ID IN . DOT ID LBRACKET statement RBRACKET
 
     DOT             shift and go to state 125
+=======
+    (59) manyargs -> tipo ID liargs .
+
+    RPAREN          reduce using rule 59 (manyargs -> tipo ID liargs .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 98
 
+<<<<<<< HEAD
     (46) asign -> ID EQUALS expresion . SEMIC
 
     SEMIC           shift and go to state 126
+=======
+    (61) liargs -> COMMA . manyargs
+    (58) manyargs -> . empty
+    (59) manyargs -> . tipo ID liargs
+    (93) empty -> .
+    (67) tipo -> . TINT
+    (68) tipo -> . TFLOAT
+    (69) tipo -> . TBOOL
 
+    RPAREN          reduce using rule 93 (empty -> .)
+    TINT            shift and go to state 13
+    TFLOAT          shift and go to state 17
+    TBOOL           shift and go to state 16
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
+
+    empty                          shift and go to state 31
+    manyargs                       shift and go to state 128
+    tipo                           shift and go to state 29
 
 state 99
 
+<<<<<<< HEAD
     (3) constant -> CTESTRING .
 
     STAR            reduce using rule 3 (constant -> CTESTRING .)
@@ -1656,18 +3444,48 @@ state 99
     RCURLY          reduce using rule 3 (constant -> CTESTRING .)
     ELSE            reduce using rule 3 (constant -> CTESTRING .)
     RBRACKET        reduce using rule 3 (constant -> CTESTRING .)
+=======
+    (60) liargs -> empty .
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
+    RPAREN          reduce using rule 60 (liargs -> empty .)
 
+<<<<<<< HEAD
 state 100
 
     (32) condition -> IF LPAREN expresion . RPAREN block SEMIC
     (33) condition -> IF LPAREN expresion . RPAREN block ELSE block SEMIC
 
     RPAREN          shift and go to state 127
+=======
 
+state 100
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
+
+    (57) function -> FUNC ID LPAREN manyargs RPAREN LCURLY . varsdata block2 RCURLY
+    (85) varsdata -> . vars data
+    (86) varsdata -> . empty
+    (87) varsdata -> . vars
+    (70) vars -> . VARS LCURLY listofvars RCURLY
+    (93) empty -> .
+
+    VARS            shift and go to state 4
+    ID              reduce using rule 93 (empty -> .)
+    IF              reduce using rule 93 (empty -> .)
+    PRINT           reduce using rule 93 (empty -> .)
+    MIN             reduce using rule 93 (empty -> .)
+    MAX             reduce using rule 93 (empty -> .)
+    FOR             reduce using rule 93 (empty -> .)
+    RETURN          reduce using rule 93 (empty -> .)
+    RCURLY          reduce using rule 93 (empty -> .)
+
+    vars                           shift and go to state 26
+    varsdata                       shift and go to state 129
+    empty                          shift and go to state 28
 
 state 101
 
+<<<<<<< HEAD
     (16) optimize -> MAX EQUALS restrictions .
 
     RBRACKET        reduce using rule 16 (optimize -> MAX EQUALS restrictions .)
@@ -1681,17 +3499,49 @@ state 101
     RCURLY          reduce using rule 16 (optimize -> MAX EQUALS restrictions .)
     SEMIC           reduce using rule 16 (optimize -> MAX EQUALS restrictions .)
     ELSE            reduce using rule 16 (optimize -> MAX EQUALS restrictions .)
+=======
+    (28) factor -> LPAREN expresion RPAREN .
+
+    STAR            reduce using rule 28 (factor -> LPAREN expresion RPAREN .)
+    SLASH           reduce using rule 28 (factor -> LPAREN expresion RPAREN .)
+    PLUS            reduce using rule 28 (factor -> LPAREN expresion RPAREN .)
+    MINUS           reduce using rule 28 (factor -> LPAREN expresion RPAREN .)
+    LESSTHAN        reduce using rule 28 (factor -> LPAREN expresion RPAREN .)
+    GREATERTHAN     reduce using rule 28 (factor -> LPAREN expresion RPAREN .)
+    BETWEEN         reduce using rule 28 (factor -> LPAREN expresion RPAREN .)
+    RBRACKET        reduce using rule 28 (factor -> LPAREN expresion RPAREN .)
+    RPAREN          reduce using rule 28 (factor -> LPAREN expresion RPAREN .)
+    DOT             reduce using rule 28 (factor -> LPAREN expresion RPAREN .)
+    COMMA           reduce using rule 28 (factor -> LPAREN expresion RPAREN .)
+    SEMIC           reduce using rule 28 (factor -> LPAREN expresion RPAREN .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 102
 
+<<<<<<< HEAD
     (59) liargs -> COMMA manyargs .
 
     RPAREN          reduce using rule 59 (liargs -> COMMA manyargs .)
+=======
+    (30) term -> factor STAR term .
+
+    PLUS            reduce using rule 30 (term -> factor STAR term .)
+    MINUS           reduce using rule 30 (term -> factor STAR term .)
+    LESSTHAN        reduce using rule 30 (term -> factor STAR term .)
+    GREATERTHAN     reduce using rule 30 (term -> factor STAR term .)
+    BETWEEN         reduce using rule 30 (term -> factor STAR term .)
+    RBRACKET        reduce using rule 30 (term -> factor STAR term .)
+    RPAREN          reduce using rule 30 (term -> factor STAR term .)
+    DOT             reduce using rule 30 (term -> factor STAR term .)
+    COMMA           reduce using rule 30 (term -> factor STAR term .)
+    SEMIC           reduce using rule 30 (term -> factor STAR term .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 103
 
+<<<<<<< HEAD
     (55) function -> FUNC ID LPAREN manyargs RPAREN LCURLY varsdata . block2 RCURLY
     (62) block2 -> . statement block2
     (63) block2 -> . statement
@@ -1712,6 +3562,20 @@ state 103
     (53) loop -> . for
     (54) return -> . RETURN asign
     (20) for -> . FOR ID IN DOT ID LBRACKET statement RBRACKET
+=======
+    (31) term -> factor SLASH term .
+
+    PLUS            reduce using rule 31 (term -> factor SLASH term .)
+    MINUS           reduce using rule 31 (term -> factor SLASH term .)
+    LESSTHAN        reduce using rule 31 (term -> factor SLASH term .)
+    GREATERTHAN     reduce using rule 31 (term -> factor SLASH term .)
+    BETWEEN         reduce using rule 31 (term -> factor SLASH term .)
+    RBRACKET        reduce using rule 31 (term -> factor SLASH term .)
+    RPAREN          reduce using rule 31 (term -> factor SLASH term .)
+    DOT             reduce using rule 31 (term -> factor SLASH term .)
+    COMMA           reduce using rule 31 (term -> factor SLASH term .)
+    SEMIC           reduce using rule 31 (term -> factor SLASH term .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
     RCURLY          reduce using rule 88 (empty -> .)
     ID              shift and go to state 49
@@ -1735,13 +3599,31 @@ state 103
 
 state 104
 
+<<<<<<< HEAD
     (69) matrix -> LBRACKET CTEI RBRACKET LBRACKET CTEI RBRACKET .
 
     POINTS          reduce using rule 69 (matrix -> LBRACKET CTEI RBRACKET LBRACKET CTEI RBRACKET .)
+=======
+    (9) functioncall -> ID LPAREN CTEF . RPAREN
+    (2) constant -> CTEF .
+
+  ! shift/reduce conflict for RPAREN resolved as shift
+    RPAREN          shift and go to state 130
+    STAR            reduce using rule 2 (constant -> CTEF .)
+    SLASH           reduce using rule 2 (constant -> CTEF .)
+    PLUS            reduce using rule 2 (constant -> CTEF .)
+    MINUS           reduce using rule 2 (constant -> CTEF .)
+    LESSTHAN        reduce using rule 2 (constant -> CTEF .)
+    GREATERTHAN     reduce using rule 2 (constant -> CTEF .)
+    BETWEEN         reduce using rule 2 (constant -> CTEF .)
+
+  ! RPAREN          [ reduce using rule 2 (constant -> CTEF .) ]
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 105
 
+<<<<<<< HEAD
     (10) data -> DATA LCURLY asignmany RCURLY .
 
     ID              reduce using rule 10 (data -> DATA LCURLY asignmany RCURLY .)
@@ -1752,10 +3634,16 @@ state 105
     RETURN          reduce using rule 10 (data -> DATA LCURLY asignmany RCURLY .)
     FOR             reduce using rule 10 (data -> DATA LCURLY asignmany RCURLY .)
     RCURLY          reduce using rule 10 (data -> DATA LCURLY asignmany RCURLY .)
+=======
+    (7) functioncall -> ID LPAREN expresion . RPAREN
+
+    RPAREN          shift and go to state 131
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 106
 
+<<<<<<< HEAD
     (11) asignmany -> asign SEMIC . asignlist
     (13) asignlist -> . empty
     (14) asignlist -> . asignmany
@@ -1771,23 +3659,100 @@ state 106
     asignlist                      shift and go to state 130
     empty                          shift and go to state 131
     asign                          shift and go to state 79
+=======
+    (8) functioncall -> ID LPAREN CTEI . RPAREN
+    (1) constant -> CTEI .
 
-state 107
+  ! shift/reduce conflict for RPAREN resolved as shift
+    RPAREN          shift and go to state 132
+    STAR            reduce using rule 1 (constant -> CTEI .)
+    SLASH           reduce using rule 1 (constant -> CTEI .)
+    PLUS            reduce using rule 1 (constant -> CTEI .)
+    MINUS           reduce using rule 1 (constant -> CTEI .)
+    LESSTHAN        reduce using rule 1 (constant -> CTEI .)
+    GREATERTHAN     reduce using rule 1 (constant -> CTEI .)
+    BETWEEN         reduce using rule 1 (constant -> CTEI .)
 
+  ! RPAREN          [ reduce using rule 1 (constant -> CTEI .) ]
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
+
+
+<<<<<<< HEAD
     (24) sum -> SUM . LPAREN ID POINTS expresion RPAREN
 
     LPAREN          shift and go to state 132
+=======
+state 107
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
+    (71) matrix -> LBRACKET expresion RBRACKET LBRACKET . expresion RBRACKET
+    (36) expresion -> . exp
+    (37) expresion -> . exp LESSTHAN exp
+    (38) expresion -> . exp GREATERTHAN exp
+    (39) expresion -> . exp BETWEEN exp
+    (40) exp -> . term
+    (41) exp -> . term PLUS exp
+    (42) exp -> . term MINUS exp
+    (29) term -> . factor
+    (30) term -> . factor STAR term
+    (31) term -> . factor SLASH term
+    (25) factor -> . PLUS constant
+    (26) factor -> . MINUS constant
+    (27) factor -> . constant
+    (28) factor -> . LPAREN expresion RPAREN
+    (1) constant -> . CTEI
+    (2) constant -> . CTEF
+    (3) constant -> . CTESTRING
+    (4) constant -> . CTEBOOL
+    (5) constant -> . id
+    (6) constant -> . functioncall
+    (73) id -> . ID array
+    (74) id -> . ID matrix
+    (75) id -> . ID
+    (7) functioncall -> . ID LPAREN expresion RPAREN
+    (8) functioncall -> . ID LPAREN CTEI RPAREN
+    (9) functioncall -> . ID LPAREN CTEF RPAREN
+
+    PLUS            shift and go to state 36
+    MINUS           shift and go to state 35
+    LPAREN          shift and go to state 32
+    CTEI            shift and go to state 45
+    CTEF            shift and go to state 43
+    CTESTRING       shift and go to state 46
+    CTEBOOL         shift and go to state 42
+    ID              shift and go to state 39
+
+    expresion                      shift and go to state 133
+    term                           shift and go to state 41
+    constant                       shift and go to state 33
+    functioncall                   shift and go to state 38
+    exp                            shift and go to state 44
+    factor                         shift and go to state 37
+    id                             shift and go to state 34
 
 state 108
 
+<<<<<<< HEAD
     (19) restrictions2 -> sum . SEMIC forlist
 
     SEMIC           shift and go to state 133
+=======
+    (41) exp -> term PLUS exp .
+
+    LESSTHAN        reduce using rule 41 (exp -> term PLUS exp .)
+    GREATERTHAN     reduce using rule 41 (exp -> term PLUS exp .)
+    BETWEEN         reduce using rule 41 (exp -> term PLUS exp .)
+    RBRACKET        reduce using rule 41 (exp -> term PLUS exp .)
+    RPAREN          reduce using rule 41 (exp -> term PLUS exp .)
+    DOT             reduce using rule 41 (exp -> term PLUS exp .)
+    COMMA           reduce using rule 41 (exp -> term PLUS exp .)
+    SEMIC           reduce using rule 41 (exp -> term PLUS exp .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 109
 
+<<<<<<< HEAD
     (17) restrictions -> WHERE restrictions2 .
 
     ID              reduce using rule 17 (restrictions -> WHERE restrictions2 .)
@@ -1801,10 +3766,23 @@ state 109
     SEMIC           reduce using rule 17 (restrictions -> WHERE restrictions2 .)
     ELSE            reduce using rule 17 (restrictions -> WHERE restrictions2 .)
     RBRACKET        reduce using rule 17 (restrictions -> WHERE restrictions2 .)
+=======
+    (42) exp -> term MINUS exp .
+
+    LESSTHAN        reduce using rule 42 (exp -> term MINUS exp .)
+    GREATERTHAN     reduce using rule 42 (exp -> term MINUS exp .)
+    BETWEEN         reduce using rule 42 (exp -> term MINUS exp .)
+    RBRACKET        reduce using rule 42 (exp -> term MINUS exp .)
+    RPAREN          reduce using rule 42 (exp -> term MINUS exp .)
+    DOT             reduce using rule 42 (exp -> term MINUS exp .)
+    COMMA           reduce using rule 42 (exp -> term MINUS exp .)
+    SEMIC           reduce using rule 42 (exp -> term MINUS exp .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 110
 
+<<<<<<< HEAD
     (18) restrictions2 -> expresion .
 
     ID              reduce using rule 18 (restrictions2 -> expresion .)
@@ -1818,17 +3796,31 @@ state 110
     SEMIC           reduce using rule 18 (restrictions2 -> expresion .)
     ELSE            reduce using rule 18 (restrictions2 -> expresion .)
     RBRACKET        reduce using rule 18 (restrictions2 -> expresion .)
+=======
+    (37) expresion -> exp LESSTHAN exp .
+
+    COMMA           reduce using rule 37 (expresion -> exp LESSTHAN exp .)
+    SEMIC           reduce using rule 37 (expresion -> exp LESSTHAN exp .)
+    DOT             reduce using rule 37 (expresion -> exp LESSTHAN exp .)
+    RPAREN          reduce using rule 37 (expresion -> exp LESSTHAN exp .)
+    RBRACKET        reduce using rule 37 (expresion -> exp LESSTHAN exp .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 111
 
-    (28) factor -> LPAREN expresion . RPAREN
+    (38) expresion -> exp GREATERTHAN exp .
 
-    RPAREN          shift and go to state 134
+    COMMA           reduce using rule 38 (expresion -> exp GREATERTHAN exp .)
+    SEMIC           reduce using rule 38 (expresion -> exp GREATERTHAN exp .)
+    DOT             reduce using rule 38 (expresion -> exp GREATERTHAN exp .)
+    RPAREN          reduce using rule 38 (expresion -> exp GREATERTHAN exp .)
+    RBRACKET        reduce using rule 38 (expresion -> exp GREATERTHAN exp .)
 
 
 state 112
 
+<<<<<<< HEAD
     (45) write2 -> CTESTRING DOT . write2
     (42) write2 -> . expresion
     (43) write2 -> . CTESTRING
@@ -1899,10 +3891,27 @@ state 113
     LESSTHAN        reduce using rule 26 (factor -> MINUS constant .)
     GREATERTHAN     reduce using rule 26 (factor -> MINUS constant .)
     BETWEEN         reduce using rule 26 (factor -> MINUS constant .)
+=======
+    (39) expresion -> exp BETWEEN exp .
+
+    COMMA           reduce using rule 39 (expresion -> exp BETWEEN exp .)
+    SEMIC           reduce using rule 39 (expresion -> exp BETWEEN exp .)
+    DOT             reduce using rule 39 (expresion -> exp BETWEEN exp .)
+    RPAREN          reduce using rule 39 (expresion -> exp BETWEEN exp .)
+    RBRACKET        reduce using rule 39 (expresion -> exp BETWEEN exp .)
+
+
+state 113
+
+    (79) lid -> COMMA listofids .
+
+    SEMIC           reduce using rule 79 (lid -> COMMA listofids .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 114
 
+<<<<<<< HEAD
     (25) factor -> PLUS constant .
 
     STAR            reduce using rule 25 (factor -> PLUS constant .)
@@ -1925,10 +3934,16 @@ state 114
     LESSTHAN        reduce using rule 25 (factor -> PLUS constant .)
     GREATERTHAN     reduce using rule 25 (factor -> PLUS constant .)
     BETWEEN         reduce using rule 25 (factor -> PLUS constant .)
+=======
+    (82) lvars -> listofvars .
+
+    RCURLY          reduce using rule 82 (lvars -> listofvars .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 115
 
+<<<<<<< HEAD
     (30) term -> factor STAR . term
     (29) term -> . factor
     (30) term -> . factor STAR term
@@ -1955,6 +3970,11 @@ state 115
     CTESTRING       shift and go to state 99
     CTEBOOL         shift and go to state 92
     ID              shift and go to state 89
+=======
+    (84) listofvars -> declaracion POINTS listofids SEMIC lvars .
+
+    RCURLY          reduce using rule 84 (listofvars -> declaracion POINTS listofids SEMIC lvars .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
     functioncall                   shift and go to state 87
     term                           shift and go to state 136
@@ -1963,6 +3983,7 @@ state 115
 
 state 116
 
+<<<<<<< HEAD
     (31) term -> factor SLASH . term
     (29) term -> . factor
     (30) term -> . factor STAR term
@@ -1989,6 +4010,11 @@ state 116
     CTESTRING       shift and go to state 99
     CTEBOOL         shift and go to state 92
     ID              shift and go to state 89
+=======
+    (83) lvars -> empty .
+
+    RCURLY          reduce using rule 83 (lvars -> empty .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
     functioncall                   shift and go to state 87
     term                           shift and go to state 137
@@ -1997,6 +4023,7 @@ state 116
 
 state 117
 
+<<<<<<< HEAD
     (7) functioncall -> ID LPAREN . expresion RPAREN
     (8) functioncall -> ID LPAREN . CTEI RPAREN
     (9) functioncall -> ID LPAREN . CTEF RPAREN
@@ -2119,6 +4146,36 @@ state 119
     CTESTRING       shift and go to state 99
     CTEBOOL         shift and go to state 92
     ID              shift and go to state 89
+=======
+    (10) data -> DATA LCURLY asignmany . RCURLY
+
+    RCURLY          shift and go to state 134
+
+
+state 118
+
+    (11) asignmany -> asign . SEMIC asignlist
+    (12) asignmany -> asign .
+
+    SEMIC           shift and go to state 135
+    RCURLY          reduce using rule 12 (asignmany -> asign .)
+
+
+state 119
+
+    (15) optimize -> MIN EQUALS statement .
+
+    ID              reduce using rule 15 (optimize -> MIN EQUALS statement .)
+    IF              reduce using rule 15 (optimize -> MIN EQUALS statement .)
+    PRINT           reduce using rule 15 (optimize -> MIN EQUALS statement .)
+    MIN             reduce using rule 15 (optimize -> MIN EQUALS statement .)
+    MAX             reduce using rule 15 (optimize -> MIN EQUALS statement .)
+    FOR             reduce using rule 15 (optimize -> MIN EQUALS statement .)
+    RETURN          reduce using rule 15 (optimize -> MIN EQUALS statement .)
+    SEMIC           reduce using rule 15 (optimize -> MIN EQUALS statement .)
+    ELSE            reduce using rule 15 (optimize -> MIN EQUALS statement .)
+    RCURLY          reduce using rule 15 (optimize -> MIN EQUALS statement .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
     term                           shift and go to state 91
     constant                       shift and go to state 88
@@ -2128,6 +4185,7 @@ state 119
 
 state 120
 
+<<<<<<< HEAD
     (40) exp -> term MINUS . exp
     (38) exp -> . term
     (39) exp -> . term PLUS exp
@@ -2169,10 +4227,40 @@ state 121
     (41) write -> PRINT LPAREN write2 RPAREN . SEMIC
 
     SEMIC           shift and go to state 144
+=======
+    (45) write2 -> CTESTRING .
+    (47) write2 -> CTESTRING . DOT write2
+    (3) constant -> CTESTRING .
+
+  ! shift/reduce conflict for DOT resolved as shift
+  ! reduce/reduce conflict for RPAREN resolved using rule 3 (constant -> CTESTRING .)
+    DOT             shift and go to state 136
+    STAR            reduce using rule 3 (constant -> CTESTRING .)
+    SLASH           reduce using rule 3 (constant -> CTESTRING .)
+    PLUS            reduce using rule 3 (constant -> CTESTRING .)
+    MINUS           reduce using rule 3 (constant -> CTESTRING .)
+    LESSTHAN        reduce using rule 3 (constant -> CTESTRING .)
+    GREATERTHAN     reduce using rule 3 (constant -> CTESTRING .)
+    BETWEEN         reduce using rule 3 (constant -> CTESTRING .)
+    RPAREN          reduce using rule 3 (constant -> CTESTRING .)
+
+  ! RPAREN          [ reduce using rule 45 (write2 -> CTESTRING .) ]
+  ! DOT             [ reduce using rule 3 (constant -> CTESTRING .) ]
+
+
+state 121
+
+    (44) write2 -> expresion .
+    (46) write2 -> expresion . DOT write2
+
+    RPAREN          reduce using rule 44 (write2 -> expresion .)
+    DOT             shift and go to state 137
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 122
 
+<<<<<<< HEAD
     (35) expresion -> exp LESSTHAN . exp
     (38) exp -> . term
     (39) exp -> . term PLUS exp
@@ -2288,12 +4376,39 @@ state 124
 state 125
 
     (20) for -> FOR ID IN DOT . ID LBRACKET statement RBRACKET
+=======
+    (43) write -> PRINT LPAREN write2 . RPAREN SEMIC
 
-    ID              shift and go to state 148
+    RPAREN          shift and go to state 138
+
+
+state 123
+
+    (20) for -> FOR ID IN . DOT ID LCURLY block2 RCURLY
+
+    DOT             shift and go to state 139
+
+
+state 124
+
+    (48) asign -> ID EQUALS expresiones . SEMIC
+
+    SEMIC           shift and go to state 140
+
+
+state 125
+
+    (34) expresiones -> expresion . COMMA expresiones
+    (35) expresiones -> expresion .
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
+
+    COMMA           shift and go to state 141
+    SEMIC           reduce using rule 35 (expresiones -> expresion .)
 
 
 state 126
 
+<<<<<<< HEAD
     (46) asign -> ID EQUALS expresion SEMIC .
 
     ID              reduce using rule 46 (asign -> ID EQUALS expresion SEMIC .)
@@ -2307,10 +4422,17 @@ state 126
     SEMIC           reduce using rule 46 (asign -> ID EQUALS expresion SEMIC .)
     ELSE            reduce using rule 46 (asign -> ID EQUALS expresion SEMIC .)
     RBRACKET        reduce using rule 46 (asign -> ID EQUALS expresion SEMIC .)
+=======
+    (32) condition -> IF LPAREN expresion . RPAREN block SEMIC
+    (33) condition -> IF LPAREN expresion . RPAREN block ELSE block SEMIC
+
+    RPAREN          shift and go to state 142
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 127
 
+<<<<<<< HEAD
     (32) condition -> IF LPAREN expresion RPAREN . block SEMIC
     (33) condition -> IF LPAREN expresion RPAREN . block ELSE block SEMIC
     (60) block -> . block2
@@ -2357,44 +4479,153 @@ state 127
     loop                           shift and go to state 54
     optimize                       shift and go to state 43
     empty                          shift and go to state 46
+=======
+    (16) optimize -> MAX EQUALS statement .
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
+
+    ID              reduce using rule 16 (optimize -> MAX EQUALS statement .)
+    IF              reduce using rule 16 (optimize -> MAX EQUALS statement .)
+    PRINT           reduce using rule 16 (optimize -> MAX EQUALS statement .)
+    MIN             reduce using rule 16 (optimize -> MAX EQUALS statement .)
+    MAX             reduce using rule 16 (optimize -> MAX EQUALS statement .)
+    FOR             reduce using rule 16 (optimize -> MAX EQUALS statement .)
+    RETURN          reduce using rule 16 (optimize -> MAX EQUALS statement .)
+    SEMIC           reduce using rule 16 (optimize -> MAX EQUALS statement .)
+    ELSE            reduce using rule 16 (optimize -> MAX EQUALS statement .)
+    RCURLY          reduce using rule 16 (optimize -> MAX EQUALS statement .)
+
+<<<<<<< HEAD
+    (55) function -> FUNC ID LPAREN manyargs RPAREN LCURLY varsdata block2 . RCURLY
+=======
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 state 128
 
-    (55) function -> FUNC ID LPAREN manyargs RPAREN LCURLY varsdata block2 . RCURLY
+    (61) liargs -> COMMA manyargs .
 
-    RCURLY          shift and go to state 152
+    RPAREN          reduce using rule 61 (liargs -> COMMA manyargs .)
 
-
-state 129
-
+<<<<<<< HEAD
     (14) asignlist -> asignmany .
 
     RCURLY          reduce using rule 14 (asignlist -> asignmany .)
+=======
 
+state 129
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
+
+    (57) function -> FUNC ID LPAREN manyargs RPAREN LCURLY varsdata . block2 RCURLY
+    (64) block2 -> . statement block2
+    (65) block2 -> . statement
+    (66) block2 -> . empty
+    (49) statement -> . asign
+    (50) statement -> . condition
+    (51) statement -> . write
+    (52) statement -> . optimize
+    (53) statement -> . for
+    (54) statement -> . return
+    (93) empty -> .
+    (48) asign -> . ID EQUALS expresiones SEMIC
+    (32) condition -> . IF LPAREN expresion RPAREN block SEMIC
+    (33) condition -> . IF LPAREN expresion RPAREN block ELSE block SEMIC
+    (43) write -> . PRINT LPAREN write2 RPAREN SEMIC
+    (15) optimize -> . MIN EQUALS statement
+    (16) optimize -> . MAX EQUALS statement
+    (20) for -> . FOR ID IN DOT ID LCURLY block2 RCURLY
+    (56) return -> . RETURN asign
+
+    RCURLY          reduce using rule 93 (empty -> .)
+    ID              shift and go to state 62
+    IF              shift and go to state 64
+    PRINT           shift and go to state 54
+    MIN             shift and go to state 53
+    MAX             shift and go to state 65
+    FOR             shift and go to state 61
+    RETURN          shift and go to state 51
+
+    return                         shift and go to state 60
+    block2                         shift and go to state 143
+    for                            shift and go to state 55
+    asign                          shift and go to state 66
+    write                          shift and go to state 57
+    condition                      shift and go to state 63
+    statement                      shift and go to state 58
+    optimize                       shift and go to state 56
+    empty                          shift and go to state 59
 
 state 130
 
+<<<<<<< HEAD
     (11) asignmany -> asign SEMIC asignlist .
 
     RCURLY          reduce using rule 11 (asignmany -> asign SEMIC asignlist .)
+=======
+    (9) functioncall -> ID LPAREN CTEF RPAREN .
+
+    STAR            reduce using rule 9 (functioncall -> ID LPAREN CTEF RPAREN .)
+    SLASH           reduce using rule 9 (functioncall -> ID LPAREN CTEF RPAREN .)
+    PLUS            reduce using rule 9 (functioncall -> ID LPAREN CTEF RPAREN .)
+    MINUS           reduce using rule 9 (functioncall -> ID LPAREN CTEF RPAREN .)
+    LESSTHAN        reduce using rule 9 (functioncall -> ID LPAREN CTEF RPAREN .)
+    GREATERTHAN     reduce using rule 9 (functioncall -> ID LPAREN CTEF RPAREN .)
+    BETWEEN         reduce using rule 9 (functioncall -> ID LPAREN CTEF RPAREN .)
+    RBRACKET        reduce using rule 9 (functioncall -> ID LPAREN CTEF RPAREN .)
+    DOT             reduce using rule 9 (functioncall -> ID LPAREN CTEF RPAREN .)
+    RPAREN          reduce using rule 9 (functioncall -> ID LPAREN CTEF RPAREN .)
+    COMMA           reduce using rule 9 (functioncall -> ID LPAREN CTEF RPAREN .)
+    SEMIC           reduce using rule 9 (functioncall -> ID LPAREN CTEF RPAREN .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 131
 
+<<<<<<< HEAD
     (13) asignlist -> empty .
 
     RCURLY          reduce using rule 13 (asignlist -> empty .)
+=======
+    (7) functioncall -> ID LPAREN expresion RPAREN .
+
+    STAR            reduce using rule 7 (functioncall -> ID LPAREN expresion RPAREN .)
+    SLASH           reduce using rule 7 (functioncall -> ID LPAREN expresion RPAREN .)
+    PLUS            reduce using rule 7 (functioncall -> ID LPAREN expresion RPAREN .)
+    MINUS           reduce using rule 7 (functioncall -> ID LPAREN expresion RPAREN .)
+    LESSTHAN        reduce using rule 7 (functioncall -> ID LPAREN expresion RPAREN .)
+    GREATERTHAN     reduce using rule 7 (functioncall -> ID LPAREN expresion RPAREN .)
+    BETWEEN         reduce using rule 7 (functioncall -> ID LPAREN expresion RPAREN .)
+    RBRACKET        reduce using rule 7 (functioncall -> ID LPAREN expresion RPAREN .)
+    DOT             reduce using rule 7 (functioncall -> ID LPAREN expresion RPAREN .)
+    RPAREN          reduce using rule 7 (functioncall -> ID LPAREN expresion RPAREN .)
+    COMMA           reduce using rule 7 (functioncall -> ID LPAREN expresion RPAREN .)
+    SEMIC           reduce using rule 7 (functioncall -> ID LPAREN expresion RPAREN .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 132
 
+<<<<<<< HEAD
     (24) sum -> SUM LPAREN . ID POINTS expresion RPAREN
+=======
+    (8) functioncall -> ID LPAREN CTEI RPAREN .
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
-    ID              shift and go to state 153
+    STAR            reduce using rule 8 (functioncall -> ID LPAREN CTEI RPAREN .)
+    SLASH           reduce using rule 8 (functioncall -> ID LPAREN CTEI RPAREN .)
+    PLUS            reduce using rule 8 (functioncall -> ID LPAREN CTEI RPAREN .)
+    MINUS           reduce using rule 8 (functioncall -> ID LPAREN CTEI RPAREN .)
+    LESSTHAN        reduce using rule 8 (functioncall -> ID LPAREN CTEI RPAREN .)
+    GREATERTHAN     reduce using rule 8 (functioncall -> ID LPAREN CTEI RPAREN .)
+    BETWEEN         reduce using rule 8 (functioncall -> ID LPAREN CTEI RPAREN .)
+    RBRACKET        reduce using rule 8 (functioncall -> ID LPAREN CTEI RPAREN .)
+    DOT             reduce using rule 8 (functioncall -> ID LPAREN CTEI RPAREN .)
+    RPAREN          reduce using rule 8 (functioncall -> ID LPAREN CTEI RPAREN .)
+    COMMA           reduce using rule 8 (functioncall -> ID LPAREN CTEI RPAREN .)
+    SEMIC           reduce using rule 8 (functioncall -> ID LPAREN CTEI RPAREN .)
 
 
 state 133
 
+<<<<<<< HEAD
     (19) restrictions2 -> sum SEMIC . forlist
     (21) forlist -> . for SEMIC lfor
     (20) for -> . FOR ID IN DOT ID LBRACKET statement RBRACKET
@@ -2403,11 +4634,18 @@ state 133
 
     forlist                        shift and go to state 155
     for                            shift and go to state 154
+=======
+    (71) matrix -> LBRACKET expresion RBRACKET LBRACKET expresion . RBRACKET
+
+    RBRACKET        shift and go to state 144
+
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 state 134
 
-    (28) factor -> LPAREN expresion RPAREN .
+    (10) data -> DATA LCURLY asignmany RCURLY .
 
+<<<<<<< HEAD
     STAR            reduce using rule 28 (factor -> LPAREN expresion RPAREN .)
     SLASH           reduce using rule 28 (factor -> LPAREN expresion RPAREN .)
     PLUS            reduce using rule 28 (factor -> LPAREN expresion RPAREN .)
@@ -2428,17 +4666,43 @@ state 134
     LESSTHAN        reduce using rule 28 (factor -> LPAREN expresion RPAREN .)
     GREATERTHAN     reduce using rule 28 (factor -> LPAREN expresion RPAREN .)
     BETWEEN         reduce using rule 28 (factor -> LPAREN expresion RPAREN .)
+=======
+    ID              reduce using rule 10 (data -> DATA LCURLY asignmany RCURLY .)
+    IF              reduce using rule 10 (data -> DATA LCURLY asignmany RCURLY .)
+    PRINT           reduce using rule 10 (data -> DATA LCURLY asignmany RCURLY .)
+    MIN             reduce using rule 10 (data -> DATA LCURLY asignmany RCURLY .)
+    MAX             reduce using rule 10 (data -> DATA LCURLY asignmany RCURLY .)
+    FOR             reduce using rule 10 (data -> DATA LCURLY asignmany RCURLY .)
+    RETURN          reduce using rule 10 (data -> DATA LCURLY asignmany RCURLY .)
+    RCURLY          reduce using rule 10 (data -> DATA LCURLY asignmany RCURLY .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 135
 
+<<<<<<< HEAD
     (45) write2 -> CTESTRING DOT write2 .
 
     RPAREN          reduce using rule 45 (write2 -> CTESTRING DOT write2 .)
+=======
+    (11) asignmany -> asign SEMIC . asignlist
+    (13) asignlist -> . empty
+    (14) asignlist -> . asignmany
+    (93) empty -> .
+    (11) asignmany -> . asign SEMIC asignlist
+    (12) asignmany -> . asign
+    (48) asign -> . ID EQUALS expresiones SEMIC
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
+    RCURLY          reduce using rule 93 (empty -> .)
+    ID              shift and go to state 62
 
-state 136
+    asignmany                      shift and go to state 145
+    asignlist                      shift and go to state 146
+    empty                          shift and go to state 147
+    asign                          shift and go to state 118
 
+<<<<<<< HEAD
     (30) term -> factor STAR term .
 
     PLUS            reduce using rule 30 (term -> factor STAR term .)
@@ -2459,10 +4723,63 @@ state 136
     RBRACKET        reduce using rule 30 (term -> factor STAR term .)
     DOT             reduce using rule 30 (term -> factor STAR term .)
     RPAREN          reduce using rule 30 (term -> factor STAR term .)
+=======
+state 136
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
+    (47) write2 -> CTESTRING DOT . write2
+    (44) write2 -> . expresion
+    (45) write2 -> . CTESTRING
+    (46) write2 -> . expresion DOT write2
+    (47) write2 -> . CTESTRING DOT write2
+    (36) expresion -> . exp
+    (37) expresion -> . exp LESSTHAN exp
+    (38) expresion -> . exp GREATERTHAN exp
+    (39) expresion -> . exp BETWEEN exp
+    (40) exp -> . term
+    (41) exp -> . term PLUS exp
+    (42) exp -> . term MINUS exp
+    (29) term -> . factor
+    (30) term -> . factor STAR term
+    (31) term -> . factor SLASH term
+    (25) factor -> . PLUS constant
+    (26) factor -> . MINUS constant
+    (27) factor -> . constant
+    (28) factor -> . LPAREN expresion RPAREN
+    (1) constant -> . CTEI
+    (2) constant -> . CTEF
+    (3) constant -> . CTESTRING
+    (4) constant -> . CTEBOOL
+    (5) constant -> . id
+    (6) constant -> . functioncall
+    (73) id -> . ID array
+    (74) id -> . ID matrix
+    (75) id -> . ID
+    (7) functioncall -> . ID LPAREN expresion RPAREN
+    (8) functioncall -> . ID LPAREN CTEI RPAREN
+    (9) functioncall -> . ID LPAREN CTEF RPAREN
+
+    CTESTRING       shift and go to state 120
+    PLUS            shift and go to state 36
+    MINUS           shift and go to state 35
+    LPAREN          shift and go to state 32
+    CTEI            shift and go to state 45
+    CTEF            shift and go to state 43
+    CTEBOOL         shift and go to state 42
+    ID              shift and go to state 39
+
+    expresion                      shift and go to state 121
+    term                           shift and go to state 41
+    constant                       shift and go to state 33
+    write2                         shift and go to state 148
+    functioncall                   shift and go to state 38
+    exp                            shift and go to state 44
+    factor                         shift and go to state 37
+    id                             shift and go to state 34
 
 state 137
 
+<<<<<<< HEAD
     (31) term -> factor SLASH term .
 
     PLUS            reduce using rule 31 (term -> factor SLASH term .)
@@ -2490,10 +4807,68 @@ state 138
     (7) functioncall -> ID LPAREN expresion . RPAREN
 
     RPAREN          shift and go to state 156
+=======
+    (46) write2 -> expresion DOT . write2
+    (44) write2 -> . expresion
+    (45) write2 -> . CTESTRING
+    (46) write2 -> . expresion DOT write2
+    (47) write2 -> . CTESTRING DOT write2
+    (36) expresion -> . exp
+    (37) expresion -> . exp LESSTHAN exp
+    (38) expresion -> . exp GREATERTHAN exp
+    (39) expresion -> . exp BETWEEN exp
+    (40) exp -> . term
+    (41) exp -> . term PLUS exp
+    (42) exp -> . term MINUS exp
+    (29) term -> . factor
+    (30) term -> . factor STAR term
+    (31) term -> . factor SLASH term
+    (25) factor -> . PLUS constant
+    (26) factor -> . MINUS constant
+    (27) factor -> . constant
+    (28) factor -> . LPAREN expresion RPAREN
+    (1) constant -> . CTEI
+    (2) constant -> . CTEF
+    (3) constant -> . CTESTRING
+    (4) constant -> . CTEBOOL
+    (5) constant -> . id
+    (6) constant -> . functioncall
+    (73) id -> . ID array
+    (74) id -> . ID matrix
+    (75) id -> . ID
+    (7) functioncall -> . ID LPAREN expresion RPAREN
+    (8) functioncall -> . ID LPAREN CTEI RPAREN
+    (9) functioncall -> . ID LPAREN CTEF RPAREN
+
+    CTESTRING       shift and go to state 120
+    PLUS            shift and go to state 36
+    MINUS           shift and go to state 35
+    LPAREN          shift and go to state 32
+    CTEI            shift and go to state 45
+    CTEF            shift and go to state 43
+    CTEBOOL         shift and go to state 42
+    ID              shift and go to state 39
+
+    expresion                      shift and go to state 121
+    term                           shift and go to state 41
+    constant                       shift and go to state 33
+    write2                         shift and go to state 149
+    functioncall                   shift and go to state 38
+    exp                            shift and go to state 44
+    factor                         shift and go to state 37
+    id                             shift and go to state 34
+
+state 138
+
+    (43) write -> PRINT LPAREN write2 RPAREN . SEMIC
+
+    SEMIC           shift and go to state 150
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 139
 
+<<<<<<< HEAD
     (9) functioncall -> ID LPAREN CTEF . RPAREN
     (2) constant -> CTEF .
 
@@ -2508,10 +4883,16 @@ state 139
     BETWEEN         reduce using rule 2 (constant -> CTEF .)
 
   ! RPAREN          [ reduce using rule 2 (constant -> CTEF .) ]
+=======
+    (20) for -> FOR ID IN DOT . ID LCURLY block2 RCURLY
+
+    ID              shift and go to state 151
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 140
 
+<<<<<<< HEAD
     (8) functioncall -> ID LPAREN CTEI . RPAREN
     (1) constant -> CTEI .
 
@@ -2526,10 +4907,25 @@ state 140
     BETWEEN         reduce using rule 1 (constant -> CTEI .)
 
   ! RPAREN          [ reduce using rule 1 (constant -> CTEI .) ]
+=======
+    (48) asign -> ID EQUALS expresiones SEMIC .
+
+    ID              reduce using rule 48 (asign -> ID EQUALS expresiones SEMIC .)
+    IF              reduce using rule 48 (asign -> ID EQUALS expresiones SEMIC .)
+    PRINT           reduce using rule 48 (asign -> ID EQUALS expresiones SEMIC .)
+    MIN             reduce using rule 48 (asign -> ID EQUALS expresiones SEMIC .)
+    MAX             reduce using rule 48 (asign -> ID EQUALS expresiones SEMIC .)
+    FOR             reduce using rule 48 (asign -> ID EQUALS expresiones SEMIC .)
+    RETURN          reduce using rule 48 (asign -> ID EQUALS expresiones SEMIC .)
+    RCURLY          reduce using rule 48 (asign -> ID EQUALS expresiones SEMIC .)
+    SEMIC           reduce using rule 48 (asign -> ID EQUALS expresiones SEMIC .)
+    ELSE            reduce using rule 48 (asign -> ID EQUALS expresiones SEMIC .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 141
 
+<<<<<<< HEAD
     (44) write2 -> expresion DOT write2 .
 
     RPAREN          reduce using rule 44 (write2 -> expresion DOT write2 .)
@@ -2577,10 +4973,113 @@ state 143
     LESSTHAN        reduce using rule 40 (exp -> term MINUS exp .)
     GREATERTHAN     reduce using rule 40 (exp -> term MINUS exp .)
     BETWEEN         reduce using rule 40 (exp -> term MINUS exp .)
+=======
+    (34) expresiones -> expresion COMMA . expresiones
+    (34) expresiones -> . expresion COMMA expresiones
+    (35) expresiones -> . expresion
+    (36) expresion -> . exp
+    (37) expresion -> . exp LESSTHAN exp
+    (38) expresion -> . exp GREATERTHAN exp
+    (39) expresion -> . exp BETWEEN exp
+    (40) exp -> . term
+    (41) exp -> . term PLUS exp
+    (42) exp -> . term MINUS exp
+    (29) term -> . factor
+    (30) term -> . factor STAR term
+    (31) term -> . factor SLASH term
+    (25) factor -> . PLUS constant
+    (26) factor -> . MINUS constant
+    (27) factor -> . constant
+    (28) factor -> . LPAREN expresion RPAREN
+    (1) constant -> . CTEI
+    (2) constant -> . CTEF
+    (3) constant -> . CTESTRING
+    (4) constant -> . CTEBOOL
+    (5) constant -> . id
+    (6) constant -> . functioncall
+    (73) id -> . ID array
+    (74) id -> . ID matrix
+    (75) id -> . ID
+    (7) functioncall -> . ID LPAREN expresion RPAREN
+    (8) functioncall -> . ID LPAREN CTEI RPAREN
+    (9) functioncall -> . ID LPAREN CTEF RPAREN
+
+    PLUS            shift and go to state 36
+    MINUS           shift and go to state 35
+    LPAREN          shift and go to state 32
+    CTEI            shift and go to state 45
+    CTEF            shift and go to state 43
+    CTESTRING       shift and go to state 46
+    CTEBOOL         shift and go to state 42
+    ID              shift and go to state 39
+
+    expresion                      shift and go to state 125
+    expresiones                    shift and go to state 152
+    constant                       shift and go to state 33
+    term                           shift and go to state 41
+    functioncall                   shift and go to state 38
+    exp                            shift and go to state 44
+    factor                         shift and go to state 37
+    id                             shift and go to state 34
+
+state 142
+
+    (32) condition -> IF LPAREN expresion RPAREN . block SEMIC
+    (33) condition -> IF LPAREN expresion RPAREN . block ELSE block SEMIC
+    (62) block -> . block2
+    (63) block -> . LCURLY RCURLY
+    (64) block2 -> . statement block2
+    (65) block2 -> . statement
+    (66) block2 -> . empty
+    (49) statement -> . asign
+    (50) statement -> . condition
+    (51) statement -> . write
+    (52) statement -> . optimize
+    (53) statement -> . for
+    (54) statement -> . return
+    (93) empty -> .
+    (48) asign -> . ID EQUALS expresiones SEMIC
+    (32) condition -> . IF LPAREN expresion RPAREN block SEMIC
+    (33) condition -> . IF LPAREN expresion RPAREN block ELSE block SEMIC
+    (43) write -> . PRINT LPAREN write2 RPAREN SEMIC
+    (15) optimize -> . MIN EQUALS statement
+    (16) optimize -> . MAX EQUALS statement
+    (20) for -> . FOR ID IN DOT ID LCURLY block2 RCURLY
+    (56) return -> . RETURN asign
+
+    LCURLY          shift and go to state 154
+    SEMIC           reduce using rule 93 (empty -> .)
+    ELSE            reduce using rule 93 (empty -> .)
+    ID              shift and go to state 62
+    IF              shift and go to state 64
+    PRINT           shift and go to state 54
+    MIN             shift and go to state 53
+    MAX             shift and go to state 65
+    FOR             shift and go to state 61
+    RETURN          shift and go to state 51
+
+    return                         shift and go to state 60
+    block2                         shift and go to state 153
+    for                            shift and go to state 55
+    condition                      shift and go to state 63
+    asign                          shift and go to state 66
+    write                          shift and go to state 57
+    block                          shift and go to state 155
+    statement                      shift and go to state 58
+    optimize                       shift and go to state 56
+    empty                          shift and go to state 59
+
+state 143
+
+    (57) function -> FUNC ID LPAREN manyargs RPAREN LCURLY varsdata block2 . RCURLY
+
+    RCURLY          shift and go to state 156
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 144
 
+<<<<<<< HEAD
     (41) write -> PRINT LPAREN write2 RPAREN SEMIC .
 
     ID              reduce using rule 41 (write -> PRINT LPAREN write2 RPAREN SEMIC .)
@@ -2594,12 +5093,30 @@ state 144
     RBRACKET        reduce using rule 41 (write -> PRINT LPAREN write2 RPAREN SEMIC .)
     SEMIC           reduce using rule 41 (write -> PRINT LPAREN write2 RPAREN SEMIC .)
     ELSE            reduce using rule 41 (write -> PRINT LPAREN write2 RPAREN SEMIC .)
+=======
+    (71) matrix -> LBRACKET expresion RBRACKET LBRACKET expresion RBRACKET .
+
+    POINTS          reduce using rule 71 (matrix -> LBRACKET expresion RBRACKET LBRACKET expresion RBRACKET .)
+    STAR            reduce using rule 71 (matrix -> LBRACKET expresion RBRACKET LBRACKET expresion RBRACKET .)
+    SLASH           reduce using rule 71 (matrix -> LBRACKET expresion RBRACKET LBRACKET expresion RBRACKET .)
+    PLUS            reduce using rule 71 (matrix -> LBRACKET expresion RBRACKET LBRACKET expresion RBRACKET .)
+    MINUS           reduce using rule 71 (matrix -> LBRACKET expresion RBRACKET LBRACKET expresion RBRACKET .)
+    LESSTHAN        reduce using rule 71 (matrix -> LBRACKET expresion RBRACKET LBRACKET expresion RBRACKET .)
+    GREATERTHAN     reduce using rule 71 (matrix -> LBRACKET expresion RBRACKET LBRACKET expresion RBRACKET .)
+    BETWEEN         reduce using rule 71 (matrix -> LBRACKET expresion RBRACKET LBRACKET expresion RBRACKET .)
+    RBRACKET        reduce using rule 71 (matrix -> LBRACKET expresion RBRACKET LBRACKET expresion RBRACKET .)
+    RPAREN          reduce using rule 71 (matrix -> LBRACKET expresion RBRACKET LBRACKET expresion RBRACKET .)
+    DOT             reduce using rule 71 (matrix -> LBRACKET expresion RBRACKET LBRACKET expresion RBRACKET .)
+    COMMA           reduce using rule 71 (matrix -> LBRACKET expresion RBRACKET LBRACKET expresion RBRACKET .)
+    SEMIC           reduce using rule 71 (matrix -> LBRACKET expresion RBRACKET LBRACKET expresion RBRACKET .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 145
 
-    (35) expresion -> exp LESSTHAN exp .
+    (14) asignlist -> asignmany .
 
+<<<<<<< HEAD
     RPAREN          reduce using rule 35 (expresion -> exp LESSTHAN exp .)
     DOT             reduce using rule 35 (expresion -> exp LESSTHAN exp .)
     SEMIC           reduce using rule 35 (expresion -> exp LESSTHAN exp .)
@@ -2613,12 +5130,16 @@ state 145
     RCURLY          reduce using rule 35 (expresion -> exp LESSTHAN exp .)
     ELSE            reduce using rule 35 (expresion -> exp LESSTHAN exp .)
     RBRACKET        reduce using rule 35 (expresion -> exp LESSTHAN exp .)
+=======
+    RCURLY          reduce using rule 14 (asignlist -> asignmany .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 146
 
-    (36) expresion -> exp GREATERTHAN exp .
+    (11) asignmany -> asign SEMIC asignlist .
 
+<<<<<<< HEAD
     RPAREN          reduce using rule 36 (expresion -> exp GREATERTHAN exp .)
     DOT             reduce using rule 36 (expresion -> exp GREATERTHAN exp .)
     SEMIC           reduce using rule 36 (expresion -> exp GREATERTHAN exp .)
@@ -2632,12 +5153,16 @@ state 146
     RCURLY          reduce using rule 36 (expresion -> exp GREATERTHAN exp .)
     ELSE            reduce using rule 36 (expresion -> exp GREATERTHAN exp .)
     RBRACKET        reduce using rule 36 (expresion -> exp GREATERTHAN exp .)
+=======
+    RCURLY          reduce using rule 11 (asignmany -> asign SEMIC asignlist .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 147
 
-    (37) expresion -> exp BETWEEN exp .
+    (13) asignlist -> empty .
 
+<<<<<<< HEAD
     RPAREN          reduce using rule 37 (expresion -> exp BETWEEN exp .)
     DOT             reduce using rule 37 (expresion -> exp BETWEEN exp .)
     SEMIC           reduce using rule 37 (expresion -> exp BETWEEN exp .)
@@ -2651,62 +5176,114 @@ state 147
     RCURLY          reduce using rule 37 (expresion -> exp BETWEEN exp .)
     ELSE            reduce using rule 37 (expresion -> exp BETWEEN exp .)
     RBRACKET        reduce using rule 37 (expresion -> exp BETWEEN exp .)
+=======
+    RCURLY          reduce using rule 13 (asignlist -> empty .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 148
 
+<<<<<<< HEAD
     (20) for -> FOR ID IN DOT ID . LBRACKET statement RBRACKET
+=======
+    (47) write2 -> CTESTRING DOT write2 .
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
-    LBRACKET        shift and go to state 159
+    RPAREN          reduce using rule 47 (write2 -> CTESTRING DOT write2 .)
 
 
 state 149
 
+<<<<<<< HEAD
     (60) block -> block2 .
 
     SEMIC           reduce using rule 60 (block -> block2 .)
     ELSE            reduce using rule 60 (block -> block2 .)
+=======
+    (46) write2 -> expresion DOT write2 .
+
+    RPAREN          reduce using rule 46 (write2 -> expresion DOT write2 .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 150
 
+<<<<<<< HEAD
     (61) block -> LCURLY . RCURLY
 
     RCURLY          shift and go to state 160
+=======
+    (43) write -> PRINT LPAREN write2 RPAREN SEMIC .
+
+    ID              reduce using rule 43 (write -> PRINT LPAREN write2 RPAREN SEMIC .)
+    IF              reduce using rule 43 (write -> PRINT LPAREN write2 RPAREN SEMIC .)
+    PRINT           reduce using rule 43 (write -> PRINT LPAREN write2 RPAREN SEMIC .)
+    MIN             reduce using rule 43 (write -> PRINT LPAREN write2 RPAREN SEMIC .)
+    MAX             reduce using rule 43 (write -> PRINT LPAREN write2 RPAREN SEMIC .)
+    FOR             reduce using rule 43 (write -> PRINT LPAREN write2 RPAREN SEMIC .)
+    RETURN          reduce using rule 43 (write -> PRINT LPAREN write2 RPAREN SEMIC .)
+    RCURLY          reduce using rule 43 (write -> PRINT LPAREN write2 RPAREN SEMIC .)
+    SEMIC           reduce using rule 43 (write -> PRINT LPAREN write2 RPAREN SEMIC .)
+    ELSE            reduce using rule 43 (write -> PRINT LPAREN write2 RPAREN SEMIC .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 151
 
+<<<<<<< HEAD
     (32) condition -> IF LPAREN expresion RPAREN block . SEMIC
     (33) condition -> IF LPAREN expresion RPAREN block . ELSE block SEMIC
 
     SEMIC           shift and go to state 161
     ELSE            shift and go to state 162
+=======
+    (20) for -> FOR ID IN DOT ID . LCURLY block2 RCURLY
+
+    LCURLY          shift and go to state 157
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 152
 
+<<<<<<< HEAD
     (55) function -> FUNC ID LPAREN manyargs RPAREN LCURLY varsdata block2 RCURLY .
 
     MODEL           reduce using rule 55 (function -> FUNC ID LPAREN manyargs RPAREN LCURLY varsdata block2 RCURLY .)
+=======
+    (34) expresiones -> expresion COMMA expresiones .
+
+    SEMIC           reduce using rule 34 (expresiones -> expresion COMMA expresiones .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 153
 
+<<<<<<< HEAD
     (24) sum -> SUM LPAREN ID . POINTS expresion RPAREN
+=======
+    (62) block -> block2 .
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
-    POINTS          shift and go to state 163
+    SEMIC           reduce using rule 62 (block -> block2 .)
+    ELSE            reduce using rule 62 (block -> block2 .)
 
 
 state 154
 
+<<<<<<< HEAD
     (21) forlist -> for . SEMIC lfor
 
     SEMIC           shift and go to state 164
+=======
+    (63) block -> LCURLY . RCURLY
+
+    RCURLY          shift and go to state 158
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 155
 
+<<<<<<< HEAD
     (19) restrictions2 -> sum SEMIC forlist .
 
     ID              reduce using rule 19 (restrictions2 -> sum SEMIC forlist .)
@@ -2720,10 +5297,18 @@ state 155
     SEMIC           reduce using rule 19 (restrictions2 -> sum SEMIC forlist .)
     ELSE            reduce using rule 19 (restrictions2 -> sum SEMIC forlist .)
     RBRACKET        reduce using rule 19 (restrictions2 -> sum SEMIC forlist .)
+=======
+    (32) condition -> IF LPAREN expresion RPAREN block . SEMIC
+    (33) condition -> IF LPAREN expresion RPAREN block . ELSE block SEMIC
+
+    SEMIC           shift and go to state 159
+    ELSE            shift and go to state 160
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 156
 
+<<<<<<< HEAD
     (7) functioncall -> ID LPAREN expresion RPAREN .
 
     STAR            reduce using rule 7 (functioncall -> ID LPAREN expresion RPAREN .)
@@ -2746,10 +5331,14 @@ state 156
     RCURLY          reduce using rule 7 (functioncall -> ID LPAREN expresion RPAREN .)
     ELSE            reduce using rule 7 (functioncall -> ID LPAREN expresion RPAREN .)
     RBRACKET        reduce using rule 7 (functioncall -> ID LPAREN expresion RPAREN .)
+=======
+    (57) function -> FUNC ID LPAREN manyargs RPAREN LCURLY varsdata block2 RCURLY .
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
+
+    MODEL           reduce using rule 57 (function -> FUNC ID LPAREN manyargs RPAREN LCURLY varsdata block2 RCURLY .)
 
 
-state 157
-
+<<<<<<< HEAD
     (9) functioncall -> ID LPAREN CTEF RPAREN .
 
     STAR            reduce using rule 9 (functioncall -> ID LPAREN CTEF RPAREN .)
@@ -2772,10 +5361,52 @@ state 157
     RCURLY          reduce using rule 9 (functioncall -> ID LPAREN CTEF RPAREN .)
     ELSE            reduce using rule 9 (functioncall -> ID LPAREN CTEF RPAREN .)
     RBRACKET        reduce using rule 9 (functioncall -> ID LPAREN CTEF RPAREN .)
+=======
+state 157
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
+    (20) for -> FOR ID IN DOT ID LCURLY . block2 RCURLY
+    (64) block2 -> . statement block2
+    (65) block2 -> . statement
+    (66) block2 -> . empty
+    (49) statement -> . asign
+    (50) statement -> . condition
+    (51) statement -> . write
+    (52) statement -> . optimize
+    (53) statement -> . for
+    (54) statement -> . return
+    (93) empty -> .
+    (48) asign -> . ID EQUALS expresiones SEMIC
+    (32) condition -> . IF LPAREN expresion RPAREN block SEMIC
+    (33) condition -> . IF LPAREN expresion RPAREN block ELSE block SEMIC
+    (43) write -> . PRINT LPAREN write2 RPAREN SEMIC
+    (15) optimize -> . MIN EQUALS statement
+    (16) optimize -> . MAX EQUALS statement
+    (20) for -> . FOR ID IN DOT ID LCURLY block2 RCURLY
+    (56) return -> . RETURN asign
+
+    RCURLY          reduce using rule 93 (empty -> .)
+    ID              shift and go to state 62
+    IF              shift and go to state 64
+    PRINT           shift and go to state 54
+    MIN             shift and go to state 53
+    MAX             shift and go to state 65
+    FOR             shift and go to state 61
+    RETURN          shift and go to state 51
+
+    return                         shift and go to state 60
+    block2                         shift and go to state 161
+    for                            shift and go to state 55
+    asign                          shift and go to state 66
+    write                          shift and go to state 57
+    condition                      shift and go to state 63
+    statement                      shift and go to state 58
+    optimize                       shift and go to state 56
+    empty                          shift and go to state 59
 
 state 158
 
+<<<<<<< HEAD
     (8) functioncall -> ID LPAREN CTEI RPAREN .
 
     STAR            reduce using rule 8 (functioncall -> ID LPAREN CTEI RPAREN .)
@@ -2798,10 +5429,17 @@ state 158
     RCURLY          reduce using rule 8 (functioncall -> ID LPAREN CTEI RPAREN .)
     ELSE            reduce using rule 8 (functioncall -> ID LPAREN CTEI RPAREN .)
     RBRACKET        reduce using rule 8 (functioncall -> ID LPAREN CTEI RPAREN .)
+=======
+    (63) block -> LCURLY RCURLY .
+
+    SEMIC           reduce using rule 63 (block -> LCURLY RCURLY .)
+    ELSE            reduce using rule 63 (block -> LCURLY RCURLY .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 159
 
+<<<<<<< HEAD
     (20) for -> FOR ID IN DOT ID LBRACKET . statement RBRACKET
     (47) statement -> . asign
     (48) statement -> . condition
@@ -2835,17 +5473,77 @@ state 159
     statement                      shift and go to state 165
     optimize                       shift and go to state 43
     loop                           shift and go to state 54
+=======
+    (32) condition -> IF LPAREN expresion RPAREN block SEMIC .
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
-state 160
+    ID              reduce using rule 32 (condition -> IF LPAREN expresion RPAREN block SEMIC .)
+    IF              reduce using rule 32 (condition -> IF LPAREN expresion RPAREN block SEMIC .)
+    PRINT           reduce using rule 32 (condition -> IF LPAREN expresion RPAREN block SEMIC .)
+    MIN             reduce using rule 32 (condition -> IF LPAREN expresion RPAREN block SEMIC .)
+    MAX             reduce using rule 32 (condition -> IF LPAREN expresion RPAREN block SEMIC .)
+    FOR             reduce using rule 32 (condition -> IF LPAREN expresion RPAREN block SEMIC .)
+    RETURN          reduce using rule 32 (condition -> IF LPAREN expresion RPAREN block SEMIC .)
+    RCURLY          reduce using rule 32 (condition -> IF LPAREN expresion RPAREN block SEMIC .)
+    SEMIC           reduce using rule 32 (condition -> IF LPAREN expresion RPAREN block SEMIC .)
+    ELSE            reduce using rule 32 (condition -> IF LPAREN expresion RPAREN block SEMIC .)
 
+<<<<<<< HEAD
     (61) block -> LCURLY RCURLY .
 
     SEMIC           reduce using rule 61 (block -> LCURLY RCURLY .)
     ELSE            reduce using rule 61 (block -> LCURLY RCURLY .)
+=======
 
+state 160
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
+
+    (33) condition -> IF LPAREN expresion RPAREN block ELSE . block SEMIC
+    (62) block -> . block2
+    (63) block -> . LCURLY RCURLY
+    (64) block2 -> . statement block2
+    (65) block2 -> . statement
+    (66) block2 -> . empty
+    (49) statement -> . asign
+    (50) statement -> . condition
+    (51) statement -> . write
+    (52) statement -> . optimize
+    (53) statement -> . for
+    (54) statement -> . return
+    (93) empty -> .
+    (48) asign -> . ID EQUALS expresiones SEMIC
+    (32) condition -> . IF LPAREN expresion RPAREN block SEMIC
+    (33) condition -> . IF LPAREN expresion RPAREN block ELSE block SEMIC
+    (43) write -> . PRINT LPAREN write2 RPAREN SEMIC
+    (15) optimize -> . MIN EQUALS statement
+    (16) optimize -> . MAX EQUALS statement
+    (20) for -> . FOR ID IN DOT ID LCURLY block2 RCURLY
+    (56) return -> . RETURN asign
+
+    LCURLY          shift and go to state 154
+    SEMIC           reduce using rule 93 (empty -> .)
+    ID              shift and go to state 62
+    IF              shift and go to state 64
+    PRINT           shift and go to state 54
+    MIN             shift and go to state 53
+    MAX             shift and go to state 65
+    FOR             shift and go to state 61
+    RETURN          shift and go to state 51
+
+    return                         shift and go to state 60
+    block2                         shift and go to state 153
+    for                            shift and go to state 55
+    condition                      shift and go to state 63
+    asign                          shift and go to state 66
+    write                          shift and go to state 57
+    block                          shift and go to state 162
+    statement                      shift and go to state 58
+    optimize                       shift and go to state 56
+    empty                          shift and go to state 59
 
 state 161
 
+<<<<<<< HEAD
     (32) condition -> IF LPAREN expresion RPAREN block SEMIC .
 
     ID              reduce using rule 32 (condition -> IF LPAREN expresion RPAREN block SEMIC .)
@@ -2859,10 +5557,16 @@ state 161
     SEMIC           reduce using rule 32 (condition -> IF LPAREN expresion RPAREN block SEMIC .)
     ELSE            reduce using rule 32 (condition -> IF LPAREN expresion RPAREN block SEMIC .)
     RBRACKET        reduce using rule 32 (condition -> IF LPAREN expresion RPAREN block SEMIC .)
+=======
+    (20) for -> FOR ID IN DOT ID LCURLY block2 . RCURLY
+
+    RCURLY          shift and go to state 163
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
 state 162
 
+<<<<<<< HEAD
     (33) condition -> IF LPAREN expresion RPAREN block ELSE . block SEMIC
     (60) block -> . block2
     (61) block -> . LCURLY RCURLY
@@ -3067,10 +5771,16 @@ state 171
     RCURLY          reduce using rule 20 (for -> FOR ID IN DOT ID LBRACKET statement RBRACKET .)
     ELSE            reduce using rule 20 (for -> FOR ID IN DOT ID LBRACKET statement RBRACKET .)
     RBRACKET        reduce using rule 20 (for -> FOR ID IN DOT ID LBRACKET statement RBRACKET .)
+=======
+    (33) condition -> IF LPAREN expresion RPAREN block ELSE block . SEMIC
+
+    SEMIC           shift and go to state 164
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
-state 172
+state 163
 
+<<<<<<< HEAD
     (33) condition -> IF LPAREN expresion RPAREN block ELSE block SEMIC .
 
     ID              reduce using rule 33 (condition -> IF LPAREN expresion RPAREN block ELSE block SEMIC .)
@@ -3084,17 +5794,47 @@ state 172
     SEMIC           reduce using rule 33 (condition -> IF LPAREN expresion RPAREN block ELSE block SEMIC .)
     ELSE            reduce using rule 33 (condition -> IF LPAREN expresion RPAREN block ELSE block SEMIC .)
     RBRACKET        reduce using rule 33 (condition -> IF LPAREN expresion RPAREN block ELSE block SEMIC .)
+=======
+    (20) for -> FOR ID IN DOT ID LCURLY block2 RCURLY .
+
+    ID              reduce using rule 20 (for -> FOR ID IN DOT ID LCURLY block2 RCURLY .)
+    IF              reduce using rule 20 (for -> FOR ID IN DOT ID LCURLY block2 RCURLY .)
+    PRINT           reduce using rule 20 (for -> FOR ID IN DOT ID LCURLY block2 RCURLY .)
+    MIN             reduce using rule 20 (for -> FOR ID IN DOT ID LCURLY block2 RCURLY .)
+    MAX             reduce using rule 20 (for -> FOR ID IN DOT ID LCURLY block2 RCURLY .)
+    FOR             reduce using rule 20 (for -> FOR ID IN DOT ID LCURLY block2 RCURLY .)
+    RETURN          reduce using rule 20 (for -> FOR ID IN DOT ID LCURLY block2 RCURLY .)
+    RCURLY          reduce using rule 20 (for -> FOR ID IN DOT ID LCURLY block2 RCURLY .)
+    SEMIC           reduce using rule 20 (for -> FOR ID IN DOT ID LCURLY block2 RCURLY .)
+    ELSE            reduce using rule 20 (for -> FOR ID IN DOT ID LCURLY block2 RCURLY .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 
-state 173
+state 164
 
+<<<<<<< HEAD
     (24) sum -> SUM LPAREN ID POINTS expresion RPAREN .
 
     SEMIC           reduce using rule 24 (sum -> SUM LPAREN ID POINTS expresion RPAREN .)
+=======
+    (33) condition -> IF LPAREN expresion RPAREN block ELSE block SEMIC .
+
+    ID              reduce using rule 33 (condition -> IF LPAREN expresion RPAREN block ELSE block SEMIC .)
+    IF              reduce using rule 33 (condition -> IF LPAREN expresion RPAREN block ELSE block SEMIC .)
+    PRINT           reduce using rule 33 (condition -> IF LPAREN expresion RPAREN block ELSE block SEMIC .)
+    MIN             reduce using rule 33 (condition -> IF LPAREN expresion RPAREN block ELSE block SEMIC .)
+    MAX             reduce using rule 33 (condition -> IF LPAREN expresion RPAREN block ELSE block SEMIC .)
+    FOR             reduce using rule 33 (condition -> IF LPAREN expresion RPAREN block ELSE block SEMIC .)
+    RETURN          reduce using rule 33 (condition -> IF LPAREN expresion RPAREN block ELSE block SEMIC .)
+    RCURLY          reduce using rule 33 (condition -> IF LPAREN expresion RPAREN block ELSE block SEMIC .)
+    SEMIC           reduce using rule 33 (condition -> IF LPAREN expresion RPAREN block ELSE block SEMIC .)
+    ELSE            reduce using rule 33 (condition -> IF LPAREN expresion RPAREN block ELSE block SEMIC .)
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
+<<<<<<< HEAD
 WARNING: shift/reduce conflict for DOT in state 83 resolved as shift
 WARNING: shift/reduce conflict for RPAREN in state 139 resolved as shift
 WARNING: shift/reduce conflict for RPAREN in state 140 resolved as shift
@@ -3103,4 +5843,13 @@ WARNING: reduce/reduce conflict in state 45 resolved using rule (block2 -> state
 WARNING: rejected rule (empty -> <empty>) in state 45
 WARNING: reduce/reduce conflict in state 83 resolved using rule (constant -> CTESTRING)
 WARNING: rejected rule (write2 -> CTESTRING) in state 83
+=======
+WARNING: shift/reduce conflict for RPAREN in state 104 resolved as shift
+WARNING: shift/reduce conflict for RPAREN in state 106 resolved as shift
+WARNING: shift/reduce conflict for DOT in state 120 resolved as shift
+WARNING: reduce/reduce conflict in state 58 resolved using rule (block2 -> statement)
+WARNING: rejected rule (empty -> <empty>) in state 58
+WARNING: reduce/reduce conflict in state 120 resolved using rule (constant -> CTESTRING)
+WARNING: rejected rule (write2 -> CTESTRING) in state 120
+>>>>>>> df3b74eaf7f8e960c841d9f0fd694f033c38812f
 WARNING: Rule (write2 -> CTESTRING) is never reduced

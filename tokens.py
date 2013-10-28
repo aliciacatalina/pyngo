@@ -4,7 +4,6 @@ import ply.lex as lex
 
 # tokens
 tokens = (
-		'ID', 
 
 		#control de flujo
 		'IF', 
@@ -59,7 +58,9 @@ tokens = (
 		'MODEL',
 		'SUM', 
 		'WHERE', 
-		'RETURN' 
+		'RETURN',
+
+		'ID' 
 )
 
 #tokens
@@ -84,6 +85,8 @@ t_LBRACKET		= r'\['
 t_RBRACKET		= r'\]'
 
 reserved = {
+	'min': 'MIN',
+	'max': 'MAX',
 	'if':	'IF', 
 	'else':	'ELSE', 
 	'for':	'FOR', 
