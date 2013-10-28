@@ -5,7 +5,7 @@ def p_constant(p):
 		| CTEF
 		| CTESTRING
 		| CTEBOOL
-		| ID
+		| id
 		| functioncall'''
 	p[0] = Node('constant', p[1])
 
@@ -30,8 +30,8 @@ def p_asignlist(p):
 	p[0] = Node('asignlist', p[1])
 
 def p_optimize(p):
-	'''optimize : MIN EQUALS restrictions
-							| MAX EQUALS restrictions'''
+	'''optimize : MIN EQUALS statement
+							| MAX EQUALS statement'''
 	p[0] = Node('optimize', p[3])
 
 def p_restrictions(p):
@@ -45,7 +45,7 @@ def p_restrictions2(p):
 	else : p[0] = Node('restrictions2', p[1])
 
 def p_for(p):
-	'''for : FOR ID IN DOT ID LBRACKET statement RBRACKET'''
+	'''for : FOR ID IN DOT ID LCURLY block2 RCURLY'''
 	p[0] = Node('for', p[7])
 
 def p_forlist(p):
@@ -125,7 +125,7 @@ def p_statement(p):
 				| condition
 				| write
 				| optimize
-				| loop
+				| for
 				| return'''
 	p[0] = Node('statement', p[1])
 
@@ -181,12 +181,18 @@ def p_vars(p):
 
 
 def p_matrix(p):
-	'''matrix : LBRACKET CTEI RBRACKET LBRACKET CTEI RBRACKET'''
+	'''matrix : LBRACKET expresion RBRACKET LBRACKET expresion RBRACKET'''
 	p[0] = Node('matrix', p[2], p[5])
 
 def p_array(p):
-	'''array : LBRACKET CTEI RBRACKET'''
+	'''array : LBRACKET expresion RBRACKET'''
 	p[0] = p[2]
+
+def p_id(p):
+	'''id : ID array
+					| ID matrix
+					| ID'''
+	p[0] = Node('ID', p[1])
 
 def p_declaracion(p):
 	'''declaracion : tipo array
