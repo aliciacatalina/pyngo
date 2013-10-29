@@ -176,7 +176,7 @@ def p_tipo(p):
 	p[0] = Node('tipo', p[1])
 
 def p_vars(p):
-    'vars : VARS LCURLY listofvars RCURLY'
+    'vars : VARS LCURLY lvars RCURLY'
     p[0]= Node('vars', p[3])
 
 
@@ -211,12 +211,14 @@ def p_listofids(p):
 	p[0] = Node('listofids', p[1], p[2])
 
 def p_lvars(p):
-	'''lvars : listofvars
+	'''lvars : listofvars lvars
+			| listofvars
 			| empty'''
-	p[0] = Node('lvars', p[1])
+	if len(p) > 2 : p[0] = Node('lvars', p[1], p[2])
+	else:  p[0] = p[1]
 
 def p_listofvars(p):
-    '''listofvars : declaracion POINTS listofids SEMIC lvars'''
+    '''listofvars : declaracion POINTS listofids SEMIC'''
     p[0]= Node('listofvars', p[1], p[3])
 
 def p_varsdata(p):

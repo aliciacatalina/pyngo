@@ -23,15 +23,20 @@ class Node(object):
 		
 	def semantic(self, result):
 		print "TYPE" ,self.type
-		if self.type == "programa":	
+		if self.type == "program":	
 			print "This is a program"
 			result = self.args[2].semantic(result)
-		elif self.type == "declaravarsdata":
+		elif self.type == "varsdata":
 			print "This is declaravarsdata"
 			result = self.args[0].semantic(result)
 		elif self.type == "vars":
 			result = self.args[0].semantic(result)
-		elif self.type == "listavars":
+		elif self.type == "lvars":
+			print len(self.args)
+			result = self.args[0].semantic(result)
+			if self.args[1] is not None:
+				result = self.args[1].semantic(result)
+		elif self.type == "listofvars":
 			print self.args[0].args[0], self.args[1].args[0]
 			if not self.args[1].args[1].args[0]:
 				print "one"
