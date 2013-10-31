@@ -1,10 +1,11 @@
 func iva (float p) {
+return p+p;
 
 }
 
 model {
 	vars {
-		float[10]: precios;
+		float[10]: precios, a;
 		float[10]: preciosconiva;
 	}
 
