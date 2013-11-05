@@ -109,7 +109,7 @@ reserved = {
 }
 
 def t_ID(t):
-	r"[a-zA-Z]([a-zA-Z0-9])*(\.[a-zA-Z]([a-zA-Z0-9])*)*"
+	r"[a-zA-Z]([a-zA-Z0-9_])*"
 	if t.value.lower() in reserved:
 		t.type = reserved[t.value.lower()]
 	return t

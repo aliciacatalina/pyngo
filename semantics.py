@@ -37,11 +37,11 @@ class Node(object):
 			if self.args[1] is not None:
 				result = self.args[1].semantic(result)
 		elif self.type == "listofvars":
-			print self.args[0].args[0], self.args[1].args[0]
-			if not self.args[1].args[1].args[0]:
+			print "las cosas:", self.args[0].args[0], self.args[1].args[0]
+			if not self.args[1].args[1]:
 				print "one"
 			else:
-				print "more than one"
+				print "more than one", self.args[1].args[1]
 
 
 			#print "main"

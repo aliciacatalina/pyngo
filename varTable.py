@@ -1,6 +1,7 @@
 #int 0-5000, float 5001-10000, bool 10001-15000
 class Vartable(dict):
-	def __init__(self, intpointer=0, floatpointer=5001, boolpointer=10000):
+	def __init__(self, intpointer=0, 
+				floatpointer=5001, boolpointer=10000):
 		self.intpointer = intpointer
 		self.floatpointer = floatpointer
 		self.boolpointer = boolpointer
@@ -26,11 +27,11 @@ class Vartable(dict):
 		else:
 			raise Exception("No type")
 
-#globaltable = Vartable()
-#globaltable.add(1, 'a')
-#globaltable.add(2, 'c')
-#globaltable.add(2, 'd')
-#globaltable.add(2, 'i')
-#globaltable.add(2, 'b')
-#globaltable.add(3, 'c')
-#print globaltable
+globaltable = Vartable()
+globaltable.add(1, 'a')
+globaltable.add(2, 'c')
+globaltable.add(2, 'd')
+globaltable.add(2, 'i')
+globaltable.add(2, 'b')
+globaltable.add(3, 'c')
+print globaltable

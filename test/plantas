@@ -1,0 +1,34 @@
+model {
+    vars {
+        int[3] : oferta_plantas;
+        int[4] : demanda_ciudades;
+        int[3][4] : costos, x;
+    }
+
+    data {
+        oferta_plantas = 35, 50, 40;
+        demanda_ciudades = 45, 20, 30, 30;
+        costos = 8, 6, 10, 9,
+               9, 12, 13, 7,
+               14, 9, 16, 5; 
+    }
+    MIN = for i in .oferta_plantas {
+        for j in .demanda_ciudades {
+            costos[i][j]*x[i][j];
+        }    
+    }
+
+    where {
+        for i in .oferta_plantas {
+            for j in .demanda_ciudades {
+                x[i][j] <= oferta_plantas[i];
+            }
+        }
+        for j in .demanda_ciudades {
+            for i in .oferta_plantas {
+                x[i][j] >= demanda_ciudades[j];
+            }
+        }
+
+    }
+}
