@@ -91,6 +91,8 @@ def p_expresiones(p):
 def p_expresion(p):
 	'''expresion : exp
 			| exp LESSTHAN exp
+			| exp LESSEQUAL exp
+			| exp GREATEREQUAL exp
 			| exp GREATERTHAN exp
 			| exp BETWEEN exp'''
 	if len(p) > 2 :
@@ -124,6 +126,7 @@ def p_factor(p):
 
 def p_model(p):
 	'''model : optimize
+			 | optimize where
 			 | empty'''
 	p[0] = Node('model', p[1])
 
@@ -140,8 +143,17 @@ def p_statement(p):
 				| write
 				| optimize
 				| for
-				| return'''
+				| return
+				| build'''
 	p[0] = Node('statement', p[1])
+
+def p_build(p):
+	'''build : BUILD expresion SEMIC'''
+	p[0] = Node('build', p[1])
+
+def p_where(p):
+	'''where : WHERE LCURLY statement RCURLY'''
+	p[0] = Node('where', p[3])
 
 #Tokens
 def p_vartype(p):

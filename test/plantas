@@ -14,7 +14,7 @@ model {
     }
     MIN = for i in .oferta_plantas {
         for j in .demanda_ciudades {
-            costos[i][j]*x[i][j];
+            build costos[i][j]*x[i][j];
         }    
     }
 

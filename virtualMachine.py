@@ -3,7 +3,7 @@
 
 from math import *
 
-quad = [['=', 34001, ' ', 4001], ['=', 30001, ' ', 100], ['=', 30002, ' ', 101], ['-', 100, 101, 20001], ['=', 20001, ' ', 2002], ['/', 32001, 100, 22001], ['=', 22001, ' ', 2001], ['print', ' ', ' ', 2002], ['print', ' ', ' ', 2001]]
+quad = [['=', 34001, ' ', 4001], ['=', 30001, ' ', 100], ['=', 30002, ' ', 101], ['<=', 100, 101, 20001], ['=', 20001, ' ', 2002], ['/', 32001, 100, 22001], ['=', 22001, ' ', 2001], ['print', ' ', ' ', 2002], ['print', ' ', ' ', 2001]]
 memory = [{4001: 'bo', 100: 'a', 101: 'b', 102: 'c', 103: 'g', 104: 'f', 105: 'e', 2001: 'd', 2002: 'h'},
         {34001: 'false', 30002: 4, 32001: 4.5, 30001: 3},
         {20001: ' 100 - 101', 22001: ' 32001 - 100'}]
@@ -109,6 +109,93 @@ def virtual_machine (quad):
                 op2 = mcte[quad[i][2]]
     
             res = op1 / op2
+                
+            mtemporal[quad[i][3]] = res
+            print mtemporal[quad[i][3]]
+            i +=1
+
+        elif quad[i][0] == ">":
+            print "Greater than"
+            if(quad[i][1] <= 8001):
+                op1 = mglobal[quad[i][1]]
+            elif(quad[i][1] >= 12001 and quad[i][1] <= 28001):
+                op1 = mtemporal[quad[i][1]]
+            elif(quad[i][1] >= 30001 and quad[i][1] <= 38001):
+                op1 = mcte[quad[i][1]]
+                
+            if(quad[i][2] <= 8001):
+                op2 = mglobal[quad[i][2]]
+            elif(quad[i][2] >= 12001 and quad[i][2] <= 28001):
+                op2 = mtemporal[quad[i][2]]
+            elif(quad[i][2] >= 30001 and quad[i][2] <= 38001):
+                op2 = mcte[quad[i][2]]
+    
+            res = op1 > op2
+                
+            mtemporal[quad[i][3]] = res
+            print mtemporal[quad[i][3]]
+            i +=1
+
+        elif quad[i][0] == "<":
+            print "Less than"
+            if(quad[i][1] <= 8001):
+                op1 = mglobal[quad[i][1]]
+            elif(quad[i][1] >= 12001 and quad[i][1] <= 28001):
+                op1 = mtemporal[quad[i][1]]
+            elif(quad[i][1] >= 30001 and quad[i][1] <= 38001):
+                op1 = mcte[quad[i][1]]
+                
+            if(quad[i][2] <= 8001):
+                op2 = mglobal[quad[i][2]]
+            elif(quad[i][2] >= 12001 and quad[i][2] <= 28001):
+                op2 = mtemporal[quad[i][2]]
+            elif(quad[i][2] >= 30001 and quad[i][2] <= 38001):
+                op2 = mcte[quad[i][2]]
+    
+            res = op1 < op2
+                
+            mtemporal[quad[i][3]] = res
+            print mtemporal[quad[i][3]]
+            i +=1
+        elif quad[i][0] == ">=":
+            print "Greater or equal to"
+            if(quad[i][1] <= 8001):
+                op1 = mglobal[quad[i][1]]
+            elif(quad[i][1] >= 12001 and quad[i][1] <= 28001):
+                op1 = mtemporal[quad[i][1]]
+            elif(quad[i][1] >= 30001 and quad[i][1] <= 38001):
+                op1 = mcte[quad[i][1]]
+                
+            if(quad[i][2] <= 8001):
+                op2 = mglobal[quad[i][2]]
+            elif(quad[i][2] >= 12001 and quad[i][2] <= 28001):
+                op2 = mtemporal[quad[i][2]]
+            elif(quad[i][2] >= 30001 and quad[i][2] <= 38001):
+                op2 = mcte[quad[i][2]]
+    
+            res = op1 >= op2
+                
+            mtemporal[quad[i][3]] = res
+            print mtemporal[quad[i][3]]
+            i +=1
+
+        elif quad[i][0] == "<=":
+            print "Less or equal than"
+            if(quad[i][1] <= 8001):
+                op1 = mglobal[quad[i][1]]
+            elif(quad[i][1] >= 12001 and quad[i][1] <= 28001):
+                op1 = mtemporal[quad[i][1]]
+            elif(quad[i][1] >= 30001 and quad[i][1] <= 38001):
+                op1 = mcte[quad[i][1]]
+                
+            if(quad[i][2] <= 8001):
+                op2 = mglobal[quad[i][2]]
+            elif(quad[i][2] >= 12001 and quad[i][2] <= 28001):
+                op2 = mtemporal[quad[i][2]]
+            elif(quad[i][2] >= 30001 and quad[i][2] <= 38001):
+                op2 = mcte[quad[i][2]]
+    
+            res = op1 <= op2
                 
             mtemporal[quad[i][3]] = res
             print mtemporal[quad[i][3]]

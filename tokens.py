@@ -16,7 +16,9 @@ tokens = (
 		'SLASH',
 		'PLUS', 
 		'MINUS', 
-		'LESSTHAN', 
+		'LESSTHAN',
+		'LESSEQUAL', 
+		'GREATEREQUAL', 
 		'GREATERTHAN', 
 		'BETWEEN',
 
@@ -59,6 +61,7 @@ tokens = (
 		'SUM', 
 		'WHERE', 
 		'RETURN',
+		'BUILD',
 
 		'ID' 
 )
@@ -74,6 +77,8 @@ t_LCURLY		= r'\{'
 t_RCURLY		= r'\}'
 t_POINTS		= r':'
 t_LESSTHAN		= r'<'
+t_LESSEQUAL		= r'<='
+t_GREATEREQUAL	= r'>='
 t_GREATERTHAN	= r'>'
 t_BETWEEN		= r'<>'
 t_PLUS			= r'\+'
@@ -105,7 +110,8 @@ reserved = {
 	'return' : 'RETURN',
 	'vars' : 'VARS',
 	'data' : 'DATA', 
-	'in'	: 'IN'
+	'in'	: 'IN',
+	'build' : 'BUILD'
 }
 
 def t_ID(t):
