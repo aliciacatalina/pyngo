@@ -127,13 +127,14 @@ def p_factor(p):
 def p_model(p):
 	'''model : optimize
 			 | optimize where
+			 | statementblock
 			 | empty'''
 	p[0] = Node('model', p[1])
 
 def p_optimize(p):
-	'''optimize : MIN EQUALS statement
-							| MAX EQUALS statement'''
-	p[0] = Node('optimize', p[3])
+	'''optimize : MIN LCURLY statement where RCURLY
+							| MAX LCURLY statement where RCURLY'''
+	p[0] = Node('optimize', p[3], p[4])
 
 #Statements
 def p_statement(p):
