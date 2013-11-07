@@ -3,7 +3,7 @@ from semantics import Node
 #Complete program
 def p_program(p):
     '''program : functions MODEL LCURLY vars data model statementblock RCURLY'''
-    p[0] = Node('program', p[1], p[4], p[5], p[6])
+    p[0] = Node('program', p[1], p[4], p[5], p[6], p[7])
 
 #Functions 
 def p_functions(p):
@@ -14,18 +14,20 @@ def p_functions(p):
 	
 def p_function(p):
 	'''function : FUNC ID LPAREN lparameters RPAREN LCURLY vars data statementblock RCURLY'''
-	p[0] = Node('function', p[4], p[7], p[8])
+	p[0] = Node('function', p[4], p[7], p[8], p[9])
 
 def p_lparameters(p):
 	'''lparameters : parameter
 					| parameter parameters
 					| empty'''
+	if len(p) > 2 : p[0] = Node('lparameters', p[1], p[2])
+	else : p[0] = p[1] 
 
 def p_parameters(p):
 	'''parameters : COMMA parameters
 				| empty'''
-	#if len(p) > 2 : p[0] = Node('parameters', p[1], p[3])
-	#else : p[0] = Node('parameters', p[1])
+	if len(p) > 2 : p[0] = Node('parameters', p[2])
+	else : p[0] = Node('parameters', p[1])
 
 def p_parameter(p):
 	'''parameter : vartype ID'''
