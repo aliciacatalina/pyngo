@@ -62,6 +62,7 @@ tokens = (
 		'WHERE', 
 		'RETURN',
 		'BUILD',
+		'CONDITION',
 
 		'ID' 
 )
@@ -111,7 +112,8 @@ reserved = {
 	'vars' : 'VARS',
 	'data' : 'DATA', 
 	'in'	: 'IN',
-	'build' : 'BUILD'
+	'build' : 'BUILD',
+	'condition' : 'CONDITION'
 }
 
 def t_ID(t):

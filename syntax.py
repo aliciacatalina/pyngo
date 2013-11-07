@@ -100,7 +100,7 @@ def p_expresion(p):
 	else : p[0] = Node('expresion', p[1])
 					
 def p_exp(p):
-    '''exp : term
+    '''exp : term 
 	 | term PLUS exp
 	 | term MINUS exp'''
     if len(p) > 2 : p[0]= Node('exp', p[1], p[2], p[3])
@@ -144,7 +144,8 @@ def p_statement(p):
 				| optimize
 				| for
 				| return
-				| build'''
+				| build
+				| wherecondition'''
 	p[0] = Node('statement', p[1])
 
 def p_build(p):
@@ -152,8 +153,12 @@ def p_build(p):
 	p[0] = Node('build', p[1])
 
 def p_where(p):
-	'''where : WHERE LCURLY statement RCURLY'''
+	'''where : WHERE LCURLY statementblock RCURLY'''
 	p[0] = Node('where', p[3])
+
+def p_wherecondition(p):
+	'''wherecondition : CONDITION expresion SEMIC'''
+	p[0] = Node('where', p[2])
 
 #Tokens
 def p_vartype(p):

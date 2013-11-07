@@ -21,12 +21,12 @@ model {
     where {
         for i in .oferta_plantas {
             for j in .demanda_ciudades {
-                x[i][j] <= oferta_plantas[i];
+                condition x[i][j] <= oferta_plantas[i];
             }
         }
         for j in .demanda_ciudades {
             for i in .oferta_plantas {
-                x[i][j] >= demanda_ciudades[j];
+                condition x[i][j] >= demanda_ciudades[j];
             }
         }
 
