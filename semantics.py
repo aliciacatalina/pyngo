@@ -28,6 +28,7 @@ class Node(object):
 		if self.type == "program":	
 			print "This is a program"
 			result = self.args[2].semantic(result)
+			self.args[3].semantic(result)	
 			# Send vars to semantic
 			# result = self.args[1].semantic(result)
 		elif self.type == "vars":
@@ -63,9 +64,15 @@ class Node(object):
 		elif self.type == "asign":
 			print "asign"
 			#validate that it is not on the vartable already
-			# result = self.args[0].semantic(result)
-			result = self.args[1].semantic(result)
-			#asign self.args[1] to self.args[0]
+			print self.args[1]
+			#result = self.args[1].semantic(result)
+			# asign self.args[1] to self.args[0] 
+		elif self.type == "model":
+			print "model"
+			result = self.args[0].semantic(result)
+		elif self.type == "statement":
+			print "statement"
+			result = self.args[0].semantic(result)
 		elif self.type == "expresiones":
 			print "expresiones"
 			result = self.args[0].semantic(result)
@@ -73,9 +80,16 @@ class Node(object):
 				result = self.args[1].semantic(result)
 		elif self.type == "expresion":
 			print "expresion"
+			print "arg1", self.args[0],"op", self.args[1],"arg2", self.args[2],
+			if isinstance(self.args[2], Node):
+				return self.args[2].semantic(result)
 
+		elif self.type == "write":
+			result = self.args[0].semantic(result)
+		elif self.type == "write2":
+			result = self.args[0].semantic(result)
 
-
+			
 
 			#print "main"
 #			cuadruplos.insert(0, [32, " ", "", len(cuadruplos)]	)

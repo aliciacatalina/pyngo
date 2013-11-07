@@ -94,7 +94,7 @@ def p_expresiones(p):
 	'''expresiones : expresion COMMA expresiones
 					| expresion'''
 	if len(p) > 2 : p[0] = Node ('expresiones', p[1], p[3])
-	else : p[0] = p[1] 
+	else : p[0] = p[1]
 #Expresions
 
 def p_expresion(p):
@@ -106,30 +106,30 @@ def p_expresion(p):
 			| exp BETWEEN exp'''
 	if len(p) > 2 :
 		p[0] = Node('expresion', p[1], p[2], p[3])
-	else : p[0] = Node('expresion', p[1])
+	else : p[0] = p[1]
 					
 def p_exp(p):
     '''exp : term 
 	 | term PLUS exp
 	 | term MINUS exp'''
-    if len(p) > 2 : p[0]= Node('exp', p[1], p[2], p[3])
-    else: p[0]= Node('exp', p[1])
+    if len(p) > 2 : p[0]= Node('expresion', p[1], p[2], p[3])
+    else: p[0]= p[1]
 
 def p_term(p):
 	'''term : factor
 		| factor STAR term
 		| factor SLASH term'''
 	if len(p) > 2 :
-		p[0] = Node('term', p[1], p[2], p[3])
-	else : p[0] = Node('term', p[1])
+		p[0] = Node('expresion', p[1], p[2], p[3])
+	else : p[0] = p[1]
 
 def p_factor(p):
     '''factor : PLUS constant
 	 | MINUS constant
 	 | constant
 	 | LPAREN expresion RPAREN'''
-    if len(p) > 2 : p[0]= Node('factor', p[2])
-    else: p[0]= Node('factor', p[1])
+    if len(p) > 2 : p[0]= Node('expresion', p[1], p[2], p[3])
+    else: p[0]= p[1]
 
 #Model
 
@@ -184,10 +184,11 @@ def p_constant(p):
 		| CTEBOOL
 		| id
 		| functioncall'''
-	p[0] = Node('constant', p[1])
+	p[0] = p[1]
 
 def p_id(p):
 	'''id : ID dimensions'''
+	p[0] = p[1]
 
 ######
 def p_functioncall(p):
