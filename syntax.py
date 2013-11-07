@@ -10,6 +10,7 @@ def p_functions(p):
 	'''functions : function functions 
 				| empty'''
 	if len(p) > 2: p[0] = Node('functions', p[1], p[2])
+	else : p[0] = p[1]
 	
 def p_function(p):
 	'''function : FUNC ID LPAREN lparameters RPAREN LCURLY vars data statementblock RCURLY'''
@@ -34,6 +35,7 @@ def p_parameter(p):
 def p_vars(p):
 	'''vars : varblock
 			| empty'''
+	p[0] = Node('vars', p[1])
 
 def p_varblock(p):
     'varblock : VARS LCURLY lvars RCURLY'
@@ -58,6 +60,8 @@ def p_typedeclaration(p):
 def p_dimensions(p):
 	'''dimensions : LBRACKET expresion RBRACKET dimensions
 					| empty'''
+	if len(p) > 2 : p[0] = Node('dimensions', p[1], p[3])
+	else : p[0] = p[1]
 					
 def p_listofids(p):
 	'''listofids : ID lid'''
@@ -77,15 +81,18 @@ def p_data(p):
 def p_asignmany(p):
 	'''asignmany : asign asignmany
 						| empty'''
-	#p[0] = Node('asignmany', p[1], p[3])
+	if len(p) > 2 : p[0] =  Node('asignmany', p[1], p[2])
+	else : p[0] =  p[1]
 
 def p_asign(p):
 	'asign : ID EQUALS expresiones SEMIC'
-	p[0] = Node('asign', p[1], p[2], p[3], p[4])
+	p[0] = Node('asign', p[1], p[3])
 
 def p_expresiones(p):
 	'''expresiones : expresion COMMA expresiones
 					| expresion'''
+	if len(p) > 2 : p[0] = Node ('expresiones', p[1], p[3])
+	else : p[0] = p[1] 
 #Expresions
 
 def p_expresion(p):
@@ -96,7 +103,7 @@ def p_expresion(p):
 			| exp GREATERTHAN exp
 			| exp BETWEEN exp'''
 	if len(p) > 2 :
-		p[0] = Node('expresion', p[3])
+		p[0] = Node('expresion', p[1], p[2], p[3])
 	else : p[0] = Node('expresion', p[1])
 					
 def p_exp(p):

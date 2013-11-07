@@ -2,7 +2,7 @@ model {
     vars {
         int[3] : oferta_plantas;
         int[4] : demanda_ciudades;
-        int[3][4] : costos, x;
+        int[3][4] : costos, x, y;
     }
 
     data {

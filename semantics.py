@@ -1,3 +1,5 @@
+from varTable import *
+
 class Node(object):
 	def __init__(self, t, *args):
 		self.type = t
@@ -26,10 +28,11 @@ class Node(object):
 		if self.type == "program":	
 			print "This is a program"
 			result = self.args[2].semantic(result)
-		elif self.type == "varsdata":
-			print "This is declaravarsdata"
-			result = self.args[0].semantic(result)
+			# Send vars to semantic
+			# result = self.args[1].semantic(result)
 		elif self.type == "vars":
+			result = self.args[0].semantic(result)
+		elif self.type == "varblock":
 			result = self.args[0].semantic(result)
 		elif self.type == "lvars":
 			print len(self.args)
@@ -42,6 +45,36 @@ class Node(object):
 				print "one"
 			else:
 				print "more than one", self.args[1].args[1]
+				result = self.args[1].semantic(result)
+		# elif self.type == "listofids":
+		# 	print len(self.args)
+		# 	print "many ids"
+		# 	print self.args[0]
+		# 	result = self.args[1].semantic(result)
+		# elif self.type == "lid":
+		# 	print len(self.args)
+		# 	result = self.args[0].semantic(result)
+		elif self.type == "data":
+			print "data segment"
+			result = self.args[0].semantic(result)
+		elif self.type == "asignmany":
+			print "asignmany"
+			result = self.args[0].semantic(result)
+		elif self.type == "asign":
+			print "asign"
+			#validate that it is not on the vartable already
+			# result = self.args[0].semantic(result)
+			result = self.args[1].semantic(result)
+			#asign self.args[1] to self.args[0]
+		elif self.type == "expresiones":
+			print "expresiones"
+			result = self.args[0].semantic(result)
+			if self.args[1] is not None:
+				result = self.args[1].semantic(result)
+		elif self.type == "expresion":
+			print "expresion"
+
+
 
 
 			#print "main"
