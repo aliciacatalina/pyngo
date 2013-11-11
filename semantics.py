@@ -1,4 +1,6 @@
 from varTable import *
+from possibleMemory import *
+from collections import defaultdict
 
 class Node(object):
 	def __init__(self, t, *args):
@@ -27,7 +29,7 @@ class Node(object):
 		print "TYPE" ,self.type
 		if self.type == "program":	
 			print "This is a program"
-			result = self.args[2].semantic(result)
+			result = self.args[1].semantic(result)
 			self.args[3].semantic(result)	
 			# Send vars to semantic
 			# result = self.args[1].semantic(result)
@@ -41,8 +43,18 @@ class Node(object):
 			if self.args[1] is not None:
 				result = self.args[1].semantic(result)
 		elif self.type == "listofvars":
-			print "las cosas:", self.args[0].args[0], self.args[1].args[0]
+			print "las cosas:", "is this a type?", self.args[0].args[0].args[0], "this is an id", self.args[1].args[0]
 			if not self.args[1].args[1]:
+				test = globaltable.iteritems()
+				for key, value in test:
+					print globaltable.iteritems()
+					for t, name in test:
+						if self.args[1].args[0] == name:
+							# Send the type and id to the function add to give them an address
+							print "variable ya declarada"
+						else:
+							globaltable.add(self.args[0].args[0].args[0], self.args[1].args[0])
+				print globaltable
 				print "one"
 			else:
 				print "more than one", self.args[1].args[1]
@@ -65,6 +77,10 @@ class Node(object):
 			print "asign"
 			#validate that it is not on the vartable already
 			print self.args[1]
+			# for t,name in globaltable.iteritems()
+			# 	if self.args[0] == name
+
+
 			#result = self.args[1].semantic(result)
 			# asign self.args[1] to self.args[0] 
 		elif self.type == "model":

@@ -15,23 +15,27 @@ class Vartable(dict):
 	def add(self, t, name):
 		if not t in self:
 			self[t] = {}
-		if t == 1:
+		if t == 'int':
+			globalvartable = self.intpointer
 			self[t][self.intpointer] = name
 			self.intpointer += 1
-		elif t == 2:
+		elif t == 'float':
 			self[t][self.floatpointer] = name
 			self.floatpointer += 1
-		elif t == 3:
+		elif t == 'bool':
 			self[t][self.boolpointer] = name
 			self.boolpointer += 1
 		else:
 			raise Exception("No type")
 
 globaltable = Vartable()
-globaltable.add(1, 'a')
-globaltable.add(2, 'c')
-globaltable.add(2, 'd')
-globaltable.add(2, 'i')
-globaltable.add(2, 'b')
-globaltable.add(3, 'c')
+globaltable.add('int', 'a')
+globaltable.add('float', 'c')
+globaltable.add('float', 'd')
+globaltable.add('float', 'i')
+globaltable.add('float', 'b')
+globaltable.add('bool', 'c')
 print globaltable
+
+
+
