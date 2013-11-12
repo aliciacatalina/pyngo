@@ -3,7 +3,7 @@ import sys
 import ply.lex as lex
 import ply.yacc as yacc
 from semantics import *
-from syntax import *
+from syntaxalternativa import *
 from tokens import *
 lexer = lex.lex() 
 program_file = str(sys.argv[1])

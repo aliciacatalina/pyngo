@@ -90,6 +90,11 @@ tokens = (
 )
 
 #tokens
+t_ASEQ			= r"="
+t_PLUSEQ		= r"\+="
+t_MINEQ			= r"-="
+t_MULTEQ		= r"\*="
+t_DIVEQ			= r"/="
 t_DIF			= r"!="
 t_XOR			= r"\^"
 t_ORB			= r"\|"
@@ -101,7 +106,6 @@ t_AND 			= r"&&"
 t_EQ			= r"=="
 t_MOD			= r"%"
 t_EXP			= r"\*\*"
-t_EQUALS		= r'='
 t_STAR			= r'\*'
 t_SLASH			= r'/'
 t_LPAREN		= r'\('

@@ -19,7 +19,7 @@ def p_vars(p):
 	p[0] = Node('vars', p[1])
 
 def p_varblock(p):
-    'varblock : VARS LCURLY declaracion RCURLY'
+    'varblock : VARS LCURLY lvars RCURLY'
     p[0]= Node('varblock', p[3])
 
 # def p_lvars(p):
@@ -106,7 +106,7 @@ def p_asignacion_signo(p):
 	| PLUSEQ
 	| MINEQ
 	| MULTEQ
-	| DIVEQ 
+	| DIVEQ
 	"""
 	p[0] = Node('asignacion_signo', p[1])
 
@@ -207,47 +207,27 @@ def p_funcion3(p):
 	if len(p) > 1:
 		p[0] = Node('funcion3', p[2].args[0])
 
-#def p_interfaz(p):
-#	"""interfaz : INTERFACE ID interfaz1 LCURLY interfaz2 RCURLY
-#	"""
-#	p[0] = Node('interfaz', p[2], p[3], p[5])
-#
-#def p_interfaz1(p):
-#	"""interfaz1 : EXTENDS ID interfaz11
-#	|
-#	"""
-#	if len(p) > 1:
-#		p[0] = Node('interfaz1', p[1], p[2], p[3])
-#
-#def p_interfaz11(p):
-#	"""interfaz11 : COMMA ID interfaz11
-#	|
-#	"""
-#	if len(p) > 1:
-#		p[0] = Node('interfaz11', p[2], p[3])
-#
-#def p_interfaz2(p):
-#	"""interfaz2 :  accesibilidad interfaz22
-#	|
-#	"""
-#	if len(p) > 1:
-#		p[0] = Node('interfaz2', p[1], p[2])
-#	  
-#def p_interfaz22(p):
-#	"""interfaz22 : funcion interfaz2
-#	| declaracion interfaz2
-#	"""
-#	p[0] = Node('interfaz22', p[1], p[2])
-#
+def p_lvars(p):
+	'''lvars : declaracion lvars
+			| declaracion
+			| empty'''
+	if len(p) > 2 : p[0] = Node('lvars', p[1], p[2])
+	else:  p[0] = p[1]
+
 def p_declaracion(p):
-	"""declaracion : tipo POINTS ID dec22 SEMIC
+	"""declaracion : tipo dimensions POINTS ID dec22 SEMIC
 	"""
-	if p[3] is None: 
+	if p[5] is None: 
 		p[0] = Node('declaracion', p[1], [p[2]])
 	else:
 		p[0] = Node('declaracion', p[1], [p[2]] + p[3])
 
-
+def p_dimensions(p):
+	'''dimensions : LBRACKET expresion RBRACKET dimensions
+					| LBRACKET CTEI RBRACKET dimensions
+					| empty'''
+	if len(p) > 2 : p[0] = Node('dimensions', p[1], p[3])
+	else : p[0] = p[1]
 
 def p_dec22(p):
 	"""dec22 : COMMA ID dec22
@@ -503,13 +483,14 @@ def p_valor(p):
 	"""valor : id
 	| int
 	| float
-	| bool
 	"""
 	p[0] = p[1]
+
 def p_int(p):
-	"""int : TINT
+	"""int : CTEI
 	"""
 	p[0] = Node('int', p[1])
+
 def p_id(p):
 	"""id : ID llamarfuncion
 	| ID
@@ -518,14 +499,15 @@ def p_id(p):
 		p[0] = Node('llamarfuncion', p[1], p[2])
 	else:
 		p[0] = Node('id', p[1])
+
 def p_float(p):
-	"""float : TFLOAT
+	"""float : CTEF
 	"""
 	p[0] = Node('float', p[1])
-def p_bool(p):
-	"""bool : TBOOL
-	"""
-	p[0] = Node('bool', p[1])
+# def p_bool(p):
+# 	"""bool : CTEBool
+# 	"""
+#	p[0] = Node('bool', p[1])
 
 def  p_llamarfuncion(p):
 	"""llamarfuncion : LPAREN llamarfuncion3 RPAREN
