@@ -4,7 +4,7 @@ model {
 	}
 
 	data {
-		a = 2;
+		a = 2 + 2;
 	}
 
 	print (4+5*a+2);

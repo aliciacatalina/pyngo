@@ -57,7 +57,7 @@ def p_listofvars(p):
 #Declaration of types
 def p_typedeclaration(p):
 	'''typedeclaration : vartype dimensions'''
-	p[0] = Node('typedeclaration', p[1])
+	p[0] = Node('typedeclaration', p[1], p[2])
 
 def p_dimensions(p):
 	'''dimensions : LBRACKET expresion RBRACKET dimensions
@@ -127,9 +127,12 @@ def p_factor(p):
     '''factor : PLUS constant
 	 | MINUS constant
 	 | constant
+	 | ID
 	 | LPAREN expresion RPAREN'''
-    if len(p) > 2 : p[0]= Node('expresion', p[1], p[2], p[3])
-    else: p[0]= p[1]
+    if len(p) == 4 : p[0]= Node('expresion', p[1], p[2], p[3])
+    else:
+    	if len(p) == 3 : p[0] = Node('expresion', p[1], p[2])
+    	else: p[0]= p[1]
 
 #Model
 

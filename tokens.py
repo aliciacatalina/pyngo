@@ -21,6 +21,19 @@ tokens = (
 		'GREATEREQUAL', 
 		'GREATERTHAN', 
 		'BETWEEN',
+		'MOD',
+		'EXP',
+		'OR', 
+		'AND', 
+		'ORB', 
+		'XOR', 
+		'ANDB', 
+		'EQ',
+		'DIF', 
+		'SHR', 
+		'SHL', 
+		'MOD',
+		'EXP', 
 
 		#separadores
 		'LPAREN', 
@@ -64,11 +77,30 @@ tokens = (
 		'BUILD',
 		'CONDITION',
 
+		#operadores
+		'ASEQ',
+		'PLUSEQ',
+		'MINEQ',
+		'MULTEQ',
+		'DIVEQ',
+		'PP',
+		'MM',
+
 		'ID' 
 )
 
 #tokens
-
+t_DIF			= r"!="
+t_XOR			= r"\^"
+t_ORB			= r"\|"
+t_ANDB			= r"&"
+t_SHR			= r">>"
+t_SHL			= r"<<"
+t_OR			= r"\|\|"
+t_AND 			= r"&&"
+t_EQ			= r"=="
+t_MOD			= r"%"
+t_EXP			= r"\*\*"
 t_EQUALS		= r'='
 t_STAR			= r'\*'
 t_SLASH			= r'/'
