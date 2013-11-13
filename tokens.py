@@ -32,8 +32,7 @@ tokens = (
 		'DIF', 
 		'SHR', 
 		'SHL', 
-		'MOD',
-		'EXP', 
+		'NOT', 
 
 		#separadores
 		'LPAREN', 
@@ -47,8 +46,7 @@ tokens = (
 		'COMMA',
 
 		# asignaciones
-		'POINTS',   
-		'EQUALS',  
+		'POINTS',    
 	 
 		#variables	 
 		'TBOOL', 
@@ -85,11 +83,14 @@ tokens = (
 		'DIVEQ',
 		'PP',
 		'MM',
-
+		'NEW',
 		'ID' 
 )
 
 #tokens
+t_NOT			= r"!"
+t_PP			= r"\+\+"
+t_MM			= r"--"
 t_ASEQ			= r"="
 t_PLUSEQ		= r"\+="
 t_MINEQ			= r"-="
@@ -149,7 +150,8 @@ reserved = {
 	'data' : 'DATA', 
 	'in'	: 'IN',
 	'build' : 'BUILD',
-	'condition' : 'CONDITION'
+	'condition' : 'CONDITION',
+	'new':	'NEW'
 }
 
 def t_ID(t):

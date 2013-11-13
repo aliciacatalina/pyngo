@@ -170,22 +170,36 @@ class Node(object):
 		elif self.type == "write2":
 			result = self.args[0].semantic(result)
 
+
+			#print "case2", self.args[0]
+			if self.args[0] is not None:
+				result = self.args[0].semantic_body(class_name, function_name, result)
+
+			if len(self.args) > 1 and self.args[1] is not None:
+				result = self.args[1].semantic_body(class_name, function_name, result)
+
+		else:
+			print "missing type: " + self.type
+
+		return result
+
+	def get_names(self, arg):
+		result = []
+
+		#if arg[1] is not None:
+		#	print arg, arg[1].args
+		while arg is not None:
+			result.append(arg[0])
+			#print arg[0], type(arg[0])
+			if len(arg) < 2 or arg[1] is None:
+				arg = None
+			else:
+				arg = arg[1].args
+
+		return result
+
 			
 
-			#print "main"
-#			cuadruplos.insert(0, [32, " ", "", len(cuadruplos)]	)
-#			if self.args[2] is not None:
-#				self.args[2].semantic_body("main", "global", result)
-#			cuadruplos.append([37, " ", "", ""])
-			
-#		elif self.type == "clase":
-			#print "clase"
-#			if self.args[2] is not None:
-#				nombre = self.args[0]
-#				if nombre in result:
-#						raise Exception("Clase ya definida: " + nombre)
-#				else:
-#					self.args[2].semantic_body(nombre, "global", result)
 
 		return result
 
