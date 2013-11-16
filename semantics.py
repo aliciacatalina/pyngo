@@ -2,6 +2,10 @@ from varTable import *
 from CuboSemantico import *
 import sys
 
+pointerdir = {'int' : 100, 'float': 2001, 'bool': 4001, 'string': 6001, 5: 8001}
+pointerdirlocal = {'int' : 10001, 'float': 12001, 'bool': 14001, 'string': 16001, 5: 18001}
+pointerdirtemp = {'int' : 20001, 'float': 22001, 'bool': 24001, 'string': 26001, 5: 28001}
+pointerdirconst = {'int' : 30001, 'float': 32001, 'bool': 34001, 'string': 36001, 5: 38001}
 dir_global = {}
 dir_local = {}
 dir_temp = {}
@@ -143,24 +147,31 @@ class Node(object):
 		if self.type == "asign":
 			print "asign dentro de expresiones"
 			print "operador", self.args[0].args[0], "id", self.args[1].args[0]
-			result = self.args[2].expression("global", result)
+			if self.args[2] is not None :
+				result = self.args[2].expression("global", result)
+			result = self.args[0].expression("global", result)
 
 		elif self.type == "expresiones":
 			print "expresiones"
+			print self.args[0], self.args[1]
 			result = self.args[0].semantic(result)
 			if self.args[1] is not None:
 				result = self.args[1].semantic(result)
 
 		elif self.type == "expresion":
-			left_type = self.args[1].expression("global", result)
-			print "expresion"
+			print 'ezpresion', self.args[1]
+			left_type, direccion = self.args[1].expression("global", result)
+			lefty = direccion
+			print direccion, "left"
+			right_type, direccion = self.args[2].expression("global", result)
 			print "arg1", self.args[1],"op", self.args[0],"arg2", self.args[2]
+			print "ope", self.args[0], left_type, right_type, direccion
 			#Verify type of arguments and send to semantic cube
-			if isinstance(self.args[0], int):
+			if isinstance(self.args[1], int):
 				left_type = "int"
-			elif isinstance(self.args[0], float):
+			elif isinstance(self.args[1], float):
 				left_type = "float"
-			elif isinstance(self.args[0], bool):
+			elif isinstance(self.args[1], bool):
 				left_type = "bool"
 
 			if isinstance(self.args[2], int):
@@ -169,8 +180,19 @@ class Node(object):
 				right_type = "float"
 			elif isinstance(self.args[2], bool):
 				right_type = "bool"
+
+			result_type = cubo_semantico[left_type][right_type][self.args[0]]
+			print result_type
+
+			dir_temp[pointerdirtemp[result_type]] = " " + str(lefty) + " - " + str(direccion)
+			cuadruplos.append([self.args[0], lefty, direccion, pointerdirtemp[result_type]])
+			pointerdirtemp[result_type] += 1
+			return result_type, pointerdirtemp[result_type] - 1 
+
 		elif self.type == "int" : 
-			print self.args[0]
+			dir_cons[pointerdirconst['int']] = int(self.args[0])
+			pointerdirconst['int'] += 1
+			return 'int', pointerdirconst['int'] - 1
 		# if self.type == "expresion":
 		# 	print "expresion"
 		# 	print "arg1", self.args[0],"op", self.args[1],"arg2", self.args[2]
@@ -188,23 +210,10 @@ class Node(object):
 		# 	cuadruplos.append([self.args[1], left_type, right_side, 'temporal'])
 
 		# 	print self.args[0]
-		elif self.type == "write":
-			result = self.args[0].semantic(result)
-		elif self.type == "write2":
-			result = self.args[0].semantic(result)
+		print cuadruplos
 
 
-			#print "case2", self.args[0]
-			if self.args[0] is not None:
-				result = self.args[0].semantic_body(class_name, function_name, result)
 
-			if len(self.args) > 1 and self.args[1] is not None:
-				result = self.args[1].semantic_body(class_name, function_name, result)
-
-		else:
-			print "missing type: " + self.type
-
-		return result
 
 	def get_names(self, arg):
 		result = []
@@ -222,8 +231,5 @@ class Node(object):
 		return result
 
 			
-
-
-		return result
 
 

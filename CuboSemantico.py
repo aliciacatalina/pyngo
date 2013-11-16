@@ -1,9 +1,8 @@
 #----------------------------------------------
 # cubosemantico.py
 # cubosemantico
-# Alicia Gonzalez int088intstring9
+# Alicia Gonzalez
 # Ernesto Garcia
-# CREADO: intfloat/int0/float0intbool
 #----------------------------------------------
 
 cubo_semantico = {

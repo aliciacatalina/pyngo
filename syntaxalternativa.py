@@ -255,7 +255,7 @@ def p_expresioni(p):
 	| empty
 	"""
 	if len(p) > 2:
-		p[0] = (8, p[2])
+		p[0] = ('or', p[2])
 	else : p[0] = p[1]
 
 def p_expresion2(p):
@@ -271,7 +271,7 @@ def p_expresion2i(p):
 	| empty
 	"""
 	if len(p) > 2:
-		p[0] = (9, p[2])
+		p[0] = ('and', p[2])
 	else : p[0] = p[1]
 
 def p_expresion3(p):
@@ -287,7 +287,7 @@ def p_expresion3i(p):
 	| empty
 	"""
 	if len(p) > 2:
-		p[0] = (24, p[2])
+		p[0] = ('orb', p[2])
 	else : p[0] = p[1]
 
 def p_expresion4(p):
@@ -303,7 +303,7 @@ def p_expresion4i(p):
 	| empty
 	"""
 	if len(p) > 2:
-		p[0] = (23, p[2])
+		p[0] = ('xor', p[2])
 	else : p[0] = p[1]
 
 def p_expresion5(p):
@@ -319,7 +319,7 @@ def p_expresion5i(p):
 	| empty
 	"""
 	if len(p) > 2:
-		p[0] = (25, p[2])
+		p[0] = ('andb', p[2])
 	else : p[0] = p[1]
 
 def p_expresion6(p):
@@ -337,9 +337,9 @@ def p_expresion6i(p):
 	"""
 	if len(p) > 2:
 		if p[1] == "==":
-			p[0] = (10, p[2])
+			p[0] = ('==', p[2])
 		if p[1] == "!=":
-			p[0] = (11, p[2])
+			p[0] = ('!=', p[2])
 	else : p[0] = p[1]
 	
 def p_expresion7(p):
@@ -357,9 +357,9 @@ def p_expresion7i(p):
 	"""
 	if len(p) > 2:
 		if p[1] == ">>":
-			p[0] = (26, p[2])
+			p[0] = ('>>', p[2])
 		if p[1] == "<<":
-			p[0] = (27, p[2])
+			p[0] = ('<<', p[2])
 	else : p[0] = p[1]
 def p_expresion8(p):
 	"""expresion8 : expresion9 expresion8i 
@@ -378,13 +378,13 @@ def p_expresion8i(p):
 	"""
 	if len(p) > 2:
 		if p[1] == ">":
-			p[0] = (12, p[2])
+			p[0] = ('>', p[2])
 		if p[1] == "<":
-			p[0] = (13, p[2])
+			p[0] = ('<', p[2])
 		if p[1] == ">=":
-			p[0] = (14, p[2])
+			p[0] = ('>=', p[2])
 		if p[1] == "<=":
-			p[0] = (15, p[2])
+			p[0] = ('<=', p[2])
 	else : p[0] = p[1]
 def p_expresion9(p):
 	"""expresion9 : termino expresion9i
@@ -401,9 +401,9 @@ def p_expresion9i(p):
 	"""
 	if len(p) > 2:
 		if p[1] == "+":
-			p[0] = (1, p[2])
+			p[0] = ('+', p[2])
 		if p[1] == "-":
-			p[0] = (2, p[2])
+			p[0] = ('-', p[2])
 	else : p[0] = p[1]
 def p_termino(p):
 	"""termino : factor termino2
@@ -421,11 +421,11 @@ def p_termino2(p):
 	"""
 	if len(p) > 2:
 		if p[1] == "*":
-			p[0] = (3, p[2])
+			p[0] = ('*', p[2])
 		if p[1] == "/":
-			p[0] = (4, p[2])
+			p[0] = ('/', p[2])
 		if p[1] == "%":
-			p[0] = (5, p[2])
+			p[0] = ('%', p[2])
 	else : p[0] = p[1]
 
 def p_factor(p):
@@ -442,7 +442,7 @@ def p_factor2(p):
 	"""
 	if len(p) > 2:
 		if p[1] == "**":
-			p[0] = (6, p[2])
+			p[0] = ('**', p[2])
 	else: p[0] = p[1]
 
 def p_exponencial(p):
@@ -468,15 +468,15 @@ def p_exponencial2(p):
 	"""
 	if len(p) > 2:
 		if p[1] == "!":
-			p[0] = 7
+			p[0] = '!'
 		if p[1] == "--":
-			p[0] = 22
+			p[0] = '--'
 		if p[1] == "++":
-			p[0] = 21
+			p[0] = '++'
 		if p[1] == "+":
-			p[0] = 1
+			p[0] = '+'
 		if p[1] == "-":
-			p[0] = 2
+			p[0] = '-'
 	else : p[0] = p[1]
 
 def p_valor(p):
