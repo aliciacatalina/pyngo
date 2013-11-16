@@ -54,7 +54,7 @@ class Node(object):
 			result = self.args[0].semantic(result)
 			if self.args[1] is not None:
 				result = self.args[1].semantic(result)
-		elif self.type == "listofvars":
+		elif self.type == "declaration":
 			print "las cosas:", "is this a type?", self.args[0].args[0].args[0], "this is an id", self.args[1].args[0]
 			if not self.args[1].args[1]:
 				for key in globaltable:
@@ -131,15 +131,6 @@ class Node(object):
 			# creo que tendre que hacer un dictionary de tipos, {'int':1}
 			# para ver que onda con el pointerdirtemp[numtipo]
 			# return result_type, pointerdirtemp[result_type] - 1 WHY
-		elif self.type == "typedeclaration":
-			print "typedeclaration"
-			result = self.args[0].semantic(result)
-			if self.args[1] is not None:
-				result = self.args[1].semantic(result)
-		elif self.type == "vartype":
-			print "vartype"
-		elif self.type == "dimensions":
-			print "scary" 
 
 
 

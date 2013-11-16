@@ -26,7 +26,7 @@ def p_varblock(p):
 def p_model(p):
 	'''model : optimize
 			 | optimize where
-			 | bloque
+			 | bloque2
 			 | empty'''
 	if len(p) > 2 : p[0] = Node('model', p[1], p[2])
 	else : p[0] = Node('model', p[1])
@@ -72,13 +72,19 @@ def p_asignmany(p):
 	else : p[0] =  p[1]
 
 def p_asign(p):
-	"""asign : id asign_signo expresion
-	| expresion
+	"""asign : id asign_signo expresiones SEMIC
 	"""
 	if len(p) == 4:
 		p[0] = Node('asign',p[2],p[1],p[3])
 	else:
 		p[0] = Node('asign',p[1])
+
+def p_expresiones(p):
+	'''expresiones : expresion COMMA expresiones
+					| expresion'''
+	if len(p) > 2 : p[0] = Node ('expresiones', p[1], p[3])
+	else : p[0] = p[1]
+#Expresions
 
 def p_asign_signo(p):
 	"""asign_signo : ASEQ
@@ -116,7 +122,7 @@ def p_condition1(p):
 # 	else : p[0] = Node('write2', p[1])
 
 def p_write(p):
-	"""write : PRINT asign write2 
+	"""write : PRINT asign write2 SEMIC
 	"""
 	if p[3] is None: 
 		p[0] = Node('write', p[1], [p[2]])
@@ -138,7 +144,7 @@ def p_write2(p):
 
 #change loop
 def p_ciclo(p):
-	"""ciclo : FOR asign bloque
+	"""ciclo : FOR ID IN DOT ID bloque
 	| FOR ciclo1 SEMIC ciclo2 SEMIC ciclo3 bloque
 	"""
 	print len(p), "tamanio"
@@ -253,7 +259,7 @@ def p_return(p):
 	p[0] = Node('return', p[2])
 
 def p_expresion(p):
-	"""expresion : expresion2 expresioni SEMIC
+	"""expresion : expresion2 expresioni
 	"""
 	if p[2] is None:
 		p[0] = p[1]
