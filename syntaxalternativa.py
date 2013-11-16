@@ -240,7 +240,7 @@ def p_bloque(p):
 	p[0] = Node('bloque', p[2])
 
 def p_bloque2(p):
-	"""bloque2 : GREATERTHAN bloque2
+	"""bloque2 : statement bloque2
 	| empty
 	"""
 	if len(p) > 2:
