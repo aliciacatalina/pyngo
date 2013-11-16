@@ -104,42 +104,6 @@ class Node(object):
 		elif self.type == "model":
 			print "model"
 			result = self.args[0].semantic(result)
-		# elif self.type == "statement":
-		# 	print "statement"
-		# 	result = self.args[0].semantic(result)
-		# elif self.type == "expresiones":
-		# 	print "expresiones"
-		# 	result = self.args[0].semantic(result)
-		# 	if self.args[1] is not None:
-		# 		result = self.args[1].semantic(result)
-		# elif self.type == "expresion":
-		# 	left_type = ""
-		# 	print "expresion"
-		# 	print "arg1", self.args[0],"op", self.args[1],"arg2", self.args[2]
-		# 	#Verify type of arguments and send to semantic cube
-		# 	if isinstance(self.args[0], int):
-		# 		left_type = "int"
-		# 	elif isinstance(self.args[0], float):
-		# 		left_type = "float"
-		# 	elif isinstance(self.args[0], bool):
-		# 		left_type = "bool"
-
-		# 	if isinstance(self.args[2], int):
-		# 		right_type = "int"
-		# 	elif isinstance(self.args[2], float):
-		# 		right_type = "float"
-		# 	elif isinstance(self.args[2], bool):
-		# 		right_type = "bool"
-
-		# 	result_type = cubo_semantico[left_type][right_type][self.args[1]]
-		# 	print "result_type " + result_type
-			# hacer un append de cuadruplos y ver que onda con dir_temp
-			# creo que tendre que hacer un dictionary de tipos, {'int':1}
-			# para ver que onda con el pointerdirtemp[numtipo]
-			# return result_type, pointerdirtemp[result_type] - 1 WHY
-
-
-
 
 	#Expression function to receive all expressions
 	def expression(self, function_name, result):
@@ -148,8 +112,9 @@ class Node(object):
 			print "asign dentro de expresiones"
 			print "operador", self.args[0].args[0], "id", self.args[1].args[0]
 			if self.args[2] is not None :
-				result = self.args[2].expression("global", result)
+				result_type, address = self.args[2].expression("global", result)
 			result = self.args[0].expression("global", result)
+			cuadruplos.append([self.args[0].args[0], address, '', 'a'])
 
 		elif self.type == "expresiones":
 			print "expresiones"
@@ -159,7 +124,7 @@ class Node(object):
 				result = self.args[1].semantic(result)
 
 		elif self.type == "expresion":
-			print 'ezpresion', self.args[1]
+			print 'expresion', self.args[1]
 			left_type, direccion = self.args[1].expression("global", result)
 			lefty = direccion
 			print direccion, "left"
@@ -193,27 +158,8 @@ class Node(object):
 			dir_cons[pointerdirconst['int']] = int(self.args[0])
 			pointerdirconst['int'] += 1
 			return 'int', pointerdirconst['int'] - 1
-		# if self.type == "expresion":
-		# 	print "expresion"
-		# 	print "arg1", self.args[0],"op", self.args[1],"arg2", self.args[2]
-		# 	left_type, direccion = self.args[0].expression(class_name, function_name, result)
-		# 	lefty = direccion
-		# 	print direccion, "left"
-		# 	right_type, direccion = self.args[2].expression(class_name, function_name, result)
-		# 	print "operacion", self.args[1], left_type, right_type, direccion
-		# 	pOper.append(self.args[1])
-		# 	numtipo = cubo_semantico[left_type][right_type][self.args[1]]
-		# 	#result = self.args[0].semantic(result)
-		# 	if isinstance(self.args[2], Node):
-		# 		return self.args[2].semantic(result)
 
-		# 	cuadruplos.append([self.args[1], left_type, right_side, 'temporal'])
-
-		# 	print self.args[0]
 		print cuadruplos
-
-
-
 
 	def get_names(self, arg):
 		result = []
