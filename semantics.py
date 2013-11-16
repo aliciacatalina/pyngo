@@ -10,6 +10,7 @@ dir_global = {}
 dir_local = {}
 dir_temp = {}
 dir_cons = {}
+varlookup = {}
 cuadruplos = []
 cuadruploactual = []
 pilaO = []
@@ -85,6 +86,8 @@ class Node(object):
 
 		# receives asignmany
 		elif self.type == "data":
+			for i in globaltable:
+				varlookup[i] = ({v:k for k, v in globaltable[i].items()})
 			print "data segment"
 			result = self.args[0].semantic(result)
 
@@ -114,7 +117,8 @@ class Node(object):
 			if self.args[2] is not None :
 				result_type, address = self.args[2].expression("global", result)
 			result = self.args[0].expression("global", result)
-			cuadruplos.append([self.args[0].args[0], address, '', 'a'])
+			cuadruplos.append([self.args[0].args[0], address, '', varlookup["int"][self.args[1].args[0]]])
+			print varlookup
 
 		elif self.type == "expresiones":
 			print "expresiones"
