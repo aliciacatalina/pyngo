@@ -73,7 +73,7 @@ def p_asignmany(p):
 
 def p_asign(p):
 	"""asign : id asign_signo expresiones SEMIC
-	"""
+			| expresiones"""
 	p[0] = Node('asign',p[2],p[1],p[3])
 
 
