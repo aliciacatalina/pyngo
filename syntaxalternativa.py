@@ -108,18 +108,6 @@ def p_condition1(p):
 	else :
 		p[0] = p[1]
 
-# def p_write(p):
-# 	'''write : PRINT LPAREN write2 RPAREN SEMIC'''
-# 	p[0] = Node('write', p[3])
-
-# def p_write2(p):
-# 	'''write2 : expresion
-# 				| CTESTRING
-# 				| expresion DOT write2
-# 				| CTESTRING DOT write2'''
-# 	if len(p) > 2 : p[0] = Node('write2', p[1], p[3])
-# 	else : p[0] = Node('write2', p[1])
-
 def p_write(p):
 	"""write : PRINT asign write2 SEMIC
 	"""
@@ -127,8 +115,6 @@ def p_write(p):
 		p[0] = Node('write',[p[2]])
 	else:
 		p[0] = Node('write', [p[2]] + p[3])
-
-
 
 def p_write2(p):
 	"""write2 : COMMA asign write2

@@ -41,7 +41,7 @@ class Node(object):
 			print "This is a program"
 			# self.args[1] sends vars to resulf
 			#self.args[2] sends data to result
-			result = self.args[1].semantic(result)
+			result = self.args[2].semantic(result)
 			self.args[3].semantic(result)	
 			
 			#functions
@@ -70,53 +70,91 @@ class Node(object):
 			#self.args[0].args[0].args[0] is the type
 			#self.args[1] is the id 
 			print "las cosas:", "is this a type?", self.args[0].args[0].args[0], "this is an id", self.args[1]
+			# for every element on the id array, check if it exists on array, if the id already exists on the table, raise Exception
 			for i in self.args[1] :
 				for key in globaltable:
 					if i in globaltable[key].values():
-						# Send the type and id to the function add to give them an address
 						raise Exception("Variable " + i + " alreay in use")
-					else:
-						globaltable.add(self.args[0].args[0].args[0], self.args[1].args[0])
+				# Send the type and id to the function add to give them an address
+				globaltable.add(self.args[0].args[0].args[0], i)
 				print globaltable
-				print "one"
-			else:
-				print "more than one", self.args[1]
-				result = self.args[1].semantic(result)
-	
+
+		# receives asignmany
 		elif self.type == "data":
 			print "data segment"
 			result = self.args[0].semantic(result)
+
+		#receive a single asign or comes back to asign many
 		elif self.type == "asignmany":
 			print "asignmany"
 			result = self.args[0].semantic(result)
 			if self.args[1] is not None:
 				result = self.args[1].semantic(result)
+
+		#receives var = 1, 2;
+		# or var = 3+3;
 		elif self.type == "asign":
 			print "asign"
-
-			print self.args[0]
-			result = self.args[1].semantic(result)
-			# for t,name in globaltable.iteritems()
-			# 	if self.args[0] == name
-
-
-			#result = self.args[1].semantic(result)
-			# asign self.args[1] to self.args[0] 
+			self.expression('global', result)
+			
 		elif self.type == "model":
 			print "model"
 			result = self.args[0].semantic(result)
-		elif self.type == "statement":
-			print "statement"
-			result = self.args[0].semantic(result)
+		# elif self.type == "statement":
+		# 	print "statement"
+		# 	result = self.args[0].semantic(result)
+		# elif self.type == "expresiones":
+		# 	print "expresiones"
+		# 	result = self.args[0].semantic(result)
+		# 	if self.args[1] is not None:
+		# 		result = self.args[1].semantic(result)
+		# elif self.type == "expresion":
+		# 	left_type = ""
+		# 	print "expresion"
+		# 	print "arg1", self.args[0],"op", self.args[1],"arg2", self.args[2]
+		# 	#Verify type of arguments and send to semantic cube
+		# 	if isinstance(self.args[0], int):
+		# 		left_type = "int"
+		# 	elif isinstance(self.args[0], float):
+		# 		left_type = "float"
+		# 	elif isinstance(self.args[0], bool):
+		# 		left_type = "bool"
+
+		# 	if isinstance(self.args[2], int):
+		# 		right_type = "int"
+		# 	elif isinstance(self.args[2], float):
+		# 		right_type = "float"
+		# 	elif isinstance(self.args[2], bool):
+		# 		right_type = "bool"
+
+		# 	result_type = cubo_semantico[left_type][right_type][self.args[1]]
+		# 	print "result_type " + result_type
+			# hacer un append de cuadruplos y ver que onda con dir_temp
+			# creo que tendre que hacer un dictionary de tipos, {'int':1}
+			# para ver que onda con el pointerdirtemp[numtipo]
+			# return result_type, pointerdirtemp[result_type] - 1 WHY
+
+
+
+
+	#Expression function to receive all expressions
+	def expression(self, function_name, result):
+		var_tipos = {'int' : 1, 'float' : 2, 'bool' : 3, 'bit' : 4, 'String' : 5}
+		if self.type == "asign":
+			print "asign dentro de expresiones"
+			print "operador", self.args[0].args[0], "id", self.args[1].args[0]
+			result = self.args[2].expression("global", result)
+
 		elif self.type == "expresiones":
 			print "expresiones"
 			result = self.args[0].semantic(result)
 			if self.args[1] is not None:
 				result = self.args[1].semantic(result)
+
 		elif self.type == "expresion":
-			left_type = ""
+			left_type = self.args[1].expression("global", result)
 			print "expresion"
-			print "arg1", self.args[0],"op", self.args[1],"arg2", self.args[2]
+			print "arg1", self.args[1],"op", self.args[0],"arg2", self.args[2]
 			#Verify type of arguments and send to semantic cube
 			if isinstance(self.args[0], int):
 				left_type = "int"
@@ -131,37 +169,25 @@ class Node(object):
 				right_type = "float"
 			elif isinstance(self.args[2], bool):
 				right_type = "bool"
-
-			result_type = cubo_semantico[left_type][right_type][self.args[1]]
-			print "result_type " + result_type
-			# hacer un append de cuadruplos y ver que onda con dir_temp
-			# creo que tendre que hacer un dictionary de tipos, {'int':1}
-			# para ver que onda con el pointerdirtemp[numtipo]
-			# return result_type, pointerdirtemp[result_type] - 1 WHY
-
-
-
-
-	#Expression function to receive all expressions
-	def expression(self, class_name, function_name, result):
-		var_tipos = {'int' : 1, 'float' : 2, 'bool' : 3, 'bit' : 4, 'String' : 5}
-		if self.type == "expresion":
-			print "expresion"
-			print "arg1", self.args[0],"op", self.args[1],"arg2", self.args[2]
-			left_type, direccion = self.args[0].expression(class_name, function_name, result)
-			lefty = direccion
-			print direccion, "left"
-			right_type, direccion = self.args[2].expression(class_name, function_name, result)
-			print "operacion", self.args[1], left_type, right_type, direccion
-			pOper.append(self.args[1])
-			numtipo = cubo_semantico[left_type][right_type][self.args[1]]
-			#result = self.args[0].semantic(result)
-			if isinstance(self.args[2], Node):
-				return self.args[2].semantic(result)
-
-			cuadruplos.append([self.args[1], left_type, right_side, 'temporal'])
-
+		elif self.type == "int" : 
 			print self.args[0]
+		# if self.type == "expresion":
+		# 	print "expresion"
+		# 	print "arg1", self.args[0],"op", self.args[1],"arg2", self.args[2]
+		# 	left_type, direccion = self.args[0].expression(class_name, function_name, result)
+		# 	lefty = direccion
+		# 	print direccion, "left"
+		# 	right_type, direccion = self.args[2].expression(class_name, function_name, result)
+		# 	print "operacion", self.args[1], left_type, right_type, direccion
+		# 	pOper.append(self.args[1])
+		# 	numtipo = cubo_semantico[left_type][right_type][self.args[1]]
+		# 	#result = self.args[0].semantic(result)
+		# 	if isinstance(self.args[2], Node):
+		# 		return self.args[2].semantic(result)
+
+		# 	cuadruplos.append([self.args[1], left_type, right_side, 'temporal'])
+
+		# 	print self.args[0]
 		elif self.type == "write":
 			result = self.args[0].semantic(result)
 		elif self.type == "write2":
