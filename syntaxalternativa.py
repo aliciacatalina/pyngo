@@ -74,17 +74,14 @@ def p_asignmany(p):
 def p_asign(p):
 	"""asign : id asign_signo expresiones SEMIC
 	"""
-	if len(p) == 4:
-		p[0] = Node('asign',p[2],p[1],p[3])
-	else:
-		p[0] = Node('asign',p[1])
+	p[0] = Node('asign',p[2],p[1],p[3])
+
 
 def p_expresiones(p):
 	'''expresiones : expresion COMMA expresiones
 					| expresion'''
 	if len(p) > 2 : p[0] = Node ('expresiones', p[1], p[3])
 	else : p[0] = p[1]
-#Expresions
 
 def p_asign_signo(p):
 	"""asign_signo : ASEQ
@@ -125,9 +122,9 @@ def p_write(p):
 	"""write : PRINT asign write2 SEMIC
 	"""
 	if p[3] is None: 
-		p[0] = Node('write', p[1], [p[2]])
+		p[0] = Node('write',[p[2]])
 	else:
-		p[0] = Node('write', p[1], [p[2]] + p[3])
+		p[0] = Node('write', [p[2]] + p[3])
 
 
 
