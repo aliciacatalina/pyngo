@@ -35,50 +35,54 @@ class Node(object):
 		return self.semantic(class_dir)
 		
 	def semantic(self, result):
+		# start
 		print "TYPE" ,self.type
 		if self.type == "program":	
 			print "This is a program"
+			# self.args[1] sends vars to resulf
+			#self.args[2] sends data to result
 			result = self.args[1].semantic(result)
 			self.args[3].semantic(result)	
-			# Send vars to semantic
-			# result = self.args[1].semantic(result)
+			
+			#functions
 		elif self.type == "functions":
 			print "funciones"
 
+			#sends a varblock
 		elif self.type == "vars":
 			result = self.args[0].semantic(result)
 
+			#receives VARS { lvars }
+			#sends lvars to semantics
 		elif self.type == "varblock":
 			result = self.args[0].semantic(result)
 
+			# VARS { type : var; }
+			# if it declares more than one variable, sends lvars again
 		elif self.type == "lvars":
 			print len(self.args)
 			result = self.args[0].semantic(result)
 			if self.args[1] is not None:
 				result = self.args[1].semantic(result)
 
+			# receives : type : var;
 		elif self.type == "declaration":
-			print "las cosas:", "is this a type?", self.args[0].args[0], "this is an id", self.args[1].args[0].args[0]
-			if not self.args[1].args[1]:
+			#self.args[0].args[0].args[0] is the type
+			#self.args[1] is the id 
+			print "las cosas:", "is this a type?", self.args[0].args[0].args[0], "this is an id", self.args[1]
+			for i in self.args[1] :
 				for key in globaltable:
-					if self.args[1].args[0] in globaltable[key].values():
+					if i in globaltable[key].values():
 						# Send the type and id to the function add to give them an address
-						raise Exception("Variable " + self.args[1].args[0] + " alreay in use")
+						raise Exception("Variable " + i + " alreay in use")
 					else:
 						globaltable.add(self.args[0].args[0].args[0], self.args[1].args[0])
 				print globaltable
 				print "one"
 			else:
-				print "more than one", self.args[1].args[1]
+				print "more than one", self.args[1]
 				result = self.args[1].semantic(result)
-		# elif self.type == "listofids":
-		# 	print len(self.args)
-		# 	print "many ids"
-		# 	print self.args[0]
-		# 	result = self.args[1].semantic(result)
-		# elif self.type == "lid":
-		# 	print len(self.args)
-		# 	result = self.args[0].semantic(result)
+	
 		elif self.type == "data":
 			print "data segment"
 			result = self.args[0].semantic(result)
@@ -89,7 +93,7 @@ class Node(object):
 				result = self.args[1].semantic(result)
 		elif self.type == "asign":
 			print "asign"
-			#validate that it is not on the vartable already
+
 			print self.args[0]
 			result = self.args[1].semantic(result)
 			# for t,name in globaltable.iteritems()

@@ -212,7 +212,7 @@ def p_declaration(p):
 	"""declaration : typedeclaration POINTS ID dec22 SEMIC
 	"""
 	if p[4] is None: 
-		p[0] = Node('declaration', p[1], p[3])
+		p[0] = Node('declaration', p[1], [p[3]])
 	else:
 		p[0] = Node('declaration', p[1], [p[3]] + p[4])
 
