@@ -145,35 +145,30 @@ def p_write2(p):
 #change loop
 def p_ciclo(p):
 	"""ciclo : FOR ID IN DOT ID bloque
-	| FOR ciclo1 SEMIC ciclo2 SEMIC ciclo3 bloque
 	"""
-	print len(p), "tamanio"
-	if len (p) == 4:
-		p[0] = Node('while', p[2], p[3])
-	else:
-	 	p[0] = Node('for', p[2], p[4], p[6], p[7])
+	p[0] = Node('for', p[2], p[3], p[4], p[5])
 
-def p_ciclo1(p):
-	"""ciclo1 : asign
-	|
-	"""
-	if len(p) > 1:
-		p[0] = p[1]
+# def p_ciclo1(p):
+# 	"""ciclo1 : asign
+# 	|
+# 	"""
+# 	if len(p) > 1:
+# 		p[0] = p[1]
 
-def p_ciclo2(p):
-	"""ciclo2 : asign
-	|
-	"""
-	if len(p) > 1:
-		p[0] = p[1]
+# def p_ciclo2(p):
+# 	"""ciclo2 : asign
+# 	|
+# 	"""
+# 	if len(p) > 1:
+# 		p[0] = p[1]
 
 
-def p_ciclo3(p):
-	"""ciclo3 : asign
-	|
-	"""
-	if len(p) > 1:
-		p[0] = p[1]
+# def p_ciclo3(p):
+# 	"""ciclo3 : asign
+# 	|
+# 	"""
+# 	if len(p) > 1:
+# 		p[0] = p[1]
 
 
 def p_funcion(p):
@@ -215,12 +210,16 @@ def p_lvars(p):
 	else:  p[0] = p[1]
 
 def p_declaration(p):
-	"""declaration : type dimensions POINTS ID dec22 SEMIC
+	"""declaration : typedeclaration POINTS ID dec22 SEMIC
 	"""
-	if p[5] is None: 
-		p[0] = Node('declaration', p[1], p[2], [p[4]])
+	if p[4] is None: 
+		p[0] = Node('declaration', p[1], p[3])
 	else:
-		p[0] = Node('declaration', p[1], [p[4]] + p[5])
+		p[0] = Node('declaration', p[1], [p[3]] + p[4])
+
+def p_typedeclaration(p):
+	'''typedeclaration : type dimensions'''
+	p[0] = Node('typedeclaration', p[1], p[2])
 
 def p_dimensions(p):
 	'''dimensions : LBRACKET expresion RBRACKET dimensions
@@ -509,7 +508,7 @@ def p_int(p):
 
 def p_id(p):
 	"""id : ID llamarfuncion
-	| ID
+	| ID dimensions
 	"""
 	if len(p) == 3:
 		p[0] = Node('llamarfuncion', p[1], p[2])

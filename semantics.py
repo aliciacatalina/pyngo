@@ -38,7 +38,7 @@ class Node(object):
 		print "TYPE" ,self.type
 		if self.type == "program":	
 			print "This is a program"
-			result = self.args[2].semantic(result)
+			result = self.args[1].semantic(result)
 			self.args[3].semantic(result)	
 			# Send vars to semantic
 			# result = self.args[1].semantic(result)
@@ -47,15 +47,18 @@ class Node(object):
 
 		elif self.type == "vars":
 			result = self.args[0].semantic(result)
+
 		elif self.type == "varblock":
 			result = self.args[0].semantic(result)
+
 		elif self.type == "lvars":
 			print len(self.args)
 			result = self.args[0].semantic(result)
 			if self.args[1] is not None:
 				result = self.args[1].semantic(result)
+
 		elif self.type == "declaration":
-			print "las cosas:", "is this a type?", self.args[0].args[0].args[0], "this is an id", self.args[1].args[0]
+			print "las cosas:", "is this a type?", self.args[0].args[0], "this is an id", self.args[1].args[0].args[0]
 			if not self.args[1].args[1]:
 				for key in globaltable:
 					if self.args[1].args[0] in globaltable[key].values():
