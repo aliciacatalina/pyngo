@@ -1,5 +1,4 @@
 from varTable import *
-from possibleMemory import *
 from CuboSemantico import *
 import sys
 
