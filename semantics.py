@@ -125,8 +125,7 @@ class Node(object):
 				print 'mas numeros', self.args[2]
 				result_type, address = self.args[2].expression("global", result)
 			result = self.args[0].expression("global", result)
-			cuadruplos.append([self.args[0].args[0], address, '', varlookup["int"][self.args[1].args[0]]])
-			print varlookup
+			cuadruplos.append([self.args[0].args[0], address, '', varlookup[result_type][self.args[1].args[0]]])
 
 		elif self.type == "expresiones":
 			print "expresiones"
