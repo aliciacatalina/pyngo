@@ -127,16 +127,17 @@ Rule 114   valor -> float
 Rule 115   int -> CTEI
 Rule 116   id -> ID llamarfuncion
 Rule 117   id -> ID dimensions
-Rule 118   float -> CTEF
-Rule 119   llamarfuncion -> LPAREN llamarfuncion3 RPAREN
-Rule 120   llamarfuncion3 -> asign llamarfuncion33
-Rule 121   llamarfuncion3 -> empty
-Rule 122   llamarfuncion33 -> COMMA asign llamarfuncion33
-Rule 123   llamarfuncion33 -> empty
-Rule 124   type -> TINT
-Rule 125   type -> TBOOL
-Rule 126   type -> TFLOAT
-Rule 127   empty -> <empty>
+Rule 118   id -> ID
+Rule 119   float -> CTEF
+Rule 120   llamarfuncion -> LPAREN llamarfuncion3 RPAREN
+Rule 121   llamarfuncion3 -> asign llamarfuncion33
+Rule 122   llamarfuncion3 -> empty
+Rule 123   llamarfuncion33 -> COMMA asign llamarfuncion33
+Rule 124   llamarfuncion33 -> empty
+Rule 125   type -> TINT
+Rule 126   type -> TBOOL
+Rule 127   type -> TFLOAT
+Rule 128   empty -> <empty>
 
 Terminals, with rules where they appear
 
@@ -145,10 +146,10 @@ ANDB                 : 77
 ASEQ                 : 31
 BETWEEN              : 
 BUILD                : 13
-COMMA                : 29 40 46 58 122
+COMMA                : 29 40 46 58 123
 CONDITION            : 15
 CTEBOOL              : 
-CTEF                 : 118
+CTEF                 : 119
 CTEI                 : 56 115
 CTESTRING            : 
 DATA                 : 24
@@ -162,14 +163,14 @@ FOR                  : 42
 FUNC                 : 43
 GREATEREQUAL         : 90
 GREATERTHAN          : 88
-ID                   : 42 42 43 44 46 52 58 116 117
+ID                   : 42 42 43 44 46 52 58 116 117 118
 IF                   : 36
 IN                   : 42
 LBRACKET             : 54 56
 LCURLY               : 1 6 11 12 14 24 60
 LESSEQUAL            : 91
 LESSTHAN             : 89
-LPAREN               : 43 48 105 119
+LPAREN               : 43 48 105 120
 MAX                  : 12
 MIN                  : 11
 MINEQ                : 33
@@ -190,16 +191,16 @@ PRINT                : 39
 RBRACKET             : 54 56
 RCURLY               : 1 6 11 12 14 24 60
 RETURN               : 63
-RPAREN               : 43 48 105 119
+RPAREN               : 43 48 105 120
 SEMIC                : 13 15 27 39 52
 SHL                  : 85
 SHR                  : 84
 SLASH                : 99
 STAR                 : 98
 SUM                  : 
-TBOOL                : 125
-TFLOAT               : 126
-TINT                 : 124
+TBOOL                : 126
+TFLOAT               : 127
+TINT                 : 125
 VARS                 : 6
 WHERE                : 14
 XOR                  : 74
@@ -207,7 +208,7 @@ error                :
 
 Nonterminals, with rules where they appear
 
-asign                : 17 25 36 39 40 63 120 122
+asign                : 17 25 36 39 40 63 121 123
 asign_signo          : 27
 asignmany            : 24 25
 bloque               : 36 37 42 43
@@ -221,7 +222,7 @@ dec22                : 52 58
 declaration          : 16 50
 dimensions           : 54 117
 dimensionsfixed      : 53 56
-empty                : 3 5 10 26 38 41 51 55 57 59 62 66 69 72 75 78 82 86 92 96 101 104 111 121 123
+empty                : 3 5 10 26 38 41 51 55 57 59 62 66 69 72 75 78 82 86 92 96 101 104 111 122 124
 exponencial          : 102
 exponencial2         : 106
 expresion            : 13 15 29 30 54 65 105
@@ -254,8 +255,8 @@ functions            : 1 2
 id                   : 27 112
 int                  : 113
 llamarfuncion        : 116
-llamarfuncion3       : 119
-llamarfuncion33      : 120 122
+llamarfuncion3       : 120
+llamarfuncion33      : 121 123
 lvars                : 6 50
 model                : 1
 optimize             : 7 8
@@ -283,10 +284,10 @@ state 0
     (2) functions -> . funcion functions
     (3) functions -> . empty
     (43) funcion -> . FUNC ID LPAREN funcion1 RPAREN funcion3 bloque
-    (127) empty -> .
+    (128) empty -> .
 
     FUNC            shift and go to state 3
-    MODEL           reduce using rule 127 (empty -> .)
+    MODEL           reduce using rule 128 (empty -> .)
 
     functions                      shift and go to state 1
     program                        shift and go to state 2
@@ -326,10 +327,10 @@ state 5
     (2) functions -> . funcion functions
     (3) functions -> . empty
     (43) funcion -> . FUNC ID LPAREN funcion1 RPAREN funcion3 bloque
-    (127) empty -> .
+    (128) empty -> .
 
     FUNC            shift and go to state 3
-    MODEL           reduce using rule 127 (empty -> .)
+    MODEL           reduce using rule 128 (empty -> .)
 
     functions                      shift and go to state 8
     empty                          shift and go to state 4
@@ -362,10 +363,10 @@ state 9
     (4) vars -> . varblock
     (5) vars -> . empty
     (6) varblock -> . VARS LCURLY lvars RCURLY
-    (127) empty -> .
+    (128) empty -> .
 
     VARS            shift and go to state 11
-    DATA            reduce using rule 127 (empty -> .)
+    DATA            reduce using rule 128 (empty -> .)
 
     vars                           shift and go to state 12
     varblock                       shift and go to state 13
@@ -376,9 +377,9 @@ state 10
     (43) funcion -> FUNC ID LPAREN . funcion1 RPAREN funcion3 bloque
     (44) funcion1 -> . type ID funcion2
     (45) funcion1 -> .
-    (124) type -> . TINT
-    (125) type -> . TBOOL
-    (126) type -> . TFLOAT
+    (125) type -> . TINT
+    (126) type -> . TBOOL
+    (127) type -> . TFLOAT
 
     RPAREN          reduce using rule 45 (funcion1 -> .)
     TINT            shift and go to state 15
@@ -420,22 +421,22 @@ state 14
 
 state 15
 
-    (124) type -> TINT .
+    (125) type -> TINT .
 
-    RPAREN          reduce using rule 124 (type -> TINT .)
-    LBRACKET        reduce using rule 124 (type -> TINT .)
-    POINTS          reduce using rule 124 (type -> TINT .)
-    ID              reduce using rule 124 (type -> TINT .)
+    RPAREN          reduce using rule 125 (type -> TINT .)
+    LBRACKET        reduce using rule 125 (type -> TINT .)
+    POINTS          reduce using rule 125 (type -> TINT .)
+    ID              reduce using rule 125 (type -> TINT .)
 
 
 state 16
 
-    (126) type -> TFLOAT .
+    (127) type -> TFLOAT .
 
-    RPAREN          reduce using rule 126 (type -> TFLOAT .)
-    LBRACKET        reduce using rule 126 (type -> TFLOAT .)
-    POINTS          reduce using rule 126 (type -> TFLOAT .)
-    ID              reduce using rule 126 (type -> TFLOAT .)
+    RPAREN          reduce using rule 127 (type -> TFLOAT .)
+    LBRACKET        reduce using rule 127 (type -> TFLOAT .)
+    POINTS          reduce using rule 127 (type -> TFLOAT .)
+    ID              reduce using rule 127 (type -> TFLOAT .)
 
 
 state 17
@@ -447,12 +448,12 @@ state 17
 
 state 18
 
-    (125) type -> TBOOL .
+    (126) type -> TBOOL .
 
-    RPAREN          reduce using rule 125 (type -> TBOOL .)
-    LBRACKET        reduce using rule 125 (type -> TBOOL .)
-    POINTS          reduce using rule 125 (type -> TBOOL .)
-    ID              reduce using rule 125 (type -> TBOOL .)
+    RPAREN          reduce using rule 126 (type -> TBOOL .)
+    LBRACKET        reduce using rule 126 (type -> TBOOL .)
+    POINTS          reduce using rule 126 (type -> TBOOL .)
+    ID              reduce using rule 126 (type -> TBOOL .)
 
 
 state 19
@@ -468,13 +469,13 @@ state 20
     (50) lvars -> . declaration lvars
     (51) lvars -> . empty
     (52) declaration -> . typedeclaration POINTS ID dec22 SEMIC
-    (127) empty -> .
+    (128) empty -> .
     (53) typedeclaration -> . type dimensionsfixed
-    (124) type -> . TINT
-    (125) type -> . TBOOL
-    (126) type -> . TFLOAT
+    (125) type -> . TINT
+    (126) type -> . TBOOL
+    (127) type -> . TFLOAT
 
-    RCURLY          reduce using rule 127 (empty -> .)
+    RCURLY          reduce using rule 128 (empty -> .)
     TINT            shift and go to state 15
     TBOOL           shift and go to state 18
     TFLOAT          shift and go to state 16
@@ -503,7 +504,7 @@ state 22
     (12) optimize -> . MAX LCURLY statement where RCURLY
     (61) bloque2 -> . statement bloque2
     (62) bloque2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
     (16) statement -> . declaration
     (17) statement -> . asign
     (18) statement -> . condition
@@ -524,11 +525,12 @@ state 22
     (53) typedeclaration -> . type dimensionsfixed
     (116) id -> . ID llamarfuncion
     (117) id -> . ID dimensions
+    (118) id -> . ID
     (29) expresiones -> . expresion COMMA expresiones
     (30) expresiones -> . expresion
-    (124) type -> . TINT
-    (125) type -> . TBOOL
-    (126) type -> . TFLOAT
+    (125) type -> . TINT
+    (126) type -> . TBOOL
+    (127) type -> . TFLOAT
     (64) expresion -> . expresion2 expresioni
     (67) expresion2 -> . expresion3 expresion2i
     (70) expresion3 -> . expresion4 expresion3i
@@ -565,9 +567,9 @@ state 22
   ! shift/reduce conflict for NEW resolved as shift
     MIN             shift and go to state 32
     MAX             shift and go to state 68
-    RCURLY          reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    RCURLY          reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
     IF              shift and go to state 63
     PRINT           shift and go to state 36
     FOR             shift and go to state 52
@@ -584,21 +586,21 @@ state 22
     PP              shift and go to state 66
     NEW             shift and go to state 35
 
-  ! IF              [ reduce using rule 127 (empty -> .) ]
-  ! PRINT           [ reduce using rule 127 (empty -> .) ]
-  ! FOR             [ reduce using rule 127 (empty -> .) ]
-  ! RETURN          [ reduce using rule 127 (empty -> .) ]
-  ! BUILD           [ reduce using rule 127 (empty -> .) ]
-  ! CONDITION       [ reduce using rule 127 (empty -> .) ]
-  ! ID              [ reduce using rule 127 (empty -> .) ]
-  ! TINT            [ reduce using rule 127 (empty -> .) ]
-  ! TBOOL           [ reduce using rule 127 (empty -> .) ]
-  ! TFLOAT          [ reduce using rule 127 (empty -> .) ]
-  ! LPAREN          [ reduce using rule 127 (empty -> .) ]
-  ! NOT             [ reduce using rule 127 (empty -> .) ]
-  ! MM              [ reduce using rule 127 (empty -> .) ]
-  ! PP              [ reduce using rule 127 (empty -> .) ]
-  ! NEW             [ reduce using rule 127 (empty -> .) ]
+  ! IF              [ reduce using rule 128 (empty -> .) ]
+  ! PRINT           [ reduce using rule 128 (empty -> .) ]
+  ! FOR             [ reduce using rule 128 (empty -> .) ]
+  ! RETURN          [ reduce using rule 128 (empty -> .) ]
+  ! BUILD           [ reduce using rule 128 (empty -> .) ]
+  ! CONDITION       [ reduce using rule 128 (empty -> .) ]
+  ! ID              [ reduce using rule 128 (empty -> .) ]
+  ! TINT            [ reduce using rule 128 (empty -> .) ]
+  ! TBOOL           [ reduce using rule 128 (empty -> .) ]
+  ! TFLOAT          [ reduce using rule 128 (empty -> .) ]
+  ! LPAREN          [ reduce using rule 128 (empty -> .) ]
+  ! NOT             [ reduce using rule 128 (empty -> .) ]
+  ! MM              [ reduce using rule 128 (empty -> .) ]
+  ! PP              [ reduce using rule 128 (empty -> .) ]
+  ! NEW             [ reduce using rule 128 (empty -> .) ]
 
     termino                        shift and go to state 34
     expresion5                     shift and go to state 56
@@ -673,13 +675,13 @@ state 27
     (50) lvars -> . declaration lvars
     (51) lvars -> . empty
     (52) declaration -> . typedeclaration POINTS ID dec22 SEMIC
-    (127) empty -> .
+    (128) empty -> .
     (53) typedeclaration -> . type dimensionsfixed
-    (124) type -> . TINT
-    (125) type -> . TBOOL
-    (126) type -> . TFLOAT
+    (125) type -> . TINT
+    (126) type -> . TBOOL
+    (127) type -> . TFLOAT
 
-    RCURLY          reduce using rule 127 (empty -> .)
+    RCURLY          reduce using rule 128 (empty -> .)
     TINT            shift and go to state 15
     TBOOL           shift and go to state 18
     TFLOAT          shift and go to state 16
@@ -695,10 +697,10 @@ state 28
     (53) typedeclaration -> type . dimensionsfixed
     (56) dimensionsfixed -> . LBRACKET CTEI RBRACKET dimensionsfixed
     (57) dimensionsfixed -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LBRACKET        shift and go to state 81
-    POINTS          reduce using rule 127 (empty -> .)
+    POINTS          reduce using rule 128 (empty -> .)
 
     dimensionsfixed                shift and go to state 80
     empty                          shift and go to state 82
@@ -717,9 +719,10 @@ state 30
     (26) asignmany -> . empty
     (27) asign -> . id asign_signo expresiones SEMIC
     (28) asign -> . expresiones
-    (127) empty -> .
+    (128) empty -> .
     (116) id -> . ID llamarfuncion
     (117) id -> . ID dimensions
+    (118) id -> . ID
     (29) expresiones -> . expresion COMMA expresiones
     (30) expresiones -> . expresion
     (64) expresion -> . expresion2 expresioni
@@ -742,9 +745,9 @@ state 30
     (111) exponencial2 -> . empty
 
   ! shift/reduce conflict for ID resolved as shift
-    RCURLY          reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    RCURLY          reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
     ID              shift and go to state 40
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
@@ -752,7 +755,7 @@ state 30
     PP              shift and go to state 66
     NEW             shift and go to state 35
 
-  ! ID              [ reduce using rule 127 (empty -> .) ]
+  ! ID              [ reduce using rule 128 (empty -> .) ]
 
     expresion3                     shift and go to state 48
     termino                        shift and go to state 34
@@ -780,6 +783,7 @@ state 31
     (28) asign -> . expresiones
     (116) id -> . ID llamarfuncion
     (117) id -> . ID dimensions
+    (118) id -> . ID
     (29) expresiones -> . expresion COMMA expresiones
     (30) expresiones -> . expresion
     (64) expresion -> . expresion2 expresioni
@@ -800,7 +804,7 @@ state 31
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
   ! shift/reduce conflict for ID resolved as shift
     ID              shift and go to state 40
@@ -809,10 +813,10 @@ state 31
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
-  ! ID              [ reduce using rule 127 (empty -> .) ]
+  ! ID              [ reduce using rule 128 (empty -> .) ]
 
     termino                        shift and go to state 34
     id                             shift and go to state 37
@@ -847,45 +851,45 @@ state 33
     (90) expresion8i -> . GREATEREQUAL expresion8
     (91) expresion8i -> . LESSEQUAL expresion8
     (92) expresion8i -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     GREATERTHAN     shift and go to state 92
     LESSTHAN        shift and go to state 91
     GREATEREQUAL    shift and go to state 89
     LESSEQUAL       shift and go to state 93
-    SHR             reduce using rule 127 (empty -> .)
-    SHL             reduce using rule 127 (empty -> .)
-    EQ              reduce using rule 127 (empty -> .)
-    DIF             reduce using rule 127 (empty -> .)
-    ANDB            reduce using rule 127 (empty -> .)
-    XOR             reduce using rule 127 (empty -> .)
-    ORB             reduce using rule 127 (empty -> .)
-    AND             reduce using rule 127 (empty -> .)
-    OR              reduce using rule 127 (empty -> .)
-    COMMA           reduce using rule 127 (empty -> .)
-    IF              reduce using rule 127 (empty -> .)
-    PRINT           reduce using rule 127 (empty -> .)
-    FOR             reduce using rule 127 (empty -> .)
-    RETURN          reduce using rule 127 (empty -> .)
-    BUILD           reduce using rule 127 (empty -> .)
-    CONDITION       reduce using rule 127 (empty -> .)
-    ID              reduce using rule 127 (empty -> .)
-    TINT            reduce using rule 127 (empty -> .)
-    TBOOL           reduce using rule 127 (empty -> .)
-    TFLOAT          reduce using rule 127 (empty -> .)
-    LPAREN          reduce using rule 127 (empty -> .)
-    NOT             reduce using rule 127 (empty -> .)
-    MM              reduce using rule 127 (empty -> .)
-    PP              reduce using rule 127 (empty -> .)
-    NEW             reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
-    RCURLY          reduce using rule 127 (empty -> .)
-    WHERE           reduce using rule 127 (empty -> .)
-    SEMIC           reduce using rule 127 (empty -> .)
-    RPAREN          reduce using rule 127 (empty -> .)
-    LCURLY          reduce using rule 127 (empty -> .)
-    RBRACKET        reduce using rule 127 (empty -> .)
+    SHR             reduce using rule 128 (empty -> .)
+    SHL             reduce using rule 128 (empty -> .)
+    EQ              reduce using rule 128 (empty -> .)
+    DIF             reduce using rule 128 (empty -> .)
+    ANDB            reduce using rule 128 (empty -> .)
+    XOR             reduce using rule 128 (empty -> .)
+    ORB             reduce using rule 128 (empty -> .)
+    AND             reduce using rule 128 (empty -> .)
+    OR              reduce using rule 128 (empty -> .)
+    COMMA           reduce using rule 128 (empty -> .)
+    IF              reduce using rule 128 (empty -> .)
+    PRINT           reduce using rule 128 (empty -> .)
+    FOR             reduce using rule 128 (empty -> .)
+    RETURN          reduce using rule 128 (empty -> .)
+    BUILD           reduce using rule 128 (empty -> .)
+    CONDITION       reduce using rule 128 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    TINT            reduce using rule 128 (empty -> .)
+    TBOOL           reduce using rule 128 (empty -> .)
+    TFLOAT          reduce using rule 128 (empty -> .)
+    LPAREN          reduce using rule 128 (empty -> .)
+    NOT             reduce using rule 128 (empty -> .)
+    MM              reduce using rule 128 (empty -> .)
+    PP              reduce using rule 128 (empty -> .)
+    NEW             reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
+    RCURLY          reduce using rule 128 (empty -> .)
+    WHERE           reduce using rule 128 (empty -> .)
+    SEMIC           reduce using rule 128 (empty -> .)
+    RPAREN          reduce using rule 128 (empty -> .)
+    LCURLY          reduce using rule 128 (empty -> .)
+    RBRACKET        reduce using rule 128 (empty -> .)
 
     expresion8i                    shift and go to state 90
     empty                          shift and go to state 94
@@ -896,47 +900,47 @@ state 34
     (94) expresion9i -> . PLUS expresion9
     (95) expresion9i -> . MINUS expresion9
     (96) expresion9i -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     PLUS            shift and go to state 96
     MINUS           shift and go to state 97
-    GREATERTHAN     reduce using rule 127 (empty -> .)
-    LESSTHAN        reduce using rule 127 (empty -> .)
-    GREATEREQUAL    reduce using rule 127 (empty -> .)
-    LESSEQUAL       reduce using rule 127 (empty -> .)
-    SHR             reduce using rule 127 (empty -> .)
-    SHL             reduce using rule 127 (empty -> .)
-    EQ              reduce using rule 127 (empty -> .)
-    DIF             reduce using rule 127 (empty -> .)
-    ANDB            reduce using rule 127 (empty -> .)
-    XOR             reduce using rule 127 (empty -> .)
-    ORB             reduce using rule 127 (empty -> .)
-    AND             reduce using rule 127 (empty -> .)
-    OR              reduce using rule 127 (empty -> .)
-    COMMA           reduce using rule 127 (empty -> .)
-    IF              reduce using rule 127 (empty -> .)
-    PRINT           reduce using rule 127 (empty -> .)
-    FOR             reduce using rule 127 (empty -> .)
-    RETURN          reduce using rule 127 (empty -> .)
-    BUILD           reduce using rule 127 (empty -> .)
-    CONDITION       reduce using rule 127 (empty -> .)
-    ID              reduce using rule 127 (empty -> .)
-    TINT            reduce using rule 127 (empty -> .)
-    TBOOL           reduce using rule 127 (empty -> .)
-    TFLOAT          reduce using rule 127 (empty -> .)
-    LPAREN          reduce using rule 127 (empty -> .)
-    NOT             reduce using rule 127 (empty -> .)
-    MM              reduce using rule 127 (empty -> .)
-    PP              reduce using rule 127 (empty -> .)
-    NEW             reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
-    RCURLY          reduce using rule 127 (empty -> .)
-    WHERE           reduce using rule 127 (empty -> .)
-    SEMIC           reduce using rule 127 (empty -> .)
-    RPAREN          reduce using rule 127 (empty -> .)
-    LCURLY          reduce using rule 127 (empty -> .)
-    RBRACKET        reduce using rule 127 (empty -> .)
+    GREATERTHAN     reduce using rule 128 (empty -> .)
+    LESSTHAN        reduce using rule 128 (empty -> .)
+    GREATEREQUAL    reduce using rule 128 (empty -> .)
+    LESSEQUAL       reduce using rule 128 (empty -> .)
+    SHR             reduce using rule 128 (empty -> .)
+    SHL             reduce using rule 128 (empty -> .)
+    EQ              reduce using rule 128 (empty -> .)
+    DIF             reduce using rule 128 (empty -> .)
+    ANDB            reduce using rule 128 (empty -> .)
+    XOR             reduce using rule 128 (empty -> .)
+    ORB             reduce using rule 128 (empty -> .)
+    AND             reduce using rule 128 (empty -> .)
+    OR              reduce using rule 128 (empty -> .)
+    COMMA           reduce using rule 128 (empty -> .)
+    IF              reduce using rule 128 (empty -> .)
+    PRINT           reduce using rule 128 (empty -> .)
+    FOR             reduce using rule 128 (empty -> .)
+    RETURN          reduce using rule 128 (empty -> .)
+    BUILD           reduce using rule 128 (empty -> .)
+    CONDITION       reduce using rule 128 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    TINT            reduce using rule 128 (empty -> .)
+    TBOOL           reduce using rule 128 (empty -> .)
+    TFLOAT          reduce using rule 128 (empty -> .)
+    LPAREN          reduce using rule 128 (empty -> .)
+    NOT             reduce using rule 128 (empty -> .)
+    MM              reduce using rule 128 (empty -> .)
+    PP              reduce using rule 128 (empty -> .)
+    NEW             reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
+    RCURLY          reduce using rule 128 (empty -> .)
+    WHERE           reduce using rule 128 (empty -> .)
+    SEMIC           reduce using rule 128 (empty -> .)
+    RPAREN          reduce using rule 128 (empty -> .)
+    LCURLY          reduce using rule 128 (empty -> .)
+    RBRACKET        reduce using rule 128 (empty -> .)
 
     expresion9i                    shift and go to state 95
     empty                          shift and go to state 98
@@ -957,6 +961,7 @@ state 36
     (28) asign -> . expresiones
     (116) id -> . ID llamarfuncion
     (117) id -> . ID dimensions
+    (118) id -> . ID
     (29) expresiones -> . expresion COMMA expresiones
     (30) expresiones -> . expresion
     (64) expresion -> . expresion2 expresioni
@@ -977,7 +982,7 @@ state 36
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
   ! shift/reduce conflict for ID resolved as shift
     ID              shift and go to state 40
@@ -986,10 +991,10 @@ state 36
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
-  ! ID              [ reduce using rule 127 (empty -> .) ]
+  ! ID              [ reduce using rule 128 (empty -> .) ]
 
     termino                        shift and go to state 34
     id                             shift and go to state 37
@@ -1059,8 +1064,9 @@ state 39
     (114) valor -> . float
     (116) id -> . ID llamarfuncion
     (117) id -> . ID dimensions
+    (118) id -> . ID
     (115) int -> . CTEI
-    (118) float -> . CTEF
+    (119) float -> . CTEF
 
     ID              shift and go to state 40
     CTEI            shift and go to state 111
@@ -1075,63 +1081,160 @@ state 40
 
     (116) id -> ID . llamarfuncion
     (117) id -> ID . dimensions
-    (119) llamarfuncion -> . LPAREN llamarfuncion3 RPAREN
+    (118) id -> ID .
+    (120) llamarfuncion -> . LPAREN llamarfuncion3 RPAREN
     (54) dimensions -> . LBRACKET expresion RBRACKET dimensions
     (55) dimensions -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
   ! shift/reduce conflict for LPAREN resolved as shift
+  ! reduce/reduce conflict for ASEQ resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for PLUSEQ resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for MINEQ resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for MULTEQ resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for DIVEQ resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for EXP resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for STAR resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for SLASH resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for MOD resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for PLUS resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for MINUS resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for GREATERTHAN resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for LESSTHAN resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for GREATEREQUAL resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for LESSEQUAL resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for SHR resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for SHL resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for EQ resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for DIF resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for ANDB resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for XOR resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for ORB resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for AND resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for OR resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for COMMA resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for IF resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for PRINT resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for FOR resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for RETURN resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for BUILD resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for CONDITION resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for ID resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for TINT resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for TBOOL resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for TFLOAT resolved using rule 118 (id -> ID .)
+  ! shift/reduce conflict for LPAREN resolved as shift
+  ! reduce/reduce conflict for NOT resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for MM resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for PP resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for NEW resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for CTEI resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for CTEF resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for RCURLY resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for WHERE resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for SEMIC resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for RPAREN resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for LCURLY resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for RBRACKET resolved using rule 118 (id -> ID .)
+    ASEQ            reduce using rule 118 (id -> ID .)
+    PLUSEQ          reduce using rule 118 (id -> ID .)
+    MINEQ           reduce using rule 118 (id -> ID .)
+    MULTEQ          reduce using rule 118 (id -> ID .)
+    DIVEQ           reduce using rule 118 (id -> ID .)
+    EXP             reduce using rule 118 (id -> ID .)
+    STAR            reduce using rule 118 (id -> ID .)
+    SLASH           reduce using rule 118 (id -> ID .)
+    MOD             reduce using rule 118 (id -> ID .)
+    PLUS            reduce using rule 118 (id -> ID .)
+    MINUS           reduce using rule 118 (id -> ID .)
+    GREATERTHAN     reduce using rule 118 (id -> ID .)
+    LESSTHAN        reduce using rule 118 (id -> ID .)
+    GREATEREQUAL    reduce using rule 118 (id -> ID .)
+    LESSEQUAL       reduce using rule 118 (id -> ID .)
+    SHR             reduce using rule 118 (id -> ID .)
+    SHL             reduce using rule 118 (id -> ID .)
+    EQ              reduce using rule 118 (id -> ID .)
+    DIF             reduce using rule 118 (id -> ID .)
+    ANDB            reduce using rule 118 (id -> ID .)
+    XOR             reduce using rule 118 (id -> ID .)
+    ORB             reduce using rule 118 (id -> ID .)
+    AND             reduce using rule 118 (id -> ID .)
+    OR              reduce using rule 118 (id -> ID .)
+    COMMA           reduce using rule 118 (id -> ID .)
+    IF              reduce using rule 118 (id -> ID .)
+    PRINT           reduce using rule 118 (id -> ID .)
+    FOR             reduce using rule 118 (id -> ID .)
+    RETURN          reduce using rule 118 (id -> ID .)
+    BUILD           reduce using rule 118 (id -> ID .)
+    CONDITION       reduce using rule 118 (id -> ID .)
+    ID              reduce using rule 118 (id -> ID .)
+    TINT            reduce using rule 118 (id -> ID .)
+    TBOOL           reduce using rule 118 (id -> ID .)
+    TFLOAT          reduce using rule 118 (id -> ID .)
+    NOT             reduce using rule 118 (id -> ID .)
+    MM              reduce using rule 118 (id -> ID .)
+    PP              reduce using rule 118 (id -> ID .)
+    NEW             reduce using rule 118 (id -> ID .)
+    CTEI            reduce using rule 118 (id -> ID .)
+    CTEF            reduce using rule 118 (id -> ID .)
+    RCURLY          reduce using rule 118 (id -> ID .)
+    WHERE           reduce using rule 118 (id -> ID .)
+    SEMIC           reduce using rule 118 (id -> ID .)
+    RPAREN          reduce using rule 118 (id -> ID .)
+    LCURLY          reduce using rule 118 (id -> ID .)
+    RBRACKET        reduce using rule 118 (id -> ID .)
     LPAREN          shift and go to state 115
     LBRACKET        shift and go to state 114
-    ASEQ            reduce using rule 127 (empty -> .)
-    PLUSEQ          reduce using rule 127 (empty -> .)
-    MINEQ           reduce using rule 127 (empty -> .)
-    MULTEQ          reduce using rule 127 (empty -> .)
-    DIVEQ           reduce using rule 127 (empty -> .)
-    EXP             reduce using rule 127 (empty -> .)
-    STAR            reduce using rule 127 (empty -> .)
-    SLASH           reduce using rule 127 (empty -> .)
-    MOD             reduce using rule 127 (empty -> .)
-    PLUS            reduce using rule 127 (empty -> .)
-    MINUS           reduce using rule 127 (empty -> .)
-    GREATERTHAN     reduce using rule 127 (empty -> .)
-    LESSTHAN        reduce using rule 127 (empty -> .)
-    GREATEREQUAL    reduce using rule 127 (empty -> .)
-    LESSEQUAL       reduce using rule 127 (empty -> .)
-    SHR             reduce using rule 127 (empty -> .)
-    SHL             reduce using rule 127 (empty -> .)
-    EQ              reduce using rule 127 (empty -> .)
-    DIF             reduce using rule 127 (empty -> .)
-    ANDB            reduce using rule 127 (empty -> .)
-    XOR             reduce using rule 127 (empty -> .)
-    ORB             reduce using rule 127 (empty -> .)
-    AND             reduce using rule 127 (empty -> .)
-    OR              reduce using rule 127 (empty -> .)
-    COMMA           reduce using rule 127 (empty -> .)
-    IF              reduce using rule 127 (empty -> .)
-    PRINT           reduce using rule 127 (empty -> .)
-    FOR             reduce using rule 127 (empty -> .)
-    RETURN          reduce using rule 127 (empty -> .)
-    BUILD           reduce using rule 127 (empty -> .)
-    CONDITION       reduce using rule 127 (empty -> .)
-    ID              reduce using rule 127 (empty -> .)
-    TINT            reduce using rule 127 (empty -> .)
-    TBOOL           reduce using rule 127 (empty -> .)
-    TFLOAT          reduce using rule 127 (empty -> .)
-    NOT             reduce using rule 127 (empty -> .)
-    MM              reduce using rule 127 (empty -> .)
-    PP              reduce using rule 127 (empty -> .)
-    NEW             reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
-    RCURLY          reduce using rule 127 (empty -> .)
-    WHERE           reduce using rule 127 (empty -> .)
-    SEMIC           reduce using rule 127 (empty -> .)
-    RPAREN          reduce using rule 127 (empty -> .)
-    LCURLY          reduce using rule 127 (empty -> .)
-    RBRACKET        reduce using rule 127 (empty -> .)
 
-  ! LPAREN          [ reduce using rule 127 (empty -> .) ]
+  ! LPAREN          [ reduce using rule 118 (id -> ID .) ]
+  ! ASEQ            [ reduce using rule 128 (empty -> .) ]
+  ! PLUSEQ          [ reduce using rule 128 (empty -> .) ]
+  ! MINEQ           [ reduce using rule 128 (empty -> .) ]
+  ! MULTEQ          [ reduce using rule 128 (empty -> .) ]
+  ! DIVEQ           [ reduce using rule 128 (empty -> .) ]
+  ! EXP             [ reduce using rule 128 (empty -> .) ]
+  ! STAR            [ reduce using rule 128 (empty -> .) ]
+  ! SLASH           [ reduce using rule 128 (empty -> .) ]
+  ! MOD             [ reduce using rule 128 (empty -> .) ]
+  ! PLUS            [ reduce using rule 128 (empty -> .) ]
+  ! MINUS           [ reduce using rule 128 (empty -> .) ]
+  ! GREATERTHAN     [ reduce using rule 128 (empty -> .) ]
+  ! LESSTHAN        [ reduce using rule 128 (empty -> .) ]
+  ! GREATEREQUAL    [ reduce using rule 128 (empty -> .) ]
+  ! LESSEQUAL       [ reduce using rule 128 (empty -> .) ]
+  ! SHR             [ reduce using rule 128 (empty -> .) ]
+  ! SHL             [ reduce using rule 128 (empty -> .) ]
+  ! EQ              [ reduce using rule 128 (empty -> .) ]
+  ! DIF             [ reduce using rule 128 (empty -> .) ]
+  ! ANDB            [ reduce using rule 128 (empty -> .) ]
+  ! XOR             [ reduce using rule 128 (empty -> .) ]
+  ! ORB             [ reduce using rule 128 (empty -> .) ]
+  ! AND             [ reduce using rule 128 (empty -> .) ]
+  ! OR              [ reduce using rule 128 (empty -> .) ]
+  ! COMMA           [ reduce using rule 128 (empty -> .) ]
+  ! IF              [ reduce using rule 128 (empty -> .) ]
+  ! PRINT           [ reduce using rule 128 (empty -> .) ]
+  ! FOR             [ reduce using rule 128 (empty -> .) ]
+  ! RETURN          [ reduce using rule 128 (empty -> .) ]
+  ! BUILD           [ reduce using rule 128 (empty -> .) ]
+  ! CONDITION       [ reduce using rule 128 (empty -> .) ]
+  ! ID              [ reduce using rule 128 (empty -> .) ]
+  ! TINT            [ reduce using rule 128 (empty -> .) ]
+  ! TBOOL           [ reduce using rule 128 (empty -> .) ]
+  ! TFLOAT          [ reduce using rule 128 (empty -> .) ]
+  ! LPAREN          [ reduce using rule 128 (empty -> .) ]
+  ! NOT             [ reduce using rule 128 (empty -> .) ]
+  ! MM              [ reduce using rule 128 (empty -> .) ]
+  ! PP              [ reduce using rule 128 (empty -> .) ]
+  ! NEW             [ reduce using rule 128 (empty -> .) ]
+  ! CTEI            [ reduce using rule 128 (empty -> .) ]
+  ! CTEF            [ reduce using rule 128 (empty -> .) ]
+  ! RCURLY          [ reduce using rule 128 (empty -> .) ]
+  ! WHERE           [ reduce using rule 128 (empty -> .) ]
+  ! SEMIC           [ reduce using rule 128 (empty -> .) ]
+  ! RPAREN          [ reduce using rule 128 (empty -> .) ]
+  ! LCURLY          [ reduce using rule 128 (empty -> .) ]
+  ! RBRACKET        [ reduce using rule 128 (empty -> .) ]
 
     llamarfuncion                  shift and go to state 113
     dimensions                     shift and go to state 112
@@ -1200,7 +1303,7 @@ state 43
     (21) statement -> . return
     (22) statement -> . build
     (23) statement -> . wherecondition
-    (127) empty -> .
+    (128) empty -> .
     (52) declaration -> . typedeclaration POINTS ID dec22 SEMIC
     (27) asign -> . id asign_signo expresiones SEMIC
     (28) asign -> . expresiones
@@ -1213,11 +1316,12 @@ state 43
     (53) typedeclaration -> . type dimensionsfixed
     (116) id -> . ID llamarfuncion
     (117) id -> . ID dimensions
+    (118) id -> . ID
     (29) expresiones -> . expresion COMMA expresiones
     (30) expresiones -> . expresion
-    (124) type -> . TINT
-    (125) type -> . TBOOL
-    (126) type -> . TFLOAT
+    (125) type -> . TINT
+    (126) type -> . TBOOL
+    (127) type -> . TFLOAT
     (64) expresion -> . expresion2 expresioni
     (67) expresion2 -> . expresion3 expresion2i
     (70) expresion3 -> . expresion4 expresion3i
@@ -1252,9 +1356,9 @@ state 43
   ! shift/reduce conflict for MM resolved as shift
   ! shift/reduce conflict for PP resolved as shift
   ! shift/reduce conflict for NEW resolved as shift
-    RCURLY          reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    RCURLY          reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
     IF              shift and go to state 63
     PRINT           shift and go to state 36
     FOR             shift and go to state 52
@@ -1271,21 +1375,21 @@ state 43
     PP              shift and go to state 66
     NEW             shift and go to state 35
 
-  ! IF              [ reduce using rule 127 (empty -> .) ]
-  ! PRINT           [ reduce using rule 127 (empty -> .) ]
-  ! FOR             [ reduce using rule 127 (empty -> .) ]
-  ! RETURN          [ reduce using rule 127 (empty -> .) ]
-  ! BUILD           [ reduce using rule 127 (empty -> .) ]
-  ! CONDITION       [ reduce using rule 127 (empty -> .) ]
-  ! ID              [ reduce using rule 127 (empty -> .) ]
-  ! TINT            [ reduce using rule 127 (empty -> .) ]
-  ! TBOOL           [ reduce using rule 127 (empty -> .) ]
-  ! TFLOAT          [ reduce using rule 127 (empty -> .) ]
-  ! LPAREN          [ reduce using rule 127 (empty -> .) ]
-  ! NOT             [ reduce using rule 127 (empty -> .) ]
-  ! MM              [ reduce using rule 127 (empty -> .) ]
-  ! PP              [ reduce using rule 127 (empty -> .) ]
-  ! NEW             [ reduce using rule 127 (empty -> .) ]
+  ! IF              [ reduce using rule 128 (empty -> .) ]
+  ! PRINT           [ reduce using rule 128 (empty -> .) ]
+  ! FOR             [ reduce using rule 128 (empty -> .) ]
+  ! RETURN          [ reduce using rule 128 (empty -> .) ]
+  ! BUILD           [ reduce using rule 128 (empty -> .) ]
+  ! CONDITION       [ reduce using rule 128 (empty -> .) ]
+  ! ID              [ reduce using rule 128 (empty -> .) ]
+  ! TINT            [ reduce using rule 128 (empty -> .) ]
+  ! TBOOL           [ reduce using rule 128 (empty -> .) ]
+  ! TFLOAT          [ reduce using rule 128 (empty -> .) ]
+  ! LPAREN          [ reduce using rule 128 (empty -> .) ]
+  ! NOT             [ reduce using rule 128 (empty -> .) ]
+  ! MM              [ reduce using rule 128 (empty -> .) ]
+  ! PP              [ reduce using rule 128 (empty -> .) ]
+  ! NEW             [ reduce using rule 128 (empty -> .) ]
 
     termino                        shift and go to state 34
     expresion5                     shift and go to state 56
@@ -1323,50 +1427,50 @@ state 44
     (99) termino2 -> . SLASH termino
     (100) termino2 -> . MOD termino
     (101) termino2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     STAR            shift and go to state 119
     SLASH           shift and go to state 121
     MOD             shift and go to state 123
-    PLUS            reduce using rule 127 (empty -> .)
-    MINUS           reduce using rule 127 (empty -> .)
-    GREATERTHAN     reduce using rule 127 (empty -> .)
-    LESSTHAN        reduce using rule 127 (empty -> .)
-    GREATEREQUAL    reduce using rule 127 (empty -> .)
-    LESSEQUAL       reduce using rule 127 (empty -> .)
-    SHR             reduce using rule 127 (empty -> .)
-    SHL             reduce using rule 127 (empty -> .)
-    EQ              reduce using rule 127 (empty -> .)
-    DIF             reduce using rule 127 (empty -> .)
-    ANDB            reduce using rule 127 (empty -> .)
-    XOR             reduce using rule 127 (empty -> .)
-    ORB             reduce using rule 127 (empty -> .)
-    AND             reduce using rule 127 (empty -> .)
-    OR              reduce using rule 127 (empty -> .)
-    COMMA           reduce using rule 127 (empty -> .)
-    IF              reduce using rule 127 (empty -> .)
-    PRINT           reduce using rule 127 (empty -> .)
-    FOR             reduce using rule 127 (empty -> .)
-    RETURN          reduce using rule 127 (empty -> .)
-    BUILD           reduce using rule 127 (empty -> .)
-    CONDITION       reduce using rule 127 (empty -> .)
-    ID              reduce using rule 127 (empty -> .)
-    TINT            reduce using rule 127 (empty -> .)
-    TBOOL           reduce using rule 127 (empty -> .)
-    TFLOAT          reduce using rule 127 (empty -> .)
-    LPAREN          reduce using rule 127 (empty -> .)
-    NOT             reduce using rule 127 (empty -> .)
-    MM              reduce using rule 127 (empty -> .)
-    PP              reduce using rule 127 (empty -> .)
-    NEW             reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
-    RCURLY          reduce using rule 127 (empty -> .)
-    WHERE           reduce using rule 127 (empty -> .)
-    SEMIC           reduce using rule 127 (empty -> .)
-    RPAREN          reduce using rule 127 (empty -> .)
-    LCURLY          reduce using rule 127 (empty -> .)
-    RBRACKET        reduce using rule 127 (empty -> .)
+    PLUS            reduce using rule 128 (empty -> .)
+    MINUS           reduce using rule 128 (empty -> .)
+    GREATERTHAN     reduce using rule 128 (empty -> .)
+    LESSTHAN        reduce using rule 128 (empty -> .)
+    GREATEREQUAL    reduce using rule 128 (empty -> .)
+    LESSEQUAL       reduce using rule 128 (empty -> .)
+    SHR             reduce using rule 128 (empty -> .)
+    SHL             reduce using rule 128 (empty -> .)
+    EQ              reduce using rule 128 (empty -> .)
+    DIF             reduce using rule 128 (empty -> .)
+    ANDB            reduce using rule 128 (empty -> .)
+    XOR             reduce using rule 128 (empty -> .)
+    ORB             reduce using rule 128 (empty -> .)
+    AND             reduce using rule 128 (empty -> .)
+    OR              reduce using rule 128 (empty -> .)
+    COMMA           reduce using rule 128 (empty -> .)
+    IF              reduce using rule 128 (empty -> .)
+    PRINT           reduce using rule 128 (empty -> .)
+    FOR             reduce using rule 128 (empty -> .)
+    RETURN          reduce using rule 128 (empty -> .)
+    BUILD           reduce using rule 128 (empty -> .)
+    CONDITION       reduce using rule 128 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    TINT            reduce using rule 128 (empty -> .)
+    TBOOL           reduce using rule 128 (empty -> .)
+    TFLOAT          reduce using rule 128 (empty -> .)
+    LPAREN          reduce using rule 128 (empty -> .)
+    NOT             reduce using rule 128 (empty -> .)
+    MM              reduce using rule 128 (empty -> .)
+    PP              reduce using rule 128 (empty -> .)
+    NEW             reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
+    RCURLY          reduce using rule 128 (empty -> .)
+    WHERE           reduce using rule 128 (empty -> .)
+    SEMIC           reduce using rule 128 (empty -> .)
+    RPAREN          reduce using rule 128 (empty -> .)
+    LCURLY          reduce using rule 128 (empty -> .)
+    RBRACKET        reduce using rule 128 (empty -> .)
 
     termino2                       shift and go to state 120
     empty                          shift and go to state 122
@@ -1376,51 +1480,51 @@ state 45
     (102) factor -> exponencial . factor2
     (103) factor2 -> . EXP factor
     (104) factor2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     EXP             shift and go to state 125
-    STAR            reduce using rule 127 (empty -> .)
-    SLASH           reduce using rule 127 (empty -> .)
-    MOD             reduce using rule 127 (empty -> .)
-    PLUS            reduce using rule 127 (empty -> .)
-    MINUS           reduce using rule 127 (empty -> .)
-    GREATERTHAN     reduce using rule 127 (empty -> .)
-    LESSTHAN        reduce using rule 127 (empty -> .)
-    GREATEREQUAL    reduce using rule 127 (empty -> .)
-    LESSEQUAL       reduce using rule 127 (empty -> .)
-    SHR             reduce using rule 127 (empty -> .)
-    SHL             reduce using rule 127 (empty -> .)
-    EQ              reduce using rule 127 (empty -> .)
-    DIF             reduce using rule 127 (empty -> .)
-    ANDB            reduce using rule 127 (empty -> .)
-    XOR             reduce using rule 127 (empty -> .)
-    ORB             reduce using rule 127 (empty -> .)
-    AND             reduce using rule 127 (empty -> .)
-    OR              reduce using rule 127 (empty -> .)
-    COMMA           reduce using rule 127 (empty -> .)
-    IF              reduce using rule 127 (empty -> .)
-    PRINT           reduce using rule 127 (empty -> .)
-    FOR             reduce using rule 127 (empty -> .)
-    RETURN          reduce using rule 127 (empty -> .)
-    BUILD           reduce using rule 127 (empty -> .)
-    CONDITION       reduce using rule 127 (empty -> .)
-    ID              reduce using rule 127 (empty -> .)
-    TINT            reduce using rule 127 (empty -> .)
-    TBOOL           reduce using rule 127 (empty -> .)
-    TFLOAT          reduce using rule 127 (empty -> .)
-    LPAREN          reduce using rule 127 (empty -> .)
-    NOT             reduce using rule 127 (empty -> .)
-    MM              reduce using rule 127 (empty -> .)
-    PP              reduce using rule 127 (empty -> .)
-    NEW             reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
-    RCURLY          reduce using rule 127 (empty -> .)
-    WHERE           reduce using rule 127 (empty -> .)
-    SEMIC           reduce using rule 127 (empty -> .)
-    RPAREN          reduce using rule 127 (empty -> .)
-    LCURLY          reduce using rule 127 (empty -> .)
-    RBRACKET        reduce using rule 127 (empty -> .)
+    STAR            reduce using rule 128 (empty -> .)
+    SLASH           reduce using rule 128 (empty -> .)
+    MOD             reduce using rule 128 (empty -> .)
+    PLUS            reduce using rule 128 (empty -> .)
+    MINUS           reduce using rule 128 (empty -> .)
+    GREATERTHAN     reduce using rule 128 (empty -> .)
+    LESSTHAN        reduce using rule 128 (empty -> .)
+    GREATEREQUAL    reduce using rule 128 (empty -> .)
+    LESSEQUAL       reduce using rule 128 (empty -> .)
+    SHR             reduce using rule 128 (empty -> .)
+    SHL             reduce using rule 128 (empty -> .)
+    EQ              reduce using rule 128 (empty -> .)
+    DIF             reduce using rule 128 (empty -> .)
+    ANDB            reduce using rule 128 (empty -> .)
+    XOR             reduce using rule 128 (empty -> .)
+    ORB             reduce using rule 128 (empty -> .)
+    AND             reduce using rule 128 (empty -> .)
+    OR              reduce using rule 128 (empty -> .)
+    COMMA           reduce using rule 128 (empty -> .)
+    IF              reduce using rule 128 (empty -> .)
+    PRINT           reduce using rule 128 (empty -> .)
+    FOR             reduce using rule 128 (empty -> .)
+    RETURN          reduce using rule 128 (empty -> .)
+    BUILD           reduce using rule 128 (empty -> .)
+    CONDITION       reduce using rule 128 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    TINT            reduce using rule 128 (empty -> .)
+    TBOOL           reduce using rule 128 (empty -> .)
+    TFLOAT          reduce using rule 128 (empty -> .)
+    LPAREN          reduce using rule 128 (empty -> .)
+    NOT             reduce using rule 128 (empty -> .)
+    MM              reduce using rule 128 (empty -> .)
+    PP              reduce using rule 128 (empty -> .)
+    NEW             reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
+    RCURLY          reduce using rule 128 (empty -> .)
+    WHERE           reduce using rule 128 (empty -> .)
+    SEMIC           reduce using rule 128 (empty -> .)
+    RPAREN          reduce using rule 128 (empty -> .)
+    LCURLY          reduce using rule 128 (empty -> .)
+    RBRACKET        reduce using rule 128 (empty -> .)
 
     empty                          shift and go to state 124
     factor2                        shift and go to state 126
@@ -1507,7 +1611,7 @@ state 47
     (21) statement -> . return
     (22) statement -> . build
     (23) statement -> . wherecondition
-    (127) empty -> .
+    (128) empty -> .
     (52) declaration -> . typedeclaration POINTS ID dec22 SEMIC
     (27) asign -> . id asign_signo expresiones SEMIC
     (28) asign -> . expresiones
@@ -1520,11 +1624,12 @@ state 47
     (53) typedeclaration -> . type dimensionsfixed
     (116) id -> . ID llamarfuncion
     (117) id -> . ID dimensions
+    (118) id -> . ID
     (29) expresiones -> . expresion COMMA expresiones
     (30) expresiones -> . expresion
-    (124) type -> . TINT
-    (125) type -> . TBOOL
-    (126) type -> . TFLOAT
+    (125) type -> . TINT
+    (126) type -> . TBOOL
+    (127) type -> . TFLOAT
     (64) expresion -> . expresion2 expresioni
     (67) expresion2 -> . expresion3 expresion2i
     (70) expresion3 -> . expresion4 expresion3i
@@ -1545,9 +1650,9 @@ state 47
     (111) exponencial2 -> . empty
 
   ! shift/reduce conflict for ID resolved as shift
-    RCURLY          reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    RCURLY          reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
     IF              shift and go to state 63
     PRINT           shift and go to state 36
     FOR             shift and go to state 52
@@ -1564,7 +1669,7 @@ state 47
     PP              shift and go to state 66
     NEW             shift and go to state 35
 
-  ! ID              [ reduce using rule 127 (empty -> .) ]
+  ! ID              [ reduce using rule 128 (empty -> .) ]
 
     termino                        shift and go to state 34
     expresion5                     shift and go to state 56
@@ -1600,34 +1705,34 @@ state 48
     (67) expresion2 -> expresion3 . expresion2i
     (68) expresion2i -> . AND expresion2
     (69) expresion2i -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     AND             shift and go to state 128
-    OR              reduce using rule 127 (empty -> .)
-    COMMA           reduce using rule 127 (empty -> .)
-    IF              reduce using rule 127 (empty -> .)
-    PRINT           reduce using rule 127 (empty -> .)
-    FOR             reduce using rule 127 (empty -> .)
-    RETURN          reduce using rule 127 (empty -> .)
-    BUILD           reduce using rule 127 (empty -> .)
-    CONDITION       reduce using rule 127 (empty -> .)
-    ID              reduce using rule 127 (empty -> .)
-    TINT            reduce using rule 127 (empty -> .)
-    TBOOL           reduce using rule 127 (empty -> .)
-    TFLOAT          reduce using rule 127 (empty -> .)
-    LPAREN          reduce using rule 127 (empty -> .)
-    NOT             reduce using rule 127 (empty -> .)
-    MM              reduce using rule 127 (empty -> .)
-    PP              reduce using rule 127 (empty -> .)
-    NEW             reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
-    RCURLY          reduce using rule 127 (empty -> .)
-    WHERE           reduce using rule 127 (empty -> .)
-    SEMIC           reduce using rule 127 (empty -> .)
-    RPAREN          reduce using rule 127 (empty -> .)
-    LCURLY          reduce using rule 127 (empty -> .)
-    RBRACKET        reduce using rule 127 (empty -> .)
+    OR              reduce using rule 128 (empty -> .)
+    COMMA           reduce using rule 128 (empty -> .)
+    IF              reduce using rule 128 (empty -> .)
+    PRINT           reduce using rule 128 (empty -> .)
+    FOR             reduce using rule 128 (empty -> .)
+    RETURN          reduce using rule 128 (empty -> .)
+    BUILD           reduce using rule 128 (empty -> .)
+    CONDITION       reduce using rule 128 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    TINT            reduce using rule 128 (empty -> .)
+    TBOOL           reduce using rule 128 (empty -> .)
+    TFLOAT          reduce using rule 128 (empty -> .)
+    LPAREN          reduce using rule 128 (empty -> .)
+    NOT             reduce using rule 128 (empty -> .)
+    MM              reduce using rule 128 (empty -> .)
+    PP              reduce using rule 128 (empty -> .)
+    NEW             reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
+    RCURLY          reduce using rule 128 (empty -> .)
+    WHERE           reduce using rule 128 (empty -> .)
+    SEMIC           reduce using rule 128 (empty -> .)
+    RPAREN          reduce using rule 128 (empty -> .)
+    LCURLY          reduce using rule 128 (empty -> .)
+    RBRACKET        reduce using rule 128 (empty -> .)
 
     expresion2i                    shift and go to state 129
     empty                          shift and go to state 130
@@ -1637,33 +1742,33 @@ state 49
     (64) expresion -> expresion2 . expresioni
     (65) expresioni -> . OR expresion
     (66) expresioni -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     OR              shift and go to state 132
-    COMMA           reduce using rule 127 (empty -> .)
-    IF              reduce using rule 127 (empty -> .)
-    PRINT           reduce using rule 127 (empty -> .)
-    FOR             reduce using rule 127 (empty -> .)
-    RETURN          reduce using rule 127 (empty -> .)
-    BUILD           reduce using rule 127 (empty -> .)
-    CONDITION       reduce using rule 127 (empty -> .)
-    ID              reduce using rule 127 (empty -> .)
-    TINT            reduce using rule 127 (empty -> .)
-    TBOOL           reduce using rule 127 (empty -> .)
-    TFLOAT          reduce using rule 127 (empty -> .)
-    LPAREN          reduce using rule 127 (empty -> .)
-    NOT             reduce using rule 127 (empty -> .)
-    MM              reduce using rule 127 (empty -> .)
-    PP              reduce using rule 127 (empty -> .)
-    NEW             reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
-    RCURLY          reduce using rule 127 (empty -> .)
-    WHERE           reduce using rule 127 (empty -> .)
-    SEMIC           reduce using rule 127 (empty -> .)
-    RPAREN          reduce using rule 127 (empty -> .)
-    LCURLY          reduce using rule 127 (empty -> .)
-    RBRACKET        reduce using rule 127 (empty -> .)
+    COMMA           reduce using rule 128 (empty -> .)
+    IF              reduce using rule 128 (empty -> .)
+    PRINT           reduce using rule 128 (empty -> .)
+    FOR             reduce using rule 128 (empty -> .)
+    RETURN          reduce using rule 128 (empty -> .)
+    BUILD           reduce using rule 128 (empty -> .)
+    CONDITION       reduce using rule 128 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    TINT            reduce using rule 128 (empty -> .)
+    TBOOL           reduce using rule 128 (empty -> .)
+    TFLOAT          reduce using rule 128 (empty -> .)
+    LPAREN          reduce using rule 128 (empty -> .)
+    NOT             reduce using rule 128 (empty -> .)
+    MM              reduce using rule 128 (empty -> .)
+    PP              reduce using rule 128 (empty -> .)
+    NEW             reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
+    RCURLY          reduce using rule 128 (empty -> .)
+    WHERE           reduce using rule 128 (empty -> .)
+    SEMIC           reduce using rule 128 (empty -> .)
+    RPAREN          reduce using rule 128 (empty -> .)
+    LCURLY          reduce using rule 128 (empty -> .)
+    RBRACKET        reduce using rule 128 (empty -> .)
 
     expresioni                     shift and go to state 131
     empty                          shift and go to state 133
@@ -1698,35 +1803,35 @@ state 51
     (70) expresion3 -> expresion4 . expresion3i
     (71) expresion3i -> . ORB expresion3
     (72) expresion3i -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     ORB             shift and go to state 135
-    AND             reduce using rule 127 (empty -> .)
-    OR              reduce using rule 127 (empty -> .)
-    COMMA           reduce using rule 127 (empty -> .)
-    IF              reduce using rule 127 (empty -> .)
-    PRINT           reduce using rule 127 (empty -> .)
-    FOR             reduce using rule 127 (empty -> .)
-    RETURN          reduce using rule 127 (empty -> .)
-    BUILD           reduce using rule 127 (empty -> .)
-    CONDITION       reduce using rule 127 (empty -> .)
-    ID              reduce using rule 127 (empty -> .)
-    TINT            reduce using rule 127 (empty -> .)
-    TBOOL           reduce using rule 127 (empty -> .)
-    TFLOAT          reduce using rule 127 (empty -> .)
-    LPAREN          reduce using rule 127 (empty -> .)
-    NOT             reduce using rule 127 (empty -> .)
-    MM              reduce using rule 127 (empty -> .)
-    PP              reduce using rule 127 (empty -> .)
-    NEW             reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
-    RCURLY          reduce using rule 127 (empty -> .)
-    WHERE           reduce using rule 127 (empty -> .)
-    SEMIC           reduce using rule 127 (empty -> .)
-    RPAREN          reduce using rule 127 (empty -> .)
-    LCURLY          reduce using rule 127 (empty -> .)
-    RBRACKET        reduce using rule 127 (empty -> .)
+    AND             reduce using rule 128 (empty -> .)
+    OR              reduce using rule 128 (empty -> .)
+    COMMA           reduce using rule 128 (empty -> .)
+    IF              reduce using rule 128 (empty -> .)
+    PRINT           reduce using rule 128 (empty -> .)
+    FOR             reduce using rule 128 (empty -> .)
+    RETURN          reduce using rule 128 (empty -> .)
+    BUILD           reduce using rule 128 (empty -> .)
+    CONDITION       reduce using rule 128 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    TINT            reduce using rule 128 (empty -> .)
+    TBOOL           reduce using rule 128 (empty -> .)
+    TFLOAT          reduce using rule 128 (empty -> .)
+    LPAREN          reduce using rule 128 (empty -> .)
+    NOT             reduce using rule 128 (empty -> .)
+    MM              reduce using rule 128 (empty -> .)
+    PP              reduce using rule 128 (empty -> .)
+    NEW             reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
+    RCURLY          reduce using rule 128 (empty -> .)
+    WHERE           reduce using rule 128 (empty -> .)
+    SEMIC           reduce using rule 128 (empty -> .)
+    RPAREN          reduce using rule 128 (empty -> .)
+    LCURLY          reduce using rule 128 (empty -> .)
+    RBRACKET        reduce using rule 128 (empty -> .)
 
     expresion3i                    shift and go to state 134
     empty                          shift and go to state 136
@@ -1743,37 +1848,37 @@ state 53
     (76) expresion5 -> expresion6 . expresion5i
     (77) expresion5i -> . ANDB expresion5
     (78) expresion5i -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     ANDB            shift and go to state 139
-    XOR             reduce using rule 127 (empty -> .)
-    ORB             reduce using rule 127 (empty -> .)
-    AND             reduce using rule 127 (empty -> .)
-    OR              reduce using rule 127 (empty -> .)
-    COMMA           reduce using rule 127 (empty -> .)
-    IF              reduce using rule 127 (empty -> .)
-    PRINT           reduce using rule 127 (empty -> .)
-    FOR             reduce using rule 127 (empty -> .)
-    RETURN          reduce using rule 127 (empty -> .)
-    BUILD           reduce using rule 127 (empty -> .)
-    CONDITION       reduce using rule 127 (empty -> .)
-    ID              reduce using rule 127 (empty -> .)
-    TINT            reduce using rule 127 (empty -> .)
-    TBOOL           reduce using rule 127 (empty -> .)
-    TFLOAT          reduce using rule 127 (empty -> .)
-    LPAREN          reduce using rule 127 (empty -> .)
-    NOT             reduce using rule 127 (empty -> .)
-    MM              reduce using rule 127 (empty -> .)
-    PP              reduce using rule 127 (empty -> .)
-    NEW             reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
-    RCURLY          reduce using rule 127 (empty -> .)
-    WHERE           reduce using rule 127 (empty -> .)
-    SEMIC           reduce using rule 127 (empty -> .)
-    RPAREN          reduce using rule 127 (empty -> .)
-    LCURLY          reduce using rule 127 (empty -> .)
-    RBRACKET        reduce using rule 127 (empty -> .)
+    XOR             reduce using rule 128 (empty -> .)
+    ORB             reduce using rule 128 (empty -> .)
+    AND             reduce using rule 128 (empty -> .)
+    OR              reduce using rule 128 (empty -> .)
+    COMMA           reduce using rule 128 (empty -> .)
+    IF              reduce using rule 128 (empty -> .)
+    PRINT           reduce using rule 128 (empty -> .)
+    FOR             reduce using rule 128 (empty -> .)
+    RETURN          reduce using rule 128 (empty -> .)
+    BUILD           reduce using rule 128 (empty -> .)
+    CONDITION       reduce using rule 128 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    TINT            reduce using rule 128 (empty -> .)
+    TBOOL           reduce using rule 128 (empty -> .)
+    TFLOAT          reduce using rule 128 (empty -> .)
+    LPAREN          reduce using rule 128 (empty -> .)
+    NOT             reduce using rule 128 (empty -> .)
+    MM              reduce using rule 128 (empty -> .)
+    PP              reduce using rule 128 (empty -> .)
+    NEW             reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
+    RCURLY          reduce using rule 128 (empty -> .)
+    WHERE           reduce using rule 128 (empty -> .)
+    SEMIC           reduce using rule 128 (empty -> .)
+    RPAREN          reduce using rule 128 (empty -> .)
+    LCURLY          reduce using rule 128 (empty -> .)
+    RBRACKET        reduce using rule 128 (empty -> .)
 
     expresion5i                    shift and go to state 138
     empty                          shift and go to state 140
@@ -1784,41 +1889,41 @@ state 54
     (84) expresion7i -> . SHR expresion7
     (85) expresion7i -> . SHL expresion7
     (86) expresion7i -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     SHR             shift and go to state 141
     SHL             shift and go to state 143
-    EQ              reduce using rule 127 (empty -> .)
-    DIF             reduce using rule 127 (empty -> .)
-    ANDB            reduce using rule 127 (empty -> .)
-    XOR             reduce using rule 127 (empty -> .)
-    ORB             reduce using rule 127 (empty -> .)
-    AND             reduce using rule 127 (empty -> .)
-    OR              reduce using rule 127 (empty -> .)
-    COMMA           reduce using rule 127 (empty -> .)
-    IF              reduce using rule 127 (empty -> .)
-    PRINT           reduce using rule 127 (empty -> .)
-    FOR             reduce using rule 127 (empty -> .)
-    RETURN          reduce using rule 127 (empty -> .)
-    BUILD           reduce using rule 127 (empty -> .)
-    CONDITION       reduce using rule 127 (empty -> .)
-    ID              reduce using rule 127 (empty -> .)
-    TINT            reduce using rule 127 (empty -> .)
-    TBOOL           reduce using rule 127 (empty -> .)
-    TFLOAT          reduce using rule 127 (empty -> .)
-    LPAREN          reduce using rule 127 (empty -> .)
-    NOT             reduce using rule 127 (empty -> .)
-    MM              reduce using rule 127 (empty -> .)
-    PP              reduce using rule 127 (empty -> .)
-    NEW             reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
-    RCURLY          reduce using rule 127 (empty -> .)
-    WHERE           reduce using rule 127 (empty -> .)
-    SEMIC           reduce using rule 127 (empty -> .)
-    RPAREN          reduce using rule 127 (empty -> .)
-    LCURLY          reduce using rule 127 (empty -> .)
-    RBRACKET        reduce using rule 127 (empty -> .)
+    EQ              reduce using rule 128 (empty -> .)
+    DIF             reduce using rule 128 (empty -> .)
+    ANDB            reduce using rule 128 (empty -> .)
+    XOR             reduce using rule 128 (empty -> .)
+    ORB             reduce using rule 128 (empty -> .)
+    AND             reduce using rule 128 (empty -> .)
+    OR              reduce using rule 128 (empty -> .)
+    COMMA           reduce using rule 128 (empty -> .)
+    IF              reduce using rule 128 (empty -> .)
+    PRINT           reduce using rule 128 (empty -> .)
+    FOR             reduce using rule 128 (empty -> .)
+    RETURN          reduce using rule 128 (empty -> .)
+    BUILD           reduce using rule 128 (empty -> .)
+    CONDITION       reduce using rule 128 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    TINT            reduce using rule 128 (empty -> .)
+    TBOOL           reduce using rule 128 (empty -> .)
+    TFLOAT          reduce using rule 128 (empty -> .)
+    LPAREN          reduce using rule 128 (empty -> .)
+    NOT             reduce using rule 128 (empty -> .)
+    MM              reduce using rule 128 (empty -> .)
+    PP              reduce using rule 128 (empty -> .)
+    NEW             reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
+    RCURLY          reduce using rule 128 (empty -> .)
+    WHERE           reduce using rule 128 (empty -> .)
+    SEMIC           reduce using rule 128 (empty -> .)
+    RPAREN          reduce using rule 128 (empty -> .)
+    LCURLY          reduce using rule 128 (empty -> .)
+    RBRACKET        reduce using rule 128 (empty -> .)
 
     empty                          shift and go to state 144
     expresion7i                    shift and go to state 142
@@ -1857,36 +1962,36 @@ state 56
     (73) expresion4 -> expresion5 . expresion4i
     (74) expresion4i -> . XOR expresion4
     (75) expresion4i -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     XOR             shift and go to state 145
-    ORB             reduce using rule 127 (empty -> .)
-    AND             reduce using rule 127 (empty -> .)
-    OR              reduce using rule 127 (empty -> .)
-    COMMA           reduce using rule 127 (empty -> .)
-    IF              reduce using rule 127 (empty -> .)
-    PRINT           reduce using rule 127 (empty -> .)
-    FOR             reduce using rule 127 (empty -> .)
-    RETURN          reduce using rule 127 (empty -> .)
-    BUILD           reduce using rule 127 (empty -> .)
-    CONDITION       reduce using rule 127 (empty -> .)
-    ID              reduce using rule 127 (empty -> .)
-    TINT            reduce using rule 127 (empty -> .)
-    TBOOL           reduce using rule 127 (empty -> .)
-    TFLOAT          reduce using rule 127 (empty -> .)
-    LPAREN          reduce using rule 127 (empty -> .)
-    NOT             reduce using rule 127 (empty -> .)
-    MM              reduce using rule 127 (empty -> .)
-    PP              reduce using rule 127 (empty -> .)
-    NEW             reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
-    RCURLY          reduce using rule 127 (empty -> .)
-    WHERE           reduce using rule 127 (empty -> .)
-    SEMIC           reduce using rule 127 (empty -> .)
-    RPAREN          reduce using rule 127 (empty -> .)
-    LCURLY          reduce using rule 127 (empty -> .)
-    RBRACKET        reduce using rule 127 (empty -> .)
+    ORB             reduce using rule 128 (empty -> .)
+    AND             reduce using rule 128 (empty -> .)
+    OR              reduce using rule 128 (empty -> .)
+    COMMA           reduce using rule 128 (empty -> .)
+    IF              reduce using rule 128 (empty -> .)
+    PRINT           reduce using rule 128 (empty -> .)
+    FOR             reduce using rule 128 (empty -> .)
+    RETURN          reduce using rule 128 (empty -> .)
+    BUILD           reduce using rule 128 (empty -> .)
+    CONDITION       reduce using rule 128 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    TINT            reduce using rule 128 (empty -> .)
+    TBOOL           reduce using rule 128 (empty -> .)
+    TFLOAT          reduce using rule 128 (empty -> .)
+    LPAREN          reduce using rule 128 (empty -> .)
+    NOT             reduce using rule 128 (empty -> .)
+    MM              reduce using rule 128 (empty -> .)
+    PP              reduce using rule 128 (empty -> .)
+    NEW             reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
+    RCURLY          reduce using rule 128 (empty -> .)
+    WHERE           reduce using rule 128 (empty -> .)
+    SEMIC           reduce using rule 128 (empty -> .)
+    RPAREN          reduce using rule 128 (empty -> .)
+    LCURLY          reduce using rule 128 (empty -> .)
+    RBRACKET        reduce using rule 128 (empty -> .)
 
     empty                          shift and go to state 146
     expresion4i                    shift and go to state 147
@@ -1897,39 +2002,39 @@ state 57
     (80) expresion6i -> . EQ expresion6
     (81) expresion6i -> . DIF expresion6
     (82) expresion6i -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     EQ              shift and go to state 150
     DIF             shift and go to state 149
-    ANDB            reduce using rule 127 (empty -> .)
-    XOR             reduce using rule 127 (empty -> .)
-    ORB             reduce using rule 127 (empty -> .)
-    AND             reduce using rule 127 (empty -> .)
-    OR              reduce using rule 127 (empty -> .)
-    COMMA           reduce using rule 127 (empty -> .)
-    IF              reduce using rule 127 (empty -> .)
-    PRINT           reduce using rule 127 (empty -> .)
-    FOR             reduce using rule 127 (empty -> .)
-    RETURN          reduce using rule 127 (empty -> .)
-    BUILD           reduce using rule 127 (empty -> .)
-    CONDITION       reduce using rule 127 (empty -> .)
-    ID              reduce using rule 127 (empty -> .)
-    TINT            reduce using rule 127 (empty -> .)
-    TBOOL           reduce using rule 127 (empty -> .)
-    TFLOAT          reduce using rule 127 (empty -> .)
-    LPAREN          reduce using rule 127 (empty -> .)
-    NOT             reduce using rule 127 (empty -> .)
-    MM              reduce using rule 127 (empty -> .)
-    PP              reduce using rule 127 (empty -> .)
-    NEW             reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
-    RCURLY          reduce using rule 127 (empty -> .)
-    WHERE           reduce using rule 127 (empty -> .)
-    SEMIC           reduce using rule 127 (empty -> .)
-    RPAREN          reduce using rule 127 (empty -> .)
-    LCURLY          reduce using rule 127 (empty -> .)
-    RBRACKET        reduce using rule 127 (empty -> .)
+    ANDB            reduce using rule 128 (empty -> .)
+    XOR             reduce using rule 128 (empty -> .)
+    ORB             reduce using rule 128 (empty -> .)
+    AND             reduce using rule 128 (empty -> .)
+    OR              reduce using rule 128 (empty -> .)
+    COMMA           reduce using rule 128 (empty -> .)
+    IF              reduce using rule 128 (empty -> .)
+    PRINT           reduce using rule 128 (empty -> .)
+    FOR             reduce using rule 128 (empty -> .)
+    RETURN          reduce using rule 128 (empty -> .)
+    BUILD           reduce using rule 128 (empty -> .)
+    CONDITION       reduce using rule 128 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    TINT            reduce using rule 128 (empty -> .)
+    TBOOL           reduce using rule 128 (empty -> .)
+    TFLOAT          reduce using rule 128 (empty -> .)
+    LPAREN          reduce using rule 128 (empty -> .)
+    NOT             reduce using rule 128 (empty -> .)
+    MM              reduce using rule 128 (empty -> .)
+    PP              reduce using rule 128 (empty -> .)
+    NEW             reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
+    RCURLY          reduce using rule 128 (empty -> .)
+    WHERE           reduce using rule 128 (empty -> .)
+    SEMIC           reduce using rule 128 (empty -> .)
+    RPAREN          reduce using rule 128 (empty -> .)
+    LCURLY          reduce using rule 128 (empty -> .)
+    RBRACKET        reduce using rule 128 (empty -> .)
 
     empty                          shift and go to state 151
     expresion6i                    shift and go to state 148
@@ -1955,16 +2060,16 @@ state 58
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    ID              reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
     termino                        shift and go to state 34
     exponencial2                   shift and go to state 39
@@ -2002,16 +2107,16 @@ state 59
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    ID              reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
     termino                        shift and go to state 34
     exponencial2                   shift and go to state 39
@@ -2113,6 +2218,7 @@ state 63
     (28) asign -> . expresiones
     (116) id -> . ID llamarfuncion
     (117) id -> . ID dimensions
+    (118) id -> . ID
     (29) expresiones -> . expresion COMMA expresiones
     (30) expresiones -> . expresion
     (64) expresion -> . expresion2 expresioni
@@ -2133,7 +2239,7 @@ state 63
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
   ! shift/reduce conflict for ID resolved as shift
     ID              shift and go to state 40
@@ -2142,10 +2248,10 @@ state 63
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
-  ! ID              [ reduce using rule 127 (empty -> .) ]
+  ! ID              [ reduce using rule 128 (empty -> .) ]
 
     termino                        shift and go to state 34
     id                             shift and go to state 37
@@ -2293,16 +2399,16 @@ state 70
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    ID              reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
     termino                        shift and go to state 34
     exponencial2                   shift and go to state 39
@@ -2365,9 +2471,9 @@ state 73
 state 74
 
     (48) funcion3 -> LPAREN . type RPAREN
-    (124) type -> . TINT
-    (125) type -> . TBOOL
-    (126) type -> . TFLOAT
+    (125) type -> . TINT
+    (126) type -> . TBOOL
+    (127) type -> . TFLOAT
 
     TINT            shift and go to state 15
     TBOOL           shift and go to state 18
@@ -2378,9 +2484,9 @@ state 74
 state 75
 
     (46) funcion2 -> COMMA . type ID funcion2
-    (124) type -> . TINT
-    (125) type -> . TBOOL
-    (126) type -> . TFLOAT
+    (125) type -> . TINT
+    (126) type -> . TBOOL
+    (127) type -> . TFLOAT
 
     TINT            shift and go to state 15
     TBOOL           shift and go to state 18
@@ -2462,9 +2568,10 @@ state 85
     (26) asignmany -> . empty
     (27) asign -> . id asign_signo expresiones SEMIC
     (28) asign -> . expresiones
-    (127) empty -> .
+    (128) empty -> .
     (116) id -> . ID llamarfuncion
     (117) id -> . ID dimensions
+    (118) id -> . ID
     (29) expresiones -> . expresion COMMA expresiones
     (30) expresiones -> . expresion
     (64) expresion -> . expresion2 expresioni
@@ -2487,9 +2594,9 @@ state 85
     (111) exponencial2 -> . empty
 
   ! shift/reduce conflict for ID resolved as shift
-    RCURLY          reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    RCURLY          reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
     ID              shift and go to state 40
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
@@ -2497,7 +2604,7 @@ state 85
     PP              shift and go to state 66
     NEW             shift and go to state 35
 
-  ! ID              [ reduce using rule 127 (empty -> .) ]
+  ! ID              [ reduce using rule 128 (empty -> .) ]
 
     expresion3                     shift and go to state 48
     termino                        shift and go to state 34
@@ -2575,11 +2682,12 @@ state 88
     (53) typedeclaration -> . type dimensionsfixed
     (116) id -> . ID llamarfuncion
     (117) id -> . ID dimensions
+    (118) id -> . ID
     (29) expresiones -> . expresion COMMA expresiones
     (30) expresiones -> . expresion
-    (124) type -> . TINT
-    (125) type -> . TBOOL
-    (126) type -> . TFLOAT
+    (125) type -> . TINT
+    (126) type -> . TBOOL
+    (127) type -> . TFLOAT
     (64) expresion -> . expresion2 expresioni
     (67) expresion2 -> . expresion3 expresion2i
     (70) expresion3 -> . expresion4 expresion3i
@@ -2598,7 +2706,7 @@ state 88
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
   ! shift/reduce conflict for ID resolved as shift
     IF              shift and go to state 63
@@ -2616,10 +2724,10 @@ state 88
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
-  ! ID              [ reduce using rule 127 (empty -> .) ]
+  ! ID              [ reduce using rule 128 (empty -> .) ]
 
     termino                        shift and go to state 34
     expresion5                     shift and go to state 56
@@ -2663,16 +2771,16 @@ state 89
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    ID              reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
     expresion9                     shift and go to state 33
     expresion8                     shift and go to state 169
@@ -2735,16 +2843,16 @@ state 91
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    ID              reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
     expresion9                     shift and go to state 33
     expresion8                     shift and go to state 170
@@ -2768,16 +2876,16 @@ state 92
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    ID              reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
     expresion9                     shift and go to state 33
     expresion8                     shift and go to state 171
@@ -2801,16 +2909,16 @@ state 93
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    ID              reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
     expresion9                     shift and go to state 33
     expresion8                     shift and go to state 172
@@ -2915,16 +3023,16 @@ state 96
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    ID              reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
     expresion9                     shift and go to state 173
     exponencial2                   shift and go to state 39
@@ -2946,16 +3054,16 @@ state 97
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    ID              reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
     expresion9                     shift and go to state 174
     exponencial2                   shift and go to state 39
@@ -3012,10 +3120,10 @@ state 99
     (39) write -> PRINT asign . write2 SEMIC
     (40) write2 -> . COMMA asign write2
     (41) write2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     COMMA           shift and go to state 176
-    SEMIC           reduce using rule 127 (empty -> .)
+    SEMIC           reduce using rule 128 (empty -> .)
 
     write2                         shift and go to state 175
     empty                          shift and go to state 177
@@ -3099,16 +3207,16 @@ state 104
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    ID              reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
     termino                        shift and go to state 34
     expresiones                    shift and go to state 178
@@ -3289,51 +3397,51 @@ state 108
 
 state 109
 
-    (118) float -> CTEF .
+    (119) float -> CTEF .
 
-    EXP             reduce using rule 118 (float -> CTEF .)
-    STAR            reduce using rule 118 (float -> CTEF .)
-    SLASH           reduce using rule 118 (float -> CTEF .)
-    MOD             reduce using rule 118 (float -> CTEF .)
-    PLUS            reduce using rule 118 (float -> CTEF .)
-    MINUS           reduce using rule 118 (float -> CTEF .)
-    GREATERTHAN     reduce using rule 118 (float -> CTEF .)
-    LESSTHAN        reduce using rule 118 (float -> CTEF .)
-    GREATEREQUAL    reduce using rule 118 (float -> CTEF .)
-    LESSEQUAL       reduce using rule 118 (float -> CTEF .)
-    SHR             reduce using rule 118 (float -> CTEF .)
-    SHL             reduce using rule 118 (float -> CTEF .)
-    EQ              reduce using rule 118 (float -> CTEF .)
-    DIF             reduce using rule 118 (float -> CTEF .)
-    ANDB            reduce using rule 118 (float -> CTEF .)
-    XOR             reduce using rule 118 (float -> CTEF .)
-    ORB             reduce using rule 118 (float -> CTEF .)
-    AND             reduce using rule 118 (float -> CTEF .)
-    OR              reduce using rule 118 (float -> CTEF .)
-    COMMA           reduce using rule 118 (float -> CTEF .)
-    IF              reduce using rule 118 (float -> CTEF .)
-    PRINT           reduce using rule 118 (float -> CTEF .)
-    FOR             reduce using rule 118 (float -> CTEF .)
-    RETURN          reduce using rule 118 (float -> CTEF .)
-    BUILD           reduce using rule 118 (float -> CTEF .)
-    CONDITION       reduce using rule 118 (float -> CTEF .)
-    ID              reduce using rule 118 (float -> CTEF .)
-    TINT            reduce using rule 118 (float -> CTEF .)
-    TBOOL           reduce using rule 118 (float -> CTEF .)
-    TFLOAT          reduce using rule 118 (float -> CTEF .)
-    LPAREN          reduce using rule 118 (float -> CTEF .)
-    NOT             reduce using rule 118 (float -> CTEF .)
-    MM              reduce using rule 118 (float -> CTEF .)
-    PP              reduce using rule 118 (float -> CTEF .)
-    NEW             reduce using rule 118 (float -> CTEF .)
-    CTEI            reduce using rule 118 (float -> CTEF .)
-    CTEF            reduce using rule 118 (float -> CTEF .)
-    RCURLY          reduce using rule 118 (float -> CTEF .)
-    WHERE           reduce using rule 118 (float -> CTEF .)
-    SEMIC           reduce using rule 118 (float -> CTEF .)
-    RPAREN          reduce using rule 118 (float -> CTEF .)
-    LCURLY          reduce using rule 118 (float -> CTEF .)
-    RBRACKET        reduce using rule 118 (float -> CTEF .)
+    EXP             reduce using rule 119 (float -> CTEF .)
+    STAR            reduce using rule 119 (float -> CTEF .)
+    SLASH           reduce using rule 119 (float -> CTEF .)
+    MOD             reduce using rule 119 (float -> CTEF .)
+    PLUS            reduce using rule 119 (float -> CTEF .)
+    MINUS           reduce using rule 119 (float -> CTEF .)
+    GREATERTHAN     reduce using rule 119 (float -> CTEF .)
+    LESSTHAN        reduce using rule 119 (float -> CTEF .)
+    GREATEREQUAL    reduce using rule 119 (float -> CTEF .)
+    LESSEQUAL       reduce using rule 119 (float -> CTEF .)
+    SHR             reduce using rule 119 (float -> CTEF .)
+    SHL             reduce using rule 119 (float -> CTEF .)
+    EQ              reduce using rule 119 (float -> CTEF .)
+    DIF             reduce using rule 119 (float -> CTEF .)
+    ANDB            reduce using rule 119 (float -> CTEF .)
+    XOR             reduce using rule 119 (float -> CTEF .)
+    ORB             reduce using rule 119 (float -> CTEF .)
+    AND             reduce using rule 119 (float -> CTEF .)
+    OR              reduce using rule 119 (float -> CTEF .)
+    COMMA           reduce using rule 119 (float -> CTEF .)
+    IF              reduce using rule 119 (float -> CTEF .)
+    PRINT           reduce using rule 119 (float -> CTEF .)
+    FOR             reduce using rule 119 (float -> CTEF .)
+    RETURN          reduce using rule 119 (float -> CTEF .)
+    BUILD           reduce using rule 119 (float -> CTEF .)
+    CONDITION       reduce using rule 119 (float -> CTEF .)
+    ID              reduce using rule 119 (float -> CTEF .)
+    TINT            reduce using rule 119 (float -> CTEF .)
+    TBOOL           reduce using rule 119 (float -> CTEF .)
+    TFLOAT          reduce using rule 119 (float -> CTEF .)
+    LPAREN          reduce using rule 119 (float -> CTEF .)
+    NOT             reduce using rule 119 (float -> CTEF .)
+    MM              reduce using rule 119 (float -> CTEF .)
+    PP              reduce using rule 119 (float -> CTEF .)
+    NEW             reduce using rule 119 (float -> CTEF .)
+    CTEI            reduce using rule 119 (float -> CTEF .)
+    CTEF            reduce using rule 119 (float -> CTEF .)
+    RCURLY          reduce using rule 119 (float -> CTEF .)
+    WHERE           reduce using rule 119 (float -> CTEF .)
+    SEMIC           reduce using rule 119 (float -> CTEF .)
+    RPAREN          reduce using rule 119 (float -> CTEF .)
+    LCURLY          reduce using rule 119 (float -> CTEF .)
+    RBRACKET        reduce using rule 119 (float -> CTEF .)
 
 
 state 110
@@ -3563,16 +3671,16 @@ state 114
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    ID              reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
     termino                        shift and go to state 34
     expresion4                     shift and go to state 51
@@ -3591,14 +3699,15 @@ state 114
 
 state 115
 
-    (119) llamarfuncion -> LPAREN . llamarfuncion3 RPAREN
-    (120) llamarfuncion3 -> . asign llamarfuncion33
-    (121) llamarfuncion3 -> . empty
+    (120) llamarfuncion -> LPAREN . llamarfuncion3 RPAREN
+    (121) llamarfuncion3 -> . asign llamarfuncion33
+    (122) llamarfuncion3 -> . empty
     (27) asign -> . id asign_signo expresiones SEMIC
     (28) asign -> . expresiones
-    (127) empty -> .
+    (128) empty -> .
     (116) id -> . ID llamarfuncion
     (117) id -> . ID dimensions
+    (118) id -> . ID
     (29) expresiones -> . expresion COMMA expresiones
     (30) expresiones -> . expresion
     (64) expresion -> . expresion2 expresioni
@@ -3621,9 +3730,9 @@ state 115
     (111) exponencial2 -> . empty
 
   ! shift/reduce conflict for ID resolved as shift
-    RPAREN          reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    RPAREN          reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
     ID              shift and go to state 40
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
@@ -3631,7 +3740,7 @@ state 115
     PP              shift and go to state 66
     NEW             shift and go to state 35
 
-  ! ID              [ reduce using rule 127 (empty -> .) ]
+  ! ID              [ reduce using rule 128 (empty -> .) ]
 
     expresion9                     shift and go to state 33
     termino                        shift and go to state 34
@@ -3774,16 +3883,16 @@ state 119
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    ID              reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
     exponencial2                   shift and go to state 39
     termino                        shift and go to state 183
@@ -3848,16 +3957,16 @@ state 121
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    ID              reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
     exponencial2                   shift and go to state 39
     termino                        shift and go to state 184
@@ -3922,16 +4031,16 @@ state 123
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    ID              reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
     exponencial2                   shift and go to state 39
     termino                        shift and go to state 185
@@ -3998,16 +4107,16 @@ state 125
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    ID              reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
     factor                         shift and go to state 186
     exponencial2                   shift and go to state 39
@@ -4089,16 +4198,16 @@ state 128
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    ID              reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
     termino                        shift and go to state 34
     exponencial2                   shift and go to state 39
@@ -4227,16 +4336,16 @@ state 132
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    ID              reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
     termino                        shift and go to state 34
     exponencial2                   shift and go to state 39
@@ -4334,16 +4443,16 @@ state 135
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    ID              reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
     termino                        shift and go to state 34
     exponencial2                   shift and go to state 39
@@ -4448,16 +4557,16 @@ state 139
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    ID              reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
     expresion5                     shift and go to state 192
     expresion7                     shift and go to state 57
@@ -4519,16 +4628,16 @@ state 141
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    ID              reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
     expresion7                     shift and go to state 193
     expresion9                     shift and go to state 33
@@ -4591,16 +4700,16 @@ state 143
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    ID              reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
     expresion7                     shift and go to state 194
     expresion9                     shift and go to state 33
@@ -4666,16 +4775,16 @@ state 145
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    ID              reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
     expresion5                     shift and go to state 56
     expresion4                     shift and go to state 195
@@ -4806,16 +4915,16 @@ state 149
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    ID              reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
     expresion6                     shift and go to state 196
     expresion9                     shift and go to state 33
@@ -4843,16 +4952,16 @@ state 150
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    ID              reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
     expresion6                     shift and go to state 197
     expresion9                     shift and go to state 33
@@ -4976,16 +5085,16 @@ state 157
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    ID              reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
     termino                        shift and go to state 34
     expresiones                    shift and go to state 202
@@ -5026,11 +5135,12 @@ state 158
     (53) typedeclaration -> . type dimensionsfixed
     (116) id -> . ID llamarfuncion
     (117) id -> . ID dimensions
+    (118) id -> . ID
     (29) expresiones -> . expresion COMMA expresiones
     (30) expresiones -> . expresion
-    (124) type -> . TINT
-    (125) type -> . TBOOL
-    (126) type -> . TFLOAT
+    (125) type -> . TINT
+    (126) type -> . TBOOL
+    (127) type -> . TFLOAT
     (64) expresion -> . expresion2 expresioni
     (67) expresion2 -> . expresion3 expresion2i
     (70) expresion3 -> . expresion4 expresion3i
@@ -5049,7 +5159,7 @@ state 158
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
   ! shift/reduce conflict for ID resolved as shift
     IF              shift and go to state 63
@@ -5067,10 +5177,10 @@ state 158
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
-  ! ID              [ reduce using rule 127 (empty -> .) ]
+  ! ID              [ reduce using rule 128 (empty -> .) ]
 
     termino                        shift and go to state 34
     expresion5                     shift and go to state 56
@@ -5120,7 +5230,7 @@ state 160
     (21) statement -> . return
     (22) statement -> . build
     (23) statement -> . wherecondition
-    (127) empty -> .
+    (128) empty -> .
     (52) declaration -> . typedeclaration POINTS ID dec22 SEMIC
     (27) asign -> . id asign_signo expresiones SEMIC
     (28) asign -> . expresiones
@@ -5133,11 +5243,12 @@ state 160
     (53) typedeclaration -> . type dimensionsfixed
     (116) id -> . ID llamarfuncion
     (117) id -> . ID dimensions
+    (118) id -> . ID
     (29) expresiones -> . expresion COMMA expresiones
     (30) expresiones -> . expresion
-    (124) type -> . TINT
-    (125) type -> . TBOOL
-    (126) type -> . TFLOAT
+    (125) type -> . TINT
+    (126) type -> . TBOOL
+    (127) type -> . TFLOAT
     (64) expresion -> . expresion2 expresioni
     (67) expresion2 -> . expresion3 expresion2i
     (70) expresion3 -> . expresion4 expresion3i
@@ -5158,9 +5269,9 @@ state 160
     (111) exponencial2 -> . empty
 
   ! shift/reduce conflict for ID resolved as shift
-    RCURLY          reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    RCURLY          reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
     IF              shift and go to state 63
     PRINT           shift and go to state 36
     FOR             shift and go to state 52
@@ -5177,7 +5288,7 @@ state 160
     PP              shift and go to state 66
     NEW             shift and go to state 35
 
-  ! ID              [ reduce using rule 127 (empty -> .) ]
+  ! ID              [ reduce using rule 128 (empty -> .) ]
 
     termino                        shift and go to state 34
     expresion5                     shift and go to state 56
@@ -5235,10 +5346,10 @@ state 164
     (52) declaration -> typedeclaration POINTS ID . dec22 SEMIC
     (58) dec22 -> . COMMA ID dec22
     (59) dec22 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     COMMA           shift and go to state 208
-    SEMIC           reduce using rule 127 (empty -> .)
+    SEMIC           reduce using rule 128 (empty -> .)
 
     dec22                          shift and go to state 209
     empty                          shift and go to state 210
@@ -5548,6 +5659,7 @@ state 176
     (28) asign -> . expresiones
     (116) id -> . ID llamarfuncion
     (117) id -> . ID dimensions
+    (118) id -> . ID
     (29) expresiones -> . expresion COMMA expresiones
     (30) expresiones -> . expresion
     (64) expresion -> . expresion2 expresioni
@@ -5568,7 +5680,7 @@ state 176
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
   ! shift/reduce conflict for ID resolved as shift
     ID              shift and go to state 40
@@ -5577,10 +5689,10 @@ state 176
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
-  ! ID              [ reduce using rule 127 (empty -> .) ]
+  ! ID              [ reduce using rule 128 (empty -> .) ]
 
     termino                        shift and go to state 34
     id                             shift and go to state 37
@@ -5623,17 +5735,17 @@ state 179
 
 state 180
 
-    (119) llamarfuncion -> LPAREN llamarfuncion3 . RPAREN
+    (120) llamarfuncion -> LPAREN llamarfuncion3 . RPAREN
 
     RPAREN          shift and go to state 217
 
 
 state 181
 
-    (121) llamarfuncion3 -> empty .
+    (122) llamarfuncion3 -> empty .
     (111) exponencial2 -> empty .
 
-    RPAREN          reduce using rule 121 (llamarfuncion3 -> empty .)
+    RPAREN          reduce using rule 122 (llamarfuncion3 -> empty .)
     ID              reduce using rule 111 (exponencial2 -> empty .)
     CTEI            reduce using rule 111 (exponencial2 -> empty .)
     CTEF            reduce using rule 111 (exponencial2 -> empty .)
@@ -5641,13 +5753,13 @@ state 181
 
 state 182
 
-    (120) llamarfuncion3 -> asign . llamarfuncion33
-    (122) llamarfuncion33 -> . COMMA asign llamarfuncion33
-    (123) llamarfuncion33 -> . empty
-    (127) empty -> .
+    (121) llamarfuncion3 -> asign . llamarfuncion33
+    (123) llamarfuncion33 -> . COMMA asign llamarfuncion33
+    (124) llamarfuncion33 -> . empty
+    (128) empty -> .
 
     COMMA           shift and go to state 219
-    RPAREN          reduce using rule 127 (empty -> .)
+    RPAREN          reduce using rule 128 (empty -> .)
 
     llamarfuncion33                shift and go to state 218
     empty                          shift and go to state 220
@@ -6240,7 +6352,7 @@ state 200
     (21) statement -> . return
     (22) statement -> . build
     (23) statement -> . wherecondition
-    (127) empty -> .
+    (128) empty -> .
     (52) declaration -> . typedeclaration POINTS ID dec22 SEMIC
     (27) asign -> . id asign_signo expresiones SEMIC
     (28) asign -> . expresiones
@@ -6253,11 +6365,12 @@ state 200
     (53) typedeclaration -> . type dimensionsfixed
     (116) id -> . ID llamarfuncion
     (117) id -> . ID dimensions
+    (118) id -> . ID
     (29) expresiones -> . expresion COMMA expresiones
     (30) expresiones -> . expresion
-    (124) type -> . TINT
-    (125) type -> . TBOOL
-    (126) type -> . TFLOAT
+    (125) type -> . TINT
+    (126) type -> . TBOOL
+    (127) type -> . TFLOAT
     (64) expresion -> . expresion2 expresioni
     (67) expresion2 -> . expresion3 expresion2i
     (70) expresion3 -> . expresion4 expresion3i
@@ -6278,9 +6391,9 @@ state 200
     (111) exponencial2 -> . empty
 
   ! shift/reduce conflict for ID resolved as shift
-    RCURLY          reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    RCURLY          reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
     IF              shift and go to state 63
     PRINT           shift and go to state 36
     FOR             shift and go to state 52
@@ -6297,7 +6410,7 @@ state 200
     PP              shift and go to state 66
     NEW             shift and go to state 35
 
-  ! ID              [ reduce using rule 127 (empty -> .) ]
+  ! ID              [ reduce using rule 128 (empty -> .) ]
 
     termino                        shift and go to state 34
     expresion5                     shift and go to state 56
@@ -6333,28 +6446,28 @@ state 201
     (36) condition -> IF asign bloque . condition1
     (37) condition1 -> . ELSE bloque
     (38) condition1 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     ELSE            shift and go to state 224
-    IF              reduce using rule 127 (empty -> .)
-    PRINT           reduce using rule 127 (empty -> .)
-    FOR             reduce using rule 127 (empty -> .)
-    RETURN          reduce using rule 127 (empty -> .)
-    BUILD           reduce using rule 127 (empty -> .)
-    CONDITION       reduce using rule 127 (empty -> .)
-    ID              reduce using rule 127 (empty -> .)
-    TINT            reduce using rule 127 (empty -> .)
-    TBOOL           reduce using rule 127 (empty -> .)
-    TFLOAT          reduce using rule 127 (empty -> .)
-    LPAREN          reduce using rule 127 (empty -> .)
-    NOT             reduce using rule 127 (empty -> .)
-    MM              reduce using rule 127 (empty -> .)
-    PP              reduce using rule 127 (empty -> .)
-    NEW             reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
-    RCURLY          reduce using rule 127 (empty -> .)
-    WHERE           reduce using rule 127 (empty -> .)
+    IF              reduce using rule 128 (empty -> .)
+    PRINT           reduce using rule 128 (empty -> .)
+    FOR             reduce using rule 128 (empty -> .)
+    RETURN          reduce using rule 128 (empty -> .)
+    BUILD           reduce using rule 128 (empty -> .)
+    CONDITION       reduce using rule 128 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    TINT            reduce using rule 128 (empty -> .)
+    TBOOL           reduce using rule 128 (empty -> .)
+    TFLOAT          reduce using rule 128 (empty -> .)
+    LPAREN          reduce using rule 128 (empty -> .)
+    NOT             reduce using rule 128 (empty -> .)
+    MM              reduce using rule 128 (empty -> .)
+    PP              reduce using rule 128 (empty -> .)
+    NEW             reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
+    RCURLY          reduce using rule 128 (empty -> .)
+    WHERE           reduce using rule 128 (empty -> .)
 
     empty                          shift and go to state 225
     condition1                     shift and go to state 223
@@ -6473,10 +6586,10 @@ state 211
     (56) dimensionsfixed -> LBRACKET CTEI RBRACKET . dimensionsfixed
     (56) dimensionsfixed -> . LBRACKET CTEI RBRACKET dimensionsfixed
     (57) dimensionsfixed -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LBRACKET        shift and go to state 81
-    POINTS          reduce using rule 127 (empty -> .)
+    POINTS          reduce using rule 128 (empty -> .)
 
     dimensionsfixed                shift and go to state 231
     empty                          shift and go to state 82
@@ -6518,10 +6631,10 @@ state 214
     (40) write2 -> COMMA asign . write2
     (40) write2 -> . COMMA asign write2
     (41) write2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     COMMA           shift and go to state 176
-    SEMIC           reduce using rule 127 (empty -> .)
+    SEMIC           reduce using rule 128 (empty -> .)
 
     write2                         shift and go to state 233
     empty                          shift and go to state 177
@@ -6560,129 +6673,130 @@ state 216
     (54) dimensions -> LBRACKET expresion RBRACKET . dimensions
     (54) dimensions -> . LBRACKET expresion RBRACKET dimensions
     (55) dimensions -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     LBRACKET        shift and go to state 114
-    ASEQ            reduce using rule 127 (empty -> .)
-    PLUSEQ          reduce using rule 127 (empty -> .)
-    MINEQ           reduce using rule 127 (empty -> .)
-    MULTEQ          reduce using rule 127 (empty -> .)
-    DIVEQ           reduce using rule 127 (empty -> .)
-    EXP             reduce using rule 127 (empty -> .)
-    STAR            reduce using rule 127 (empty -> .)
-    SLASH           reduce using rule 127 (empty -> .)
-    MOD             reduce using rule 127 (empty -> .)
-    PLUS            reduce using rule 127 (empty -> .)
-    MINUS           reduce using rule 127 (empty -> .)
-    GREATERTHAN     reduce using rule 127 (empty -> .)
-    LESSTHAN        reduce using rule 127 (empty -> .)
-    GREATEREQUAL    reduce using rule 127 (empty -> .)
-    LESSEQUAL       reduce using rule 127 (empty -> .)
-    SHR             reduce using rule 127 (empty -> .)
-    SHL             reduce using rule 127 (empty -> .)
-    EQ              reduce using rule 127 (empty -> .)
-    DIF             reduce using rule 127 (empty -> .)
-    ANDB            reduce using rule 127 (empty -> .)
-    XOR             reduce using rule 127 (empty -> .)
-    ORB             reduce using rule 127 (empty -> .)
-    AND             reduce using rule 127 (empty -> .)
-    OR              reduce using rule 127 (empty -> .)
-    COMMA           reduce using rule 127 (empty -> .)
-    IF              reduce using rule 127 (empty -> .)
-    PRINT           reduce using rule 127 (empty -> .)
-    FOR             reduce using rule 127 (empty -> .)
-    RETURN          reduce using rule 127 (empty -> .)
-    BUILD           reduce using rule 127 (empty -> .)
-    CONDITION       reduce using rule 127 (empty -> .)
-    ID              reduce using rule 127 (empty -> .)
-    TINT            reduce using rule 127 (empty -> .)
-    TBOOL           reduce using rule 127 (empty -> .)
-    TFLOAT          reduce using rule 127 (empty -> .)
-    LPAREN          reduce using rule 127 (empty -> .)
-    NOT             reduce using rule 127 (empty -> .)
-    MM              reduce using rule 127 (empty -> .)
-    PP              reduce using rule 127 (empty -> .)
-    NEW             reduce using rule 127 (empty -> .)
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
-    RCURLY          reduce using rule 127 (empty -> .)
-    WHERE           reduce using rule 127 (empty -> .)
-    SEMIC           reduce using rule 127 (empty -> .)
-    RPAREN          reduce using rule 127 (empty -> .)
-    LCURLY          reduce using rule 127 (empty -> .)
-    RBRACKET        reduce using rule 127 (empty -> .)
+    ASEQ            reduce using rule 128 (empty -> .)
+    PLUSEQ          reduce using rule 128 (empty -> .)
+    MINEQ           reduce using rule 128 (empty -> .)
+    MULTEQ          reduce using rule 128 (empty -> .)
+    DIVEQ           reduce using rule 128 (empty -> .)
+    EXP             reduce using rule 128 (empty -> .)
+    STAR            reduce using rule 128 (empty -> .)
+    SLASH           reduce using rule 128 (empty -> .)
+    MOD             reduce using rule 128 (empty -> .)
+    PLUS            reduce using rule 128 (empty -> .)
+    MINUS           reduce using rule 128 (empty -> .)
+    GREATERTHAN     reduce using rule 128 (empty -> .)
+    LESSTHAN        reduce using rule 128 (empty -> .)
+    GREATEREQUAL    reduce using rule 128 (empty -> .)
+    LESSEQUAL       reduce using rule 128 (empty -> .)
+    SHR             reduce using rule 128 (empty -> .)
+    SHL             reduce using rule 128 (empty -> .)
+    EQ              reduce using rule 128 (empty -> .)
+    DIF             reduce using rule 128 (empty -> .)
+    ANDB            reduce using rule 128 (empty -> .)
+    XOR             reduce using rule 128 (empty -> .)
+    ORB             reduce using rule 128 (empty -> .)
+    AND             reduce using rule 128 (empty -> .)
+    OR              reduce using rule 128 (empty -> .)
+    COMMA           reduce using rule 128 (empty -> .)
+    IF              reduce using rule 128 (empty -> .)
+    PRINT           reduce using rule 128 (empty -> .)
+    FOR             reduce using rule 128 (empty -> .)
+    RETURN          reduce using rule 128 (empty -> .)
+    BUILD           reduce using rule 128 (empty -> .)
+    CONDITION       reduce using rule 128 (empty -> .)
+    ID              reduce using rule 128 (empty -> .)
+    TINT            reduce using rule 128 (empty -> .)
+    TBOOL           reduce using rule 128 (empty -> .)
+    TFLOAT          reduce using rule 128 (empty -> .)
+    LPAREN          reduce using rule 128 (empty -> .)
+    NOT             reduce using rule 128 (empty -> .)
+    MM              reduce using rule 128 (empty -> .)
+    PP              reduce using rule 128 (empty -> .)
+    NEW             reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
+    RCURLY          reduce using rule 128 (empty -> .)
+    WHERE           reduce using rule 128 (empty -> .)
+    SEMIC           reduce using rule 128 (empty -> .)
+    RPAREN          reduce using rule 128 (empty -> .)
+    LCURLY          reduce using rule 128 (empty -> .)
+    RBRACKET        reduce using rule 128 (empty -> .)
 
     dimensions                     shift and go to state 234
     empty                          shift and go to state 116
 
 state 217
 
-    (119) llamarfuncion -> LPAREN llamarfuncion3 RPAREN .
+    (120) llamarfuncion -> LPAREN llamarfuncion3 RPAREN .
 
-    ASEQ            reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    PLUSEQ          reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    MINEQ           reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    MULTEQ          reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    DIVEQ           reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    EXP             reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    STAR            reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    SLASH           reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    MOD             reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    PLUS            reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    MINUS           reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    GREATERTHAN     reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    LESSTHAN        reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    GREATEREQUAL    reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    LESSEQUAL       reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    SHR             reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    SHL             reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    EQ              reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    DIF             reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    ANDB            reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    XOR             reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    ORB             reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    AND             reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    OR              reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    COMMA           reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    IF              reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    PRINT           reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    FOR             reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    RETURN          reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    BUILD           reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    CONDITION       reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    ID              reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    TINT            reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    TBOOL           reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    TFLOAT          reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    LPAREN          reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    NOT             reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    MM              reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    PP              reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    NEW             reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    CTEI            reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    CTEF            reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    RCURLY          reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    WHERE           reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    SEMIC           reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    RPAREN          reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    LCURLY          reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    RBRACKET        reduce using rule 119 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    ASEQ            reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    PLUSEQ          reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    MINEQ           reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    MULTEQ          reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    DIVEQ           reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    EXP             reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    STAR            reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    SLASH           reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    MOD             reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    PLUS            reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    MINUS           reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    GREATERTHAN     reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    LESSTHAN        reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    GREATEREQUAL    reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    LESSEQUAL       reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    SHR             reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    SHL             reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    EQ              reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    DIF             reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    ANDB            reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    XOR             reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    ORB             reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    AND             reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    OR              reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    COMMA           reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    IF              reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    PRINT           reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    FOR             reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    RETURN          reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    BUILD           reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    CONDITION       reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    ID              reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    TINT            reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    TBOOL           reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    TFLOAT          reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    LPAREN          reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    NOT             reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    MM              reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    PP              reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    NEW             reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    CTEI            reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    CTEF            reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    RCURLY          reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    WHERE           reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    SEMIC           reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    RPAREN          reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    LCURLY          reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    RBRACKET        reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
 
 
 state 218
 
-    (120) llamarfuncion3 -> asign llamarfuncion33 .
+    (121) llamarfuncion3 -> asign llamarfuncion33 .
 
-    RPAREN          reduce using rule 120 (llamarfuncion3 -> asign llamarfuncion33 .)
+    RPAREN          reduce using rule 121 (llamarfuncion3 -> asign llamarfuncion33 .)
 
 
 state 219
 
-    (122) llamarfuncion33 -> COMMA . asign llamarfuncion33
+    (123) llamarfuncion33 -> COMMA . asign llamarfuncion33
     (27) asign -> . id asign_signo expresiones SEMIC
     (28) asign -> . expresiones
     (116) id -> . ID llamarfuncion
     (117) id -> . ID dimensions
+    (118) id -> . ID
     (29) expresiones -> . expresion COMMA expresiones
     (30) expresiones -> . expresion
     (64) expresion -> . expresion2 expresioni
@@ -6703,7 +6817,7 @@ state 219
     (109) exponencial2 -> . PP
     (110) exponencial2 -> . NEW
     (111) exponencial2 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
   ! shift/reduce conflict for ID resolved as shift
     ID              shift and go to state 40
@@ -6712,10 +6826,10 @@ state 219
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
-    CTEI            reduce using rule 127 (empty -> .)
-    CTEF            reduce using rule 127 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
 
-  ! ID              [ reduce using rule 127 (empty -> .) ]
+  ! ID              [ reduce using rule 128 (empty -> .) ]
 
     expresion9                     shift and go to state 33
     termino                        shift and go to state 34
@@ -6737,9 +6851,9 @@ state 219
 
 state 220
 
-    (123) llamarfuncion33 -> empty .
+    (124) llamarfuncion33 -> empty .
 
-    RPAREN          reduce using rule 123 (llamarfuncion33 -> empty .)
+    RPAREN          reduce using rule 124 (llamarfuncion33 -> empty .)
 
 
 state 221
@@ -6862,10 +6976,10 @@ state 229
     (58) dec22 -> COMMA ID . dec22
     (58) dec22 -> . COMMA ID dec22
     (59) dec22 -> . empty
-    (127) empty -> .
+    (128) empty -> .
 
     COMMA           shift and go to state 208
-    SEMIC           reduce using rule 127 (empty -> .)
+    SEMIC           reduce using rule 128 (empty -> .)
 
     dec22                          shift and go to state 240
     empty                          shift and go to state 210
@@ -6990,13 +7104,13 @@ state 234
 
 state 235
 
-    (122) llamarfuncion33 -> COMMA asign . llamarfuncion33
-    (122) llamarfuncion33 -> . COMMA asign llamarfuncion33
-    (123) llamarfuncion33 -> . empty
-    (127) empty -> .
+    (123) llamarfuncion33 -> COMMA asign . llamarfuncion33
+    (123) llamarfuncion33 -> . COMMA asign llamarfuncion33
+    (124) llamarfuncion33 -> . empty
+    (128) empty -> .
 
     COMMA           shift and go to state 219
-    RPAREN          reduce using rule 127 (empty -> .)
+    RPAREN          reduce using rule 128 (empty -> .)
 
     llamarfuncion33                shift and go to state 241
     empty                          shift and go to state 220
@@ -7093,9 +7207,9 @@ state 240
 
 state 241
 
-    (122) llamarfuncion33 -> COMMA asign llamarfuncion33 .
+    (123) llamarfuncion33 -> COMMA asign llamarfuncion33 .
 
-    RPAREN          reduce using rule 122 (llamarfuncion33 -> COMMA asign llamarfuncion33 .)
+    RPAREN          reduce using rule 123 (llamarfuncion33 -> COMMA asign llamarfuncion33 .)
 
 
 state 242
@@ -7144,6 +7258,7 @@ WARNING: shift/reduce conflict for ID in state 30 resolved as shift
 WARNING: shift/reduce conflict for ID in state 31 resolved as shift
 WARNING: shift/reduce conflict for ID in state 36 resolved as shift
 WARNING: shift/reduce conflict for LPAREN in state 40 resolved as shift
+WARNING: shift/reduce conflict for LPAREN in state 40 resolved as shift
 WARNING: shift/reduce conflict for IF in state 43 resolved as shift
 WARNING: shift/reduce conflict for PRINT in state 43 resolved as shift
 WARNING: shift/reduce conflict for FOR in state 43 resolved as shift
@@ -7170,6 +7285,8 @@ WARNING: shift/reduce conflict for ID in state 160 resolved as shift
 WARNING: shift/reduce conflict for ID in state 176 resolved as shift
 WARNING: shift/reduce conflict for ID in state 200 resolved as shift
 WARNING: shift/reduce conflict for ID in state 219 resolved as shift
+WARNING: reduce/reduce conflict in state 40 resolved using rule (id -> ID)
+WARNING: rejected rule (empty -> <empty>) in state 40
 WARNING: reduce/reduce conflict in state 46 resolved using rule (model -> empty)
 WARNING: rejected rule (bloque2 -> empty) in state 46
 WARNING: reduce/reduce conflict in state 46 resolved using rule (model -> empty)

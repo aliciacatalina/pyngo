@@ -112,7 +112,7 @@ def p_write(p):
 	"""write : PRINT asign write2 SEMIC
 	"""
 	if p[3] is None: 
-		p[0] = Node('write',[p[2]])
+		p[0] = Node('write',p[2])
 	else:
 		p[0] = Node('write', [p[2]] + p[3])
 
@@ -501,6 +501,7 @@ def p_int(p):
 def p_id(p):
 	"""id : ID llamarfuncion
 	| ID dimensions
+	| ID
 	"""
 	if len(p) == 3:
 		p[0] = Node('llamarfuncion', p[1], p[2])

@@ -146,20 +146,21 @@ class Node(object):
 
 		# print
 		elif self.type == "write" :
-			print "writee"
-			toprint = self.args[0]
+			result_type, address = self.args[0].args[0].expression("global", result)
+			print cuadruplos
+			print "write", address
 	
-			if self.args[0][1] is not None:
-				for i in range(len(toprint)) :
-					tip, direccion = self.args[0][i].expression("global", result)
-					print tip, direccion, "print"
-					cuadruplos.append(['print', " ", " ", direccion])
-				print cuadruplos
-			else :
-				tip, direccion = self.args[0].expression("global", result)
-				print tip, direccion, "print"
-				cuadruplos.append(['print', " ", " ", direccion])
-				print cuadruplos
+		#	if self.args[0][1] is not None:
+		#		for i in range(len(toprint)) :
+		#			tip, direccion = self.args[0][i].expression("global", result)
+		#			print tip, direccion, "print"
+		#			cuadruplos.append(['print', " ", " ", direccion])
+		#		print cuadruplos
+		#	else :
+		#		tip, direccion = self.args[0].expression("global", result)
+		#		print tip, direccion, "print"
+		#		cuadruplos.append(['print', " ", " ", direccion])
+		#		print cuadruplos
 
 		#conditions
 
