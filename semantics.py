@@ -44,6 +44,7 @@ class Node(object):
 		print "TYPE" ,self.type
 		if self.type == "program":	
 			print "This is a program"
+			self.args[1].semantic(result)
 			# self.args[1] sends vars to resulf
 			#self.args[2] sends data to result
 			result = self.args[2].semantic(result)
@@ -74,15 +75,18 @@ class Node(object):
 		elif self.type == "declaration":
 			#self.args[0].args[0].args[0] is the type
 			#self.args[1] is the id 
-			print "las cosas:", "is this a type?", self.args[0].args[0].args[0], "this is an id", self.args[1]
+			print "las cosas:", "is this a type?", self.args[0].args[0].args[0], self.args[0].args[1].args[0], "this is an id", self.args[1]
+			dimensions = reduce(lambda x, y: x*y, self.args[0].args[1].args[0])
+			print "dimensions", dimensions
 			# for every element on the id array, check if it exists on array, if the id already exists on the table, raise Exception
 			for i in self.args[1] :
 				for key in globaltable:
 					if i in globaltable[key].values():
 						raise Exception("Variable " + i + " alreay in use")
 				# Send the type and id to the function add to give them an address
-				globaltable.add(self.args[0].args[0].args[0], i)
-				print globaltable
+				for j in range(dimensions):
+					globaltable.add(self.args[0].args[0].args[0], i)
+			print globaltable
 
 		# receives asignmany
 		elif self.type == "data":
@@ -142,16 +146,9 @@ class Node(object):
 
 		# print
 		elif self.type == "write" :
-			print "writee"
-			toprint = self.args[0]
-	
-			if self.args[0][1] is not None:
-				for i in range(len(toprint)) :
-					tip, direccion = self.args[0][i].expression("global", result)
-					print tip, direccion, "print"
-					cuadruplos.append(['print', " ", " ", direccion])
-				print cuadruplos
-
+			result_type, address = self.args[0].args[0].expression("global", result)
+			print cuadruplos
+			print "write", address	
 
 	#Expression function to receive all expressions
 	def expression(self, function_name, result):

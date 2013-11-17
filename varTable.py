@@ -29,7 +29,7 @@ class Vartable(dict):
 			raise Exception("No type")
 
 globaltable = Vartable()
-globaltable.add('int', 'a')
+#globaltable.add('int', 'a')
 globaltable.add('float', 'c')
 globaltable.add('float', 'd')
 globaltable.add('float', 'i')

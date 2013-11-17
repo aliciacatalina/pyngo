@@ -112,7 +112,7 @@ def p_write(p):
 	"""write : PRINT asign write2 SEMIC
 	"""
 	if p[3] is None: 
-		p[0] = Node('write',[p[2]])
+		p[0] = Node('write',p[2])
 	else:
 		p[0] = Node('write', [p[2]] + p[3])
 
@@ -203,7 +203,7 @@ def p_declaration(p):
 		p[0] = Node('declaration', p[1], [p[3]] + p[4])
 
 def p_typedeclaration(p):
-	'''typedeclaration : type dimensions'''
+	'''typedeclaration : type dimensionsfixed'''
 	p[0] = Node('typedeclaration', p[1], p[2])
 
 def p_dimensions(p):
@@ -211,6 +211,13 @@ def p_dimensions(p):
 					| empty'''
 	if len(p) > 2 : p[0] = Node('dimensions', p[2], p[4])
 	else : p[0] = p[1]
+
+def p_dimensionsfixed(p):
+	'''dimensionsfixed : LBRACKET CTEI RBRACKET dimensionsfixed
+					| empty'''
+	if len(p) > 2 : 
+		if p[4] is not None: p[0] = Node('dimensionsfixed', [p[2]]+p[4])
+		else: p[0] = [p[2]] 
 
 def p_dec22(p):
 	"""dec22 : COMMA ID dec22
@@ -494,6 +501,7 @@ def p_int(p):
 def p_id(p):
 	"""id : ID llamarfuncion
 	| ID dimensions
+	| ID
 	"""
 	if len(p) == 3:
 		p[0] = Node('llamarfuncion', p[1], p[2])
