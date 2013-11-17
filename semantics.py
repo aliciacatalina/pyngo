@@ -159,14 +159,9 @@ class Node(object):
 				tip, direccion = self.args[0].expression("global", result)
 				print tip, direccion, "print"
 				cuadruplos.append(['print', " ", " ", direccion])
-<<<<<<< HEAD
-			print cuadruplos
-=======
 				print cuadruplos
 
 		#conditions
-
->>>>>>> 49c7d0f6722933e3ca15c01995685abc97f103de
 
 	#Expression function to receive all expressions
 	def expression(self, function_name, result):
