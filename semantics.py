@@ -44,10 +44,11 @@ class Node(object):
 		print "TYPE" ,self.type
 		if self.type == "program":	
 			print "This is a program"
-			self.args[1].semantic(result)
+			print "this should be functions", self.args[0]
+			self.args[0].semantic(result)
 			# self.args[1] sends vars to resulf
 			#self.args[2] sends data to result
-			result = self.args[2].semantic(result)
+			result = self.args[0].semantic(result)
 			self.args[3].semantic(result)	
 			
 			#functions
@@ -281,7 +282,7 @@ class Node(object):
 			return 'string', pointerdirconst['string'] - 1
 
 		elif self.type == "id" :
-			table = result["global"]
+			table = result[class_name] if function_name == "global" else result[function_name]
 			var_type = None
 			for t in table :
 				tableiter = result[t] if function_name == "global" else result[function_name][t]
@@ -294,9 +295,14 @@ class Node(object):
 
 		elif self.type == "llamarfuncion" :
 			funcion = self.args[0]
-			print "llamada a funcion"
-
-
+			if "." in self.args[0]:
+				llamadafuncion = self.args[0].rsplit(".")
+				clase = llamadafuncion[0]
+				funcion = llamadafuncion[1]
+			if funcion not in result[clase]:
+				raise Exception("Funcion no definida " + funcion)
+			var_tipos = {'int' : 1, 'float' : 2, 'bool' : 3, 'bit' : 4, 'String' : 5}
+			return var_tipos[result[funcion]["retorno"]], 1
 
 		print cuadruplos
 

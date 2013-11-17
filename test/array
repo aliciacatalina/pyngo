@@ -1,3 +1,6 @@
+func b(int a)(int) {
+}
+
 model {
 	vars {
 		int[5][6]: a;
