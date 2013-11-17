@@ -75,8 +75,12 @@ class Node(object):
 		elif self.type == "declaration":
 			#self.args[0].args[0].args[0] is the type
 			#self.args[1] is the id 
-			print "las cosas:", "is this a type?", self.args[0].args[0].args[0], self.args[0].args[1].args[0], "this is an id", self.args[1]
-			dimensions = reduce(lambda x, y: x*y, self.args[0].args[1].args[0])
+			print "las cosas:", "is this a type?", self.args[0].args[0].args[0],  "this is an id", self.args[1]
+			if self.args[0].args[1] is not None:
+				print "aqui", self.args[0].args[1]
+				dimensions = reduce(lambda x, y: x*y, self.args[0].args[1].args[0])
+			else:
+				dimensions = 1
 			print "dimensions", dimensions
 			# for every element on the id array, check if it exists on array, if the id already exists on the table, raise Exception
 			for i in self.args[1] :

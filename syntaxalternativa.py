@@ -216,8 +216,8 @@ def p_dimensionsfixed(p):
 	'''dimensionsfixed : LBRACKET CTEI RBRACKET dimensionsfixed
 					| empty'''
 	if len(p) > 2 : 
-		if p[4] is not None: p[0] = Node('dimensionsfixed', [p[2]]+p[4])
-		else: p[0] = [p[2]] 
+		if p[4] is not None: p[0] = Node('dimensionsfixed', [p[2]]+p[4].args[0])
+		else: p[0] = Node('dimensionsfixed', [p[2]])
 
 def p_dec22(p):
 	"""dec22 : COMMA ID dec22
