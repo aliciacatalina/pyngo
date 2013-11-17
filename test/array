@@ -7,5 +7,7 @@ model {
 		a = 3 * 2 + 2 / 5;
 	}
 
-	print 5*5+2;
+	for i in .a {
+		print 5*5+2;
+	}
 }

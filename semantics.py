@@ -130,51 +130,87 @@ class Node(object):
 			if len(self.args) > 1 and self.args[1] is not None:
 				result = self.args[1].semantic(result)
 		
-
+		#conditions
 		elif self.type == "condition":
-			tipo, direccion = self.args[0].expression(class_name, function_name, result)
-			if tipo != 3:
+			print 'args', self.args[0].args[0]
+			tipo, direccion = self.args[0].args[0].expression("global", result)
+			if tipo != 'bool':
 				raise Exception("Condicion debe ser tipo bool")
 			#GOTO en falso
 			gotof = [31, direccion, " ", " "]
 			cuadruplos.append(gotof)
 			lena = len(cuadruplos)
-			result = self.args[1].semantic_body(class_name, function_name, result)
+			result = self.args[1].semantic(result)
 			goto = [32, " ", " ", 0]
 			cuadruplos.append(goto)
 			gotof[3] = len(cuadruplos) - lena
 			if self.args[2] is not None:
 				lenelsea = len(cuadruplos)
-				result = self.args[2].semantic_body(class_name, function_name,result)
+				result = self.args[2].semantic(result)
 				goto[3] = len(cuadruplos) - lenelsea
+			print cuadruplos
+
+		elif self.type == "for" :
+			print 'id', self.args[0], 'in', 'punto', self.args[1], 'otro id', self.args[2], 'bloque', self.args[3].args[0]
+			back = len(cuadruplos)
+			pointer = globaltable.getintpointer()
+			globaltable.add('int', self.args[0])
+			cuadruplos.append(['=', 0 , '', pointer])
+			cuadruplos.append(['length', self.args[2], "", pointerdirtemp['int']])
+			cuadruplos.append(['<', pointer, pointerdirtemp['int'], pointerdirtemp['int']+1])
+			pointerdirtemp['int'] += 1
+			gotof = [31, pointerdirtemp['int'], " ", " "]
+			cuadruplos.append(gotof)
+			lena = len(cuadruplos)
+			result = self.args[3].semantic(result)
+			cuadruplos.append(['+', 1, pointer, pointerdirtemp['int']])
+			pointerdirtemp['int'] += 1
+			goto = [32, back - len(cuadruplos), " ", ]
+			cuadruplos.append(goto)
+			gotof[3] = len(cuadruplos) - lena
+			print cuadruplos
+
+		elif self.type == "funcion":
+			nombrfunc = self.args[0]
+			if nombrfunc in result[class_name]:
+				raise Exception("Funcion ya definida: " + nombrfunc)
+			else:
+				if self.args[1] is not None:
+					params = self.args[1].args[0]
+					print params
+					parametros = {}
+					for x in range(len(params)):
+						parametro = params.pop()
+						tipo = var_tipos[parametro[0]]
+						if tipo not in parametros:
+							parametros[tipo] = [parametro[1]]
+							result[class_name][self.args[0]][tipo] = [parametro[1]]
+						else:
+							parametros[tipo].append(parametro[1])
+							result[class_name][self.args[0]][tipo].append(parametro[1])
+					print parametros
+					print self.args[2].args[0]
+					result[class_name][self.args[0]]["parametros_func"] = parametros
+					
+				if self.args[2] is not None and self.args[2].args[0] > 0:
+					result[class_name][self.args[0]]["retorno"] = self.args[2].args[0]
+				if self.args[3] is not None:
+					result = self.args[3].semantic_body(class_name, self.args[0], result)
+
 
 		# print
 		elif self.type == "write" :
 			result_type, address = self.args[0].args[0].expression("global", result)
 			print cuadruplos
 			print "write", address
-	
-		#	if self.args[0][1] is not None:
-		#		for i in range(len(toprint)) :
-		#			tip, direccion = self.args[0][i].expression("global", result)
-		#			print tip, direccion, "print"
-		#			cuadruplos.append(['print', " ", " ", direccion])
-		#		print cuadruplos
-		#	else :
-		#		tip, direccion = self.args[0].expression("global", result)
-		#		print tip, direccion, "print"
-		#		cuadruplos.append(['print', " ", " ", direccion])
-		#		print cuadruplos
 
-		#conditions
 
 	#Expression function to receive all expressions
 	def expression(self, function_name, result):
 		var_tipos = {'int' : 1, 'float' : 2, 'bool' : 3, 'bit' : 4, 'String' : 5}
 		if self.type == "asign":
 			print "asign dentro de expresiones"
-			#print "operador", self.args[0].args[0], "id", self.args[1].args[0]
-			
+			#print "operador", self.args[0].args[0], "id", self.args[1].args[0]	
 			if self.args[2] is not None :
 				print 'mas numeros', self.args[2]
 				result_type, address = self.args[2].expression("global", result)

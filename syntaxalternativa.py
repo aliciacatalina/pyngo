@@ -131,7 +131,7 @@ def p_write2(p):
 def p_ciclo(p):
 	"""ciclo : FOR ID IN DOT ID bloque
 	"""
-	p[0] = Node('for', p[2], p[3], p[4], p[5])
+	p[0] = Node('for', p[2], p[4], p[5], p[6])
 
 # def p_ciclo1(p):
 # 	"""ciclo1 : asign
