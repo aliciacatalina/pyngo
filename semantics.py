@@ -126,29 +126,43 @@ class Node(object):
 			if len(self.args) > 1 and self.args[1] is not None:
 				result = self.args[1].semantic(result)
 		
-		#conditions
+
 		elif self.type == "condition":
-			tipo, direccion = self.args[0].expression("global", result)
+			tipo, direccion = self.args[0].expression(class_name, function_name, result)
 			if tipo != 3:
 				raise Exception("Condicion debe ser tipo bool")
 			#GOTO en falso
 			gotof = [31, direccion, " ", " "]
 			cuadruplos.append(gotof)
 			lena = len(cuadruplos)
-			result = self.args[1].semantic_body("global", result)
+			result = self.args[1].semantic_body(class_name, function_name, result)
 			goto = [32, " ", " ", 0]
 			cuadruplos.append(goto)
 			gotof[3] = len(cuadruplos) - lena
 			if self.args[2] is not None:
 				lenelsea = len(cuadruplos)
-				result = self.args[2].semantic_body("global", class_name, function_name"",result)
+				result = self.args[2].semantic_body(class_name, function_name,result)
 				goto[3] = len(cuadruplos) - lenelsea
 
 		# print
 		elif self.type == "write" :
 			result_type, address = self.args[0].args[0].expression("global", result)
 			print cuadruplos
-			print "write", address	
+			print "write", address
+	
+		#	if self.args[0][1] is not None:
+		#		for i in range(len(toprint)) :
+		#			tip, direccion = self.args[0][i].expression("global", result)
+		#			print tip, direccion, "print"
+		#			cuadruplos.append(['print', " ", " ", direccion])
+		#		print cuadruplos
+		#	else :
+		#		tip, direccion = self.args[0].expression("global", result)
+		#		print tip, direccion, "print"
+		#		cuadruplos.append(['print', " ", " ", direccion])
+		#		print cuadruplos
+
+		#conditions
 
 	#Expression function to receive all expressions
 	def expression(self, function_name, result):
