@@ -115,6 +115,7 @@ class Node(object):
 			print "asign dentro de expresiones"
 			print "operador", self.args[0].args[0], "id", self.args[1].args[0]
 			if self.args[2] is not None :
+				print 'mas numeros', self.args[2]
 				result_type, address = self.args[2].expression("global", result)
 			result = self.args[0].expression("global", result)
 			cuadruplos.append([self.args[0].args[0], address, '', varlookup["int"][self.args[1].args[0]]])
@@ -161,7 +162,44 @@ class Node(object):
 		elif self.type == "int" : 
 			dir_cons[pointerdirconst['int']] = int(self.args[0])
 			pointerdirconst['int'] += 1
-			return 'int', pointerdirconst['int'] - 1
+			return 'int', pointerdirconst['int'] - 1 
+
+		elif self.type == "float" :
+			dir_cons[pointerdirconst['float']] = float(self.args[0])
+			pointerdirconst['float'] += 1
+			return 'float', pointerdirconst['float'] - 1
+
+		elif self.type == "bool" :
+			if self.args[0] == "true" :
+				valor = True 
+			else :
+				valor = False
+			dir_cons[pointerdirconst['bool']] = valor
+			pointerdirconst['bool'] += 1
+			return 'bool', pointerdirconst['bool'] - 1
+
+		elif self.type == "string" :
+			dir_cons[pointerdirconst['string']] = self.args[0]
+			pointerdirconst['string'] += 1
+			return 'string', pointerdirconst['string'] - 1
+
+		elif self.type == "id" :
+			table = result["global"]
+			var_type = None
+			for t in table :
+				tableiter = result[t] if function_name == "global" else result[function_name][t]
+				if self.args[1] in tableiter :
+					var_type = t
+					break
+			if not var_type :
+				raise Exception("Variable no declarada" + self.args[1])
+			return var_type, dir_global.keys()[dir_global.values.index(self.args[0])]
+
+		elif self.type == "llamarfuncion" :
+			funcion = self.args[0]
+			print "llamada a funcion"
+
+
 
 		print cuadruplos
 
