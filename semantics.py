@@ -112,23 +112,73 @@ class Node(object):
 			print "model"
 			result = self.args[0].semantic(result)
 
+		elif self.type == "bloque":
+			if self.args[0] is not None:
+				result = self.args[0].semantic(result)
+		
+		elif self.type == "statement":
+			if self.args[0] is not None:
+				result = self.args[0].semantic(result)
+		
+		elif self.type == "bloque2":
+			if self.args[0] is not None:
+				result = self.args[0].semantic(result)
+			if len(self.args) > 1 and self.args[1] is not None:
+				result = self.args[1].semantic(result)
+		
+
+		elif self.type == "condition":
+			tipo, direccion = self.args[0].expression(class_name, function_name, result)
+			if tipo != 3:
+				raise Exception("Condicion debe ser tipo bool")
+			#GOTO en falso
+			gotof = [31, direccion, " ", " "]
+			cuadruplos.append(gotof)
+			lena = len(cuadruplos)
+			result = self.args[1].semantic_body(class_name, function_name, result)
+			goto = [32, " ", " ", 0]
+			cuadruplos.append(goto)
+			gotof[3] = len(cuadruplos) - lena
+			if self.args[2] is not None:
+				lenelsea = len(cuadruplos)
+				result = self.args[2].semantic_body(class_name, function_name,result)
+				goto[3] = len(cuadruplos) - lenelsea
+
+		# print
 		elif self.type == "write" :
-			toprint = self.args[1]
-			for i in range(len(toprint)) :
-				tip, direccion = self.args[1][i].expression("global", result)
+			print "writee"
+			toprint = self.args[0]
+	
+			if self.args[0][1] is not None:
+				for i in range(len(toprint)) :
+					tip, direccion = self.args[0][i].expression("global", result)
+					print tip, direccion, "print"
+					cuadruplos.append(['print', " ", " ", direccion])
+				print cuadruplos
+			else :
+				tip, direccion = self.args[0].expression("global", result)
 				print tip, direccion, "print"
 				cuadruplos.append(['print', " ", " ", direccion])
+<<<<<<< HEAD
 			print cuadruplos
+=======
+				print cuadruplos
+
+		#conditions
+
+>>>>>>> 49c7d0f6722933e3ca15c01995685abc97f103de
 
 	#Expression function to receive all expressions
 	def expression(self, function_name, result):
 		var_tipos = {'int' : 1, 'float' : 2, 'bool' : 3, 'bit' : 4, 'String' : 5}
 		if self.type == "asign":
 			print "asign dentro de expresiones"
-			print "operador", self.args[0].args[0], "id", self.args[1].args[0]
+			#print "operador", self.args[0].args[0], "id", self.args[1].args[0]
+			
 			if self.args[2] is not None :
 				print 'mas numeros', self.args[2]
 				result_type, address = self.args[2].expression("global", result)
+
 			result = self.args[0].expression("global", result)
 			cuadruplos.append([self.args[0].args[0], address, '', varlookup[result_type][self.args[1].args[0]]])
 
