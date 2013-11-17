@@ -108,6 +108,13 @@ class Node(object):
 			print "model"
 			result = self.args[0].semantic(result)
 
+		elif self.type == "write" :
+			toprint = self.args[1]
+			for i in range(len(toprint)) :
+				tip, direccion = self.args[1][i].expression("global", result)
+				print tip, direccion, "print"
+				cuadruplos.append(['print', " ", " ", direccion])
+
 	#Expression function to receive all expressions
 	def expression(self, function_name, result):
 		var_tipos = {'int' : 1, 'float' : 2, 'bool' : 3, 'bit' : 4, 'String' : 5}
