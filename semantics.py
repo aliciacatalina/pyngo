@@ -184,6 +184,7 @@ class Node(object):
 			if nombrfunc in dir_func:
 				raise Exception("Funcion ya definida: " + nombrfunc)
 			else:
+				globaltable[self.args[1]] = {}
 				dir_func[self.args[1]] = {}
 				if self.args[2] is not None:
 					# I don't think this is best practice
@@ -195,7 +196,7 @@ class Node(object):
 					print dir_func
 					for x in range(len(params)):
 						parametro = params.pop()
-						tipo = var_tipos[parametro[0]]
+						tipo = parametro[0]
 						if tipo not in parametros:
 							parametros[tipo] = [parametro[1]]
 							result[self.args[1]][tipo] = [parametro[1]]
@@ -203,13 +204,16 @@ class Node(object):
 							parametros[tipo].append(parametro[1])
 							result[self.args[1]][tipo].append(parametro[1])
 					print parametros
+					dir_func[self.args[1]]['params'] = parametros
+					print dir_func
 					print self.args[0].args[0]
 					result[self.args[1]]["parametros_func"] = parametros
 					
 				if self.args[0] is not None and self.args[0].args[0] > 0:
 					result[self.args[1]]["retorno"] = self.args[0].args[0]
 				if self.args[3] is not None:
-					result = self.args[3].semantic(self.args[0], result)
+					print 'return', self.args[3]
+					result = self.args[3].semantic(self.args[1], result)
 
 
 		# print
@@ -233,11 +237,14 @@ class Node(object):
 				result_type, address = self.args[2].expression(function_name, result)
 
 			result = self.args[0].expression(function_name, result)
+			print globaltable
+			for i in globaltable[function_name]:
+				varlookup[i] = ({v:k for k, v in globaltable[function_name][i].items()})
+			print 'op', self.args[0].args[0], 'dir', address, '', 'varlookup', varlookup
 			cuadruplos.append([self.args[0].args[0], address, '', varlookup[result_type][self.args[1].args[0]]])
 
 		elif self.type == "expresiones":
 			print "expresiones"
-			print self.args[0], self.args[1]
 			result = self.args[0].semantic(function_name, result)
 			if self.args[1] is not None:
 				result = self.args[1].semantic(function_name, result)
@@ -246,10 +253,8 @@ class Node(object):
 			print 'expresion', self.args[1]
 			left_type, direccion = self.args[1].expression(function_name, result)
 			lefty = direccion
-			print direccion, "left"
 			right_type, direccion = self.args[2].expression(function_name, result)
-			print "arg1", self.args[1],"op", self.args[0],"arg2", self.args[2]
-			print "ope", self.args[0], left_type, right_type, direccion
+
 			#Verify type of arguments and send to semantic cube
 			if isinstance(self.args[1], int):
 				left_type = "int"
@@ -266,7 +271,6 @@ class Node(object):
 				right_type = "bool"
 
 			result_type = cubo_semantico[left_type][right_type][self.args[0]]
-			print result_type
 
 			dir_temp[pointerdirtemp[result_type]] = " " + str(lefty) + " - " + str(direccion)
 			cuadruplos.append([self.args[0], lefty, direccion, pointerdirtemp[result_type]])
@@ -317,8 +321,8 @@ class Node(object):
 				funcion = llamadafuncion[1]
 			if funcion not in result[clase]:
 				raise Exception("Funcion no definida " + funcion)
-			var_tipos = {'int' : 1, 'float' : 2, 'bool' : 3, 'bit' : 4, 'String' : 5}
-			return var_tipos[result[funcion]["retorno"]], 1
+			#var_tipos = {'int' : 1, 'float' : 2, 'bool' : 3, 'bit' : 4, 'String' : 5}
+			return result[funcion]["retorno"], 1
 
 		print cuadruplos
 

@@ -52,7 +52,7 @@ Rule 39    write -> PRINT asign write2 SEMIC
 Rule 40    write2 -> COMMA asign write2
 Rule 41    write2 -> empty
 Rule 42    ciclo -> FOR ID IN DOT ID bloque
-Rule 43    funcion -> FUNC funcion3 ID LPAREN funcion1 RPAREN bloque
+Rule 43    funcion -> FUNC funcion3 ID LPAREN funcion1 RPAREN LCURLY vars data bloque2 RCURLY
 Rule 44    funcion1 -> type ID funcion2
 Rule 45    funcion1 -> <empty>
 Rule 46    funcion2 -> COMMA type ID funcion2
@@ -72,7 +72,7 @@ Rule 59    dec22 -> empty
 Rule 60    bloque -> LCURLY bloque2 RCURLY
 Rule 61    bloque2 -> statement bloque2
 Rule 62    bloque2 -> empty
-Rule 63    return -> RETURN asign
+Rule 63    return -> RETURN expresion SEMIC
 Rule 64    expresion -> expresion2 expresioni
 Rule 65    expresioni -> OR expresion
 Rule 66    expresioni -> empty
@@ -167,7 +167,7 @@ ID                   : 42 42 43 44 46 52 58 116 117 118
 IF                   : 36
 IN                   : 42
 LBRACKET             : 54 56
-LCURLY               : 1 6 11 12 14 24 60
+LCURLY               : 1 6 11 12 14 24 43 60
 LESSEQUAL            : 91
 LESSTHAN             : 89
 LPAREN               : 43 105 120
@@ -189,10 +189,10 @@ POINTS               : 52
 PP                   : 109
 PRINT                : 39
 RBRACKET             : 54 56
-RCURLY               : 1 6 11 12 14 24 60
+RCURLY               : 1 6 11 12 14 24 43 60
 RETURN               : 63
 RPAREN               : 43 105 120
-SEMIC                : 13 15 27 39 52
+SEMIC                : 13 15 27 39 52 63
 SHL                  : 85
 SHR                  : 84
 SLASH                : 99
@@ -208,16 +208,16 @@ error                :
 
 Nonterminals, with rules where they appear
 
-asign                : 17 25 36 39 40 63 121 123
+asign                : 17 25 36 39 40 121 123
 asign_signo          : 27
 asignmany            : 24 25
-bloque               : 36 37 42 43
-bloque2              : 1 9 14 60 61
+bloque               : 36 37 42
+bloque2              : 1 9 14 43 60 61
 build                : 22
 ciclo                : 20
 condition            : 18
 condition1           : 36
-data                 : 1
+data                 : 1 43
 dec22                : 52 58
 declaration          : 16 50
 dimensions           : 54 117
@@ -225,7 +225,7 @@ dimensionsfixed      : 53 56
 empty                : 3 5 10 26 38 41 51 55 57 59 62 66 69 72 75 78 82 86 92 96 101 104 111 122 124
 exponencial          : 102
 exponencial2         : 106
-expresion            : 13 15 29 30 54 65 105
+expresion            : 13 15 29 30 54 63 65 105
 expresion2           : 64 68
 expresion2i          : 67
 expresion3           : 67 71
@@ -269,7 +269,7 @@ type                 : 44 46 48 53
 typedeclaration      : 52
 valor                : 106
 varblock             : 4
-vars                 : 1
+vars                 : 1 43
 where                : 8 11 12
 wherecondition       : 23
 write                : 19
@@ -283,7 +283,7 @@ state 0
     (1) program -> . functions MODEL LCURLY vars data model bloque2 RCURLY
     (2) functions -> . funcion functions
     (3) functions -> . empty
-    (43) funcion -> . FUNC funcion3 ID LPAREN funcion1 RPAREN bloque
+    (43) funcion -> . FUNC funcion3 ID LPAREN funcion1 RPAREN LCURLY vars data bloque2 RCURLY
     (128) empty -> .
 
     FUNC            shift and go to state 3
@@ -309,7 +309,7 @@ state 2
 
 state 3
 
-    (43) funcion -> FUNC . funcion3 ID LPAREN funcion1 RPAREN bloque
+    (43) funcion -> FUNC . funcion3 ID LPAREN funcion1 RPAREN LCURLY vars data bloque2 RCURLY
     (48) funcion3 -> . type
     (49) funcion3 -> .
     (125) type -> . TINT
@@ -318,11 +318,11 @@ state 3
 
     ID              reduce using rule 49 (funcion3 -> .)
     TINT            shift and go to state 7
-    TBOOL           shift and go to state 10
-    TFLOAT          shift and go to state 8
+    TBOOL           shift and go to state 11
+    TFLOAT          shift and go to state 9
 
-    funcion3                       shift and go to state 9
-    type                           shift and go to state 11
+    funcion3                       shift and go to state 10
+    type                           shift and go to state 8
 
 state 4
 
@@ -336,7 +336,7 @@ state 5
     (2) functions -> funcion . functions
     (2) functions -> . funcion functions
     (3) functions -> . empty
-    (43) funcion -> . FUNC funcion3 ID LPAREN funcion1 RPAREN bloque
+    (43) funcion -> . FUNC funcion3 ID LPAREN funcion1 RPAREN LCURLY vars data bloque2 RCURLY
     (128) empty -> .
 
     FUNC            shift and go to state 3
@@ -364,6 +364,13 @@ state 7
 
 state 8
 
+    (48) funcion3 -> type .
+
+    ID              reduce using rule 48 (funcion3 -> type .)
+
+
+state 9
+
     (127) type -> TFLOAT .
 
     LBRACKET        reduce using rule 127 (type -> TFLOAT .)
@@ -371,27 +378,20 @@ state 8
     ID              reduce using rule 127 (type -> TFLOAT .)
 
 
-state 9
+state 10
 
-    (43) funcion -> FUNC funcion3 . ID LPAREN funcion1 RPAREN bloque
+    (43) funcion -> FUNC funcion3 . ID LPAREN funcion1 RPAREN LCURLY vars data bloque2 RCURLY
 
     ID              shift and go to state 14
 
 
-state 10
+state 11
 
     (126) type -> TBOOL .
 
     LBRACKET        reduce using rule 126 (type -> TBOOL .)
     POINTS          reduce using rule 126 (type -> TBOOL .)
     ID              reduce using rule 126 (type -> TBOOL .)
-
-
-state 11
-
-    (48) funcion3 -> type .
-
-    ID              reduce using rule 48 (funcion3 -> type .)
 
 
 state 12
@@ -418,7 +418,7 @@ state 13
 
 state 14
 
-    (43) funcion -> FUNC funcion3 ID . LPAREN funcion1 RPAREN bloque
+    (43) funcion -> FUNC funcion3 ID . LPAREN funcion1 RPAREN LCURLY vars data bloque2 RCURLY
 
     LPAREN          shift and go to state 19
 
@@ -455,7 +455,7 @@ state 18
 
 state 19
 
-    (43) funcion -> FUNC funcion3 ID LPAREN . funcion1 RPAREN bloque
+    (43) funcion -> FUNC funcion3 ID LPAREN . funcion1 RPAREN LCURLY vars data bloque2 RCURLY
     (44) funcion1 -> . type ID funcion2
     (45) funcion1 -> .
     (125) type -> . TINT
@@ -464,11 +464,11 @@ state 19
 
     RPAREN          reduce using rule 45 (funcion1 -> .)
     TINT            shift and go to state 7
-    TBOOL           shift and go to state 10
-    TFLOAT          shift and go to state 8
+    TBOOL           shift and go to state 11
+    TFLOAT          shift and go to state 9
 
-    funcion1                       shift and go to state 23
-    type                           shift and go to state 24
+    funcion1                       shift and go to state 24
+    type                           shift and go to state 23
 
 state 20
 
@@ -484,8 +484,8 @@ state 20
 
     RCURLY          reduce using rule 128 (empty -> .)
     TINT            shift and go to state 7
-    TBOOL           shift and go to state 10
-    TFLOAT          shift and go to state 8
+    TBOOL           shift and go to state 11
+    TFLOAT          shift and go to state 9
 
     typedeclaration                shift and go to state 25
     lvars                          shift and go to state 26
@@ -526,7 +526,7 @@ state 22
     (36) condition -> . IF asign bloque condition1
     (39) write -> . PRINT asign write2 SEMIC
     (42) ciclo -> . FOR ID IN DOT ID bloque
-    (63) return -> . RETURN asign
+    (63) return -> . RETURN expresion SEMIC
     (13) build -> . BUILD expresion SEMIC
     (15) wherecondition -> . CONDITION expresion SEMIC
     (53) typedeclaration -> . type dimensionsfixed
@@ -585,8 +585,8 @@ state 22
     CONDITION       shift and go to state 70
     ID              shift and go to state 40
     TINT            shift and go to state 7
-    TBOOL           shift and go to state 10
-    TFLOAT          shift and go to state 8
+    TBOOL           shift and go to state 11
+    TFLOAT          shift and go to state 9
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
@@ -642,16 +642,16 @@ state 22
 
 state 23
 
-    (43) funcion -> FUNC funcion3 ID LPAREN funcion1 . RPAREN bloque
+    (44) funcion1 -> type . ID funcion2
 
-    RPAREN          shift and go to state 73
+    ID              shift and go to state 73
 
 
 state 24
 
-    (44) funcion1 -> type . ID funcion2
+    (43) funcion -> FUNC funcion3 ID LPAREN funcion1 . RPAREN LCURLY vars data bloque2 RCURLY
 
-    ID              shift and go to state 74
+    RPAREN          shift and go to state 74
 
 
 state 25
@@ -682,8 +682,8 @@ state 27
 
     RCURLY          reduce using rule 128 (empty -> .)
     TINT            shift and go to state 7
-    TBOOL           shift and go to state 10
-    TFLOAT          shift and go to state 8
+    TBOOL           shift and go to state 11
+    TFLOAT          shift and go to state 9
 
     typedeclaration                shift and go to state 25
     lvars                          shift and go to state 77
@@ -777,14 +777,7 @@ state 30
 
 state 31
 
-    (63) return -> RETURN . asign
-    (27) asign -> . id asign_signo expresiones SEMIC
-    (28) asign -> . expresiones
-    (116) id -> . ID llamarfuncion
-    (117) id -> . ID dimensions
-    (118) id -> . ID
-    (29) expresiones -> . expresion COMMA expresiones
-    (30) expresiones -> . expresion
+    (63) return -> RETURN . expresion SEMIC
     (64) expresion -> . expresion2 expresioni
     (67) expresion2 -> . expresion3 expresion2i
     (70) expresion3 -> . expresion4 expresion3i
@@ -805,35 +798,29 @@ state 31
     (111) exponencial2 -> . empty
     (128) empty -> .
 
-  ! shift/reduce conflict for ID resolved as shift
-    ID              shift and go to state 40
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
     PP              shift and go to state 66
     NEW             shift and go to state 35
+    ID              reduce using rule 128 (empty -> .)
     CTEI            reduce using rule 128 (empty -> .)
     CTEF            reduce using rule 128 (empty -> .)
 
-  ! ID              [ reduce using rule 128 (empty -> .) ]
-
     termino                        shift and go to state 34
-    id                             shift and go to state 37
-    expresion4                     shift and go to state 51
-    expresiones                    shift and go to state 55
     exponencial2                   shift and go to state 39
-    expresion9                     shift and go to state 33
     factor                         shift and go to state 44
     exponencial                    shift and go to state 45
     empty                          shift and go to state 84
     expresion3                     shift and go to state 48
     expresion2                     shift and go to state 49
     expresion5                     shift and go to state 56
+    expresion4                     shift and go to state 51
     expresion7                     shift and go to state 57
     expresion6                     shift and go to state 53
+    expresion9                     shift and go to state 33
     expresion8                     shift and go to state 54
-    expresion                      shift and go to state 64
-    asign                          shift and go to state 85
+    expresion                      shift and go to state 85
 
 state 32
 
@@ -884,10 +871,10 @@ state 33
     CTEI            reduce using rule 128 (empty -> .)
     CTEF            reduce using rule 128 (empty -> .)
     RCURLY          reduce using rule 128 (empty -> .)
-    WHERE           reduce using rule 128 (empty -> .)
     SEMIC           reduce using rule 128 (empty -> .)
     RPAREN          reduce using rule 128 (empty -> .)
     LCURLY          reduce using rule 128 (empty -> .)
+    WHERE           reduce using rule 128 (empty -> .)
     RBRACKET        reduce using rule 128 (empty -> .)
 
     expresion8i                    shift and go to state 88
@@ -935,10 +922,10 @@ state 34
     CTEI            reduce using rule 128 (empty -> .)
     CTEF            reduce using rule 128 (empty -> .)
     RCURLY          reduce using rule 128 (empty -> .)
-    WHERE           reduce using rule 128 (empty -> .)
     SEMIC           reduce using rule 128 (empty -> .)
     RPAREN          reduce using rule 128 (empty -> .)
     LCURLY          reduce using rule 128 (empty -> .)
+    WHERE           reduce using rule 128 (empty -> .)
     RBRACKET        reduce using rule 128 (empty -> .)
 
     expresion9i                    shift and go to state 93
@@ -1130,10 +1117,10 @@ state 40
   ! reduce/reduce conflict for CTEI resolved using rule 118 (id -> ID .)
   ! reduce/reduce conflict for CTEF resolved using rule 118 (id -> ID .)
   ! reduce/reduce conflict for RCURLY resolved using rule 118 (id -> ID .)
-  ! reduce/reduce conflict for WHERE resolved using rule 118 (id -> ID .)
   ! reduce/reduce conflict for SEMIC resolved using rule 118 (id -> ID .)
   ! reduce/reduce conflict for RPAREN resolved using rule 118 (id -> ID .)
   ! reduce/reduce conflict for LCURLY resolved using rule 118 (id -> ID .)
+  ! reduce/reduce conflict for WHERE resolved using rule 118 (id -> ID .)
   ! reduce/reduce conflict for RBRACKET resolved using rule 118 (id -> ID .)
     ASEQ            reduce using rule 118 (id -> ID .)
     PLUSEQ          reduce using rule 118 (id -> ID .)
@@ -1177,10 +1164,10 @@ state 40
     CTEI            reduce using rule 118 (id -> ID .)
     CTEF            reduce using rule 118 (id -> ID .)
     RCURLY          reduce using rule 118 (id -> ID .)
-    WHERE           reduce using rule 118 (id -> ID .)
     SEMIC           reduce using rule 118 (id -> ID .)
     RPAREN          reduce using rule 118 (id -> ID .)
     LCURLY          reduce using rule 118 (id -> ID .)
+    WHERE           reduce using rule 118 (id -> ID .)
     RBRACKET        reduce using rule 118 (id -> ID .)
     LPAREN          shift and go to state 113
     LBRACKET        shift and go to state 112
@@ -1229,10 +1216,10 @@ state 40
   ! CTEI            [ reduce using rule 128 (empty -> .) ]
   ! CTEF            [ reduce using rule 128 (empty -> .) ]
   ! RCURLY          [ reduce using rule 128 (empty -> .) ]
-  ! WHERE           [ reduce using rule 128 (empty -> .) ]
   ! SEMIC           [ reduce using rule 128 (empty -> .) ]
   ! RPAREN          [ reduce using rule 128 (empty -> .) ]
   ! LCURLY          [ reduce using rule 128 (empty -> .) ]
+  ! WHERE           [ reduce using rule 128 (empty -> .) ]
   ! RBRACKET        [ reduce using rule 128 (empty -> .) ]
 
     llamarfuncion                  shift and go to state 111
@@ -1309,7 +1296,7 @@ state 43
     (36) condition -> . IF asign bloque condition1
     (39) write -> . PRINT asign write2 SEMIC
     (42) ciclo -> . FOR ID IN DOT ID bloque
-    (63) return -> . RETURN asign
+    (63) return -> . RETURN expresion SEMIC
     (13) build -> . BUILD expresion SEMIC
     (15) wherecondition -> . CONDITION expresion SEMIC
     (53) typedeclaration -> . type dimensionsfixed
@@ -1366,8 +1353,8 @@ state 43
     CONDITION       shift and go to state 70
     ID              shift and go to state 40
     TINT            shift and go to state 7
-    TBOOL           shift and go to state 10
-    TFLOAT          shift and go to state 8
+    TBOOL           shift and go to state 11
+    TFLOAT          shift and go to state 9
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
@@ -1465,10 +1452,10 @@ state 44
     CTEI            reduce using rule 128 (empty -> .)
     CTEF            reduce using rule 128 (empty -> .)
     RCURLY          reduce using rule 128 (empty -> .)
-    WHERE           reduce using rule 128 (empty -> .)
     SEMIC           reduce using rule 128 (empty -> .)
     RPAREN          reduce using rule 128 (empty -> .)
     LCURLY          reduce using rule 128 (empty -> .)
+    WHERE           reduce using rule 128 (empty -> .)
     RBRACKET        reduce using rule 128 (empty -> .)
 
     termino2                       shift and go to state 118
@@ -1519,10 +1506,10 @@ state 45
     CTEI            reduce using rule 128 (empty -> .)
     CTEF            reduce using rule 128 (empty -> .)
     RCURLY          reduce using rule 128 (empty -> .)
-    WHERE           reduce using rule 128 (empty -> .)
     SEMIC           reduce using rule 128 (empty -> .)
     RPAREN          reduce using rule 128 (empty -> .)
     LCURLY          reduce using rule 128 (empty -> .)
+    WHERE           reduce using rule 128 (empty -> .)
     RBRACKET        reduce using rule 128 (empty -> .)
 
     empty                          shift and go to state 122
@@ -1617,7 +1604,7 @@ state 47
     (36) condition -> . IF asign bloque condition1
     (39) write -> . PRINT asign write2 SEMIC
     (42) ciclo -> . FOR ID IN DOT ID bloque
-    (63) return -> . RETURN asign
+    (63) return -> . RETURN expresion SEMIC
     (13) build -> . BUILD expresion SEMIC
     (15) wherecondition -> . CONDITION expresion SEMIC
     (53) typedeclaration -> . type dimensionsfixed
@@ -1660,8 +1647,8 @@ state 47
     CONDITION       shift and go to state 70
     ID              shift and go to state 40
     TINT            shift and go to state 7
-    TBOOL           shift and go to state 10
-    TFLOAT          shift and go to state 8
+    TBOOL           shift and go to state 11
+    TFLOAT          shift and go to state 9
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
@@ -1727,10 +1714,10 @@ state 48
     CTEI            reduce using rule 128 (empty -> .)
     CTEF            reduce using rule 128 (empty -> .)
     RCURLY          reduce using rule 128 (empty -> .)
-    WHERE           reduce using rule 128 (empty -> .)
     SEMIC           reduce using rule 128 (empty -> .)
     RPAREN          reduce using rule 128 (empty -> .)
     LCURLY          reduce using rule 128 (empty -> .)
+    WHERE           reduce using rule 128 (empty -> .)
     RBRACKET        reduce using rule 128 (empty -> .)
 
     expresion2i                    shift and go to state 127
@@ -1763,10 +1750,10 @@ state 49
     CTEI            reduce using rule 128 (empty -> .)
     CTEF            reduce using rule 128 (empty -> .)
     RCURLY          reduce using rule 128 (empty -> .)
-    WHERE           reduce using rule 128 (empty -> .)
     SEMIC           reduce using rule 128 (empty -> .)
     RPAREN          reduce using rule 128 (empty -> .)
     LCURLY          reduce using rule 128 (empty -> .)
+    WHERE           reduce using rule 128 (empty -> .)
     RBRACKET        reduce using rule 128 (empty -> .)
 
     expresioni                     shift and go to state 129
@@ -1826,10 +1813,10 @@ state 51
     CTEI            reduce using rule 128 (empty -> .)
     CTEF            reduce using rule 128 (empty -> .)
     RCURLY          reduce using rule 128 (empty -> .)
-    WHERE           reduce using rule 128 (empty -> .)
     SEMIC           reduce using rule 128 (empty -> .)
     RPAREN          reduce using rule 128 (empty -> .)
     LCURLY          reduce using rule 128 (empty -> .)
+    WHERE           reduce using rule 128 (empty -> .)
     RBRACKET        reduce using rule 128 (empty -> .)
 
     expresion3i                    shift and go to state 132
@@ -1873,10 +1860,10 @@ state 53
     CTEI            reduce using rule 128 (empty -> .)
     CTEF            reduce using rule 128 (empty -> .)
     RCURLY          reduce using rule 128 (empty -> .)
-    WHERE           reduce using rule 128 (empty -> .)
     SEMIC           reduce using rule 128 (empty -> .)
     RPAREN          reduce using rule 128 (empty -> .)
     LCURLY          reduce using rule 128 (empty -> .)
+    WHERE           reduce using rule 128 (empty -> .)
     RBRACKET        reduce using rule 128 (empty -> .)
 
     expresion5i                    shift and go to state 136
@@ -1918,10 +1905,10 @@ state 54
     CTEI            reduce using rule 128 (empty -> .)
     CTEF            reduce using rule 128 (empty -> .)
     RCURLY          reduce using rule 128 (empty -> .)
-    WHERE           reduce using rule 128 (empty -> .)
     SEMIC           reduce using rule 128 (empty -> .)
     RPAREN          reduce using rule 128 (empty -> .)
     LCURLY          reduce using rule 128 (empty -> .)
+    WHERE           reduce using rule 128 (empty -> .)
     RBRACKET        reduce using rule 128 (empty -> .)
 
     empty                          shift and go to state 142
@@ -1952,8 +1939,8 @@ state 55
     WHERE           reduce using rule 28 (asign -> expresiones .)
     LCURLY          reduce using rule 28 (asign -> expresiones .)
     COMMA           reduce using rule 28 (asign -> expresiones .)
-    SEMIC           reduce using rule 28 (asign -> expresiones .)
     RPAREN          reduce using rule 28 (asign -> expresiones .)
+    SEMIC           reduce using rule 28 (asign -> expresiones .)
 
 
 state 56
@@ -1986,10 +1973,10 @@ state 56
     CTEI            reduce using rule 128 (empty -> .)
     CTEF            reduce using rule 128 (empty -> .)
     RCURLY          reduce using rule 128 (empty -> .)
-    WHERE           reduce using rule 128 (empty -> .)
     SEMIC           reduce using rule 128 (empty -> .)
     RPAREN          reduce using rule 128 (empty -> .)
     LCURLY          reduce using rule 128 (empty -> .)
+    WHERE           reduce using rule 128 (empty -> .)
     RBRACKET        reduce using rule 128 (empty -> .)
 
     empty                          shift and go to state 144
@@ -2029,10 +2016,10 @@ state 57
     CTEI            reduce using rule 128 (empty -> .)
     CTEF            reduce using rule 128 (empty -> .)
     RCURLY          reduce using rule 128 (empty -> .)
-    WHERE           reduce using rule 128 (empty -> .)
     SEMIC           reduce using rule 128 (empty -> .)
     RPAREN          reduce using rule 128 (empty -> .)
     LCURLY          reduce using rule 128 (empty -> .)
+    WHERE           reduce using rule 128 (empty -> .)
     RBRACKET        reduce using rule 128 (empty -> .)
 
     empty                          shift and go to state 149
@@ -2295,9 +2282,9 @@ state 64
     CTEI            reduce using rule 30 (expresiones -> expresion .)
     CTEF            reduce using rule 30 (expresiones -> expresion .)
     RCURLY          reduce using rule 30 (expresiones -> expresion .)
-    WHERE           reduce using rule 30 (expresiones -> expresion .)
     SEMIC           reduce using rule 30 (expresiones -> expresion .)
     LCURLY          reduce using rule 30 (expresiones -> expresion .)
+    WHERE           reduce using rule 30 (expresiones -> expresion .)
     RPAREN          reduce using rule 30 (expresiones -> expresion .)
 
   ! COMMA           [ reduce using rule 30 (expresiones -> expresion .) ]
@@ -2460,29 +2447,27 @@ state 72
 
 state 73
 
-    (43) funcion -> FUNC funcion3 ID LPAREN funcion1 RPAREN . bloque
-    (60) bloque -> . LCURLY bloque2 RCURLY
-
-    LCURLY          shift and go to state 158
-
-    bloque                         shift and go to state 159
-
-state 74
-
     (44) funcion1 -> type ID . funcion2
     (46) funcion2 -> . COMMA type ID funcion2
     (47) funcion2 -> .
 
-    COMMA           shift and go to state 160
+    COMMA           shift and go to state 158
     RPAREN          reduce using rule 47 (funcion2 -> .)
 
-    funcion2                       shift and go to state 161
+    funcion2                       shift and go to state 159
+
+state 74
+
+    (43) funcion -> FUNC funcion3 ID LPAREN funcion1 RPAREN . LCURLY vars data bloque2 RCURLY
+
+    LCURLY          shift and go to state 160
+
 
 state 75
 
     (52) declaration -> typedeclaration POINTS . ID dec22 SEMIC
 
-    ID              shift and go to state 162
+    ID              shift and go to state 161
 
 
 state 76
@@ -2510,7 +2495,7 @@ state 79
 
     (56) dimensionsfixed -> LBRACKET . CTEI RBRACKET dimensionsfixed
 
-    CTEI            shift and go to state 163
+    CTEI            shift and go to state 162
 
 
 state 80
@@ -2535,7 +2520,7 @@ state 82
 
     (24) data -> DATA LCURLY asignmany . RCURLY
 
-    RCURLY          shift and go to state 164
+    RCURLY          shift and go to state 163
 
 
 state 83
@@ -2593,7 +2578,7 @@ state 83
     factor                         shift and go to state 44
     exponencial                    shift and go to state 45
     empty                          shift and go to state 81
-    asignmany                      shift and go to state 165
+    asignmany                      shift and go to state 164
     expresion2                     shift and go to state 49
     expresion5                     shift and go to state 56
     expresion7                     shift and go to state 57
@@ -2613,27 +2598,9 @@ state 84
 
 state 85
 
-    (63) return -> RETURN asign .
+    (63) return -> RETURN expresion . SEMIC
 
-    IF              reduce using rule 63 (return -> RETURN asign .)
-    PRINT           reduce using rule 63 (return -> RETURN asign .)
-    FOR             reduce using rule 63 (return -> RETURN asign .)
-    RETURN          reduce using rule 63 (return -> RETURN asign .)
-    BUILD           reduce using rule 63 (return -> RETURN asign .)
-    CONDITION       reduce using rule 63 (return -> RETURN asign .)
-    ID              reduce using rule 63 (return -> RETURN asign .)
-    TINT            reduce using rule 63 (return -> RETURN asign .)
-    TBOOL           reduce using rule 63 (return -> RETURN asign .)
-    TFLOAT          reduce using rule 63 (return -> RETURN asign .)
-    LPAREN          reduce using rule 63 (return -> RETURN asign .)
-    NOT             reduce using rule 63 (return -> RETURN asign .)
-    MM              reduce using rule 63 (return -> RETURN asign .)
-    PP              reduce using rule 63 (return -> RETURN asign .)
-    NEW             reduce using rule 63 (return -> RETURN asign .)
-    CTEI            reduce using rule 63 (return -> RETURN asign .)
-    CTEF            reduce using rule 63 (return -> RETURN asign .)
-    RCURLY          reduce using rule 63 (return -> RETURN asign .)
-    WHERE           reduce using rule 63 (return -> RETURN asign .)
+    SEMIC           shift and go to state 165
 
 
 state 86
@@ -2653,7 +2620,7 @@ state 86
     (36) condition -> . IF asign bloque condition1
     (39) write -> . PRINT asign write2 SEMIC
     (42) ciclo -> . FOR ID IN DOT ID bloque
-    (63) return -> . RETURN asign
+    (63) return -> . RETURN expresion SEMIC
     (13) build -> . BUILD expresion SEMIC
     (15) wherecondition -> . CONDITION expresion SEMIC
     (53) typedeclaration -> . type dimensionsfixed
@@ -2694,8 +2661,8 @@ state 86
     CONDITION       shift and go to state 70
     ID              shift and go to state 40
     TINT            shift and go to state 7
-    TBOOL           shift and go to state 10
-    TFLOAT          shift and go to state 8
+    TBOOL           shift and go to state 11
+    TFLOAT          shift and go to state 9
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
@@ -2800,9 +2767,9 @@ state 88
     CTEF            reduce using rule 87 (expresion8 -> expresion9 expresion8i .)
     RCURLY          reduce using rule 87 (expresion8 -> expresion9 expresion8i .)
     SEMIC           reduce using rule 87 (expresion8 -> expresion9 expresion8i .)
-    RPAREN          reduce using rule 87 (expresion8 -> expresion9 expresion8i .)
     LCURLY          reduce using rule 87 (expresion8 -> expresion9 expresion8i .)
     WHERE           reduce using rule 87 (expresion8 -> expresion9 expresion8i .)
+    RPAREN          reduce using rule 87 (expresion8 -> expresion9 expresion8i .)
     RBRACKET        reduce using rule 87 (expresion8 -> expresion9 expresion8i .)
 
 
@@ -2937,10 +2904,10 @@ state 92
     CTEI            reduce using rule 92 (expresion8i -> empty .)
     CTEF            reduce using rule 92 (expresion8i -> empty .)
     RCURLY          reduce using rule 92 (expresion8i -> empty .)
-    WHERE           reduce using rule 92 (expresion8i -> empty .)
     SEMIC           reduce using rule 92 (expresion8i -> empty .)
     RPAREN          reduce using rule 92 (expresion8i -> empty .)
     LCURLY          reduce using rule 92 (expresion8i -> empty .)
+    WHERE           reduce using rule 92 (expresion8i -> empty .)
     RBRACKET        reduce using rule 92 (expresion8i -> empty .)
 
 
@@ -2980,10 +2947,10 @@ state 93
     CTEI            reduce using rule 93 (expresion9 -> termino expresion9i .)
     CTEF            reduce using rule 93 (expresion9 -> termino expresion9i .)
     RCURLY          reduce using rule 93 (expresion9 -> termino expresion9i .)
-    WHERE           reduce using rule 93 (expresion9 -> termino expresion9i .)
     SEMIC           reduce using rule 93 (expresion9 -> termino expresion9i .)
     RPAREN          reduce using rule 93 (expresion9 -> termino expresion9i .)
     LCURLY          reduce using rule 93 (expresion9 -> termino expresion9i .)
+    WHERE           reduce using rule 93 (expresion9 -> termino expresion9i .)
     RBRACKET        reduce using rule 93 (expresion9 -> termino expresion9i .)
 
 
@@ -3085,10 +3052,10 @@ state 96
     CTEI            reduce using rule 96 (expresion9i -> empty .)
     CTEF            reduce using rule 96 (expresion9i -> empty .)
     RCURLY          reduce using rule 96 (expresion9i -> empty .)
-    WHERE           reduce using rule 96 (expresion9i -> empty .)
     SEMIC           reduce using rule 96 (expresion9i -> empty .)
     RPAREN          reduce using rule 96 (expresion9i -> empty .)
     LCURLY          reduce using rule 96 (expresion9i -> empty .)
+    WHERE           reduce using rule 96 (expresion9i -> empty .)
     RBRACKET        reduce using rule 96 (expresion9i -> empty .)
 
 
@@ -3267,10 +3234,10 @@ state 104
     CTEI            reduce using rule 113 (valor -> int .)
     CTEF            reduce using rule 113 (valor -> int .)
     RCURLY          reduce using rule 113 (valor -> int .)
-    WHERE           reduce using rule 113 (valor -> int .)
     SEMIC           reduce using rule 113 (valor -> int .)
     RPAREN          reduce using rule 113 (valor -> int .)
     LCURLY          reduce using rule 113 (valor -> int .)
+    WHERE           reduce using rule 113 (valor -> int .)
     RBRACKET        reduce using rule 113 (valor -> int .)
 
 
@@ -3316,10 +3283,10 @@ state 105
     CTEI            reduce using rule 114 (valor -> float .)
     CTEF            reduce using rule 114 (valor -> float .)
     RCURLY          reduce using rule 114 (valor -> float .)
-    WHERE           reduce using rule 114 (valor -> float .)
     SEMIC           reduce using rule 114 (valor -> float .)
     RPAREN          reduce using rule 114 (valor -> float .)
     LCURLY          reduce using rule 114 (valor -> float .)
+    WHERE           reduce using rule 114 (valor -> float .)
     RBRACKET        reduce using rule 114 (valor -> float .)
 
 
@@ -3365,10 +3332,10 @@ state 106
     CTEI            reduce using rule 112 (valor -> id .)
     CTEF            reduce using rule 112 (valor -> id .)
     RCURLY          reduce using rule 112 (valor -> id .)
-    WHERE           reduce using rule 112 (valor -> id .)
     SEMIC           reduce using rule 112 (valor -> id .)
     RPAREN          reduce using rule 112 (valor -> id .)
     LCURLY          reduce using rule 112 (valor -> id .)
+    WHERE           reduce using rule 112 (valor -> id .)
     RBRACKET        reduce using rule 112 (valor -> id .)
 
 
@@ -3414,10 +3381,10 @@ state 107
     CTEI            reduce using rule 119 (float -> CTEF .)
     CTEF            reduce using rule 119 (float -> CTEF .)
     RCURLY          reduce using rule 119 (float -> CTEF .)
-    WHERE           reduce using rule 119 (float -> CTEF .)
     SEMIC           reduce using rule 119 (float -> CTEF .)
     RPAREN          reduce using rule 119 (float -> CTEF .)
     LCURLY          reduce using rule 119 (float -> CTEF .)
+    WHERE           reduce using rule 119 (float -> CTEF .)
     RBRACKET        reduce using rule 119 (float -> CTEF .)
 
 
@@ -3463,10 +3430,10 @@ state 108
     CTEI            reduce using rule 106 (exponencial -> exponencial2 valor .)
     CTEF            reduce using rule 106 (exponencial -> exponencial2 valor .)
     RCURLY          reduce using rule 106 (exponencial -> exponencial2 valor .)
-    WHERE           reduce using rule 106 (exponencial -> exponencial2 valor .)
     SEMIC           reduce using rule 106 (exponencial -> exponencial2 valor .)
     RPAREN          reduce using rule 106 (exponencial -> exponencial2 valor .)
     LCURLY          reduce using rule 106 (exponencial -> exponencial2 valor .)
+    WHERE           reduce using rule 106 (exponencial -> exponencial2 valor .)
     RBRACKET        reduce using rule 106 (exponencial -> exponencial2 valor .)
 
 
@@ -3512,10 +3479,10 @@ state 109
     CTEI            reduce using rule 115 (int -> CTEI .)
     CTEF            reduce using rule 115 (int -> CTEI .)
     RCURLY          reduce using rule 115 (int -> CTEI .)
-    WHERE           reduce using rule 115 (int -> CTEI .)
     SEMIC           reduce using rule 115 (int -> CTEI .)
     RPAREN          reduce using rule 115 (int -> CTEI .)
     LCURLY          reduce using rule 115 (int -> CTEI .)
+    WHERE           reduce using rule 115 (int -> CTEI .)
     RBRACKET        reduce using rule 115 (int -> CTEI .)
 
 
@@ -3566,10 +3533,10 @@ state 110
     CTEI            reduce using rule 117 (id -> ID dimensions .)
     CTEF            reduce using rule 117 (id -> ID dimensions .)
     RCURLY          reduce using rule 117 (id -> ID dimensions .)
-    WHERE           reduce using rule 117 (id -> ID dimensions .)
     SEMIC           reduce using rule 117 (id -> ID dimensions .)
     RPAREN          reduce using rule 117 (id -> ID dimensions .)
     LCURLY          reduce using rule 117 (id -> ID dimensions .)
+    WHERE           reduce using rule 117 (id -> ID dimensions .)
     RBRACKET        reduce using rule 117 (id -> ID dimensions .)
 
 
@@ -3620,10 +3587,10 @@ state 111
     CTEI            reduce using rule 116 (id -> ID llamarfuncion .)
     CTEF            reduce using rule 116 (id -> ID llamarfuncion .)
     RCURLY          reduce using rule 116 (id -> ID llamarfuncion .)
-    WHERE           reduce using rule 116 (id -> ID llamarfuncion .)
     SEMIC           reduce using rule 116 (id -> ID llamarfuncion .)
     RPAREN          reduce using rule 116 (id -> ID llamarfuncion .)
     LCURLY          reduce using rule 116 (id -> ID llamarfuncion .)
+    WHERE           reduce using rule 116 (id -> ID llamarfuncion .)
     RBRACKET        reduce using rule 116 (id -> ID llamarfuncion .)
 
 
@@ -3785,10 +3752,10 @@ state 114
     CTEI            reduce using rule 55 (dimensions -> empty .)
     CTEF            reduce using rule 55 (dimensions -> empty .)
     RCURLY          reduce using rule 55 (dimensions -> empty .)
-    WHERE           reduce using rule 55 (dimensions -> empty .)
     SEMIC           reduce using rule 55 (dimensions -> empty .)
     RPAREN          reduce using rule 55 (dimensions -> empty .)
     LCURLY          reduce using rule 55 (dimensions -> empty .)
+    WHERE           reduce using rule 55 (dimensions -> empty .)
     RBRACKET        reduce using rule 55 (dimensions -> empty .)
 
 
@@ -3915,10 +3882,10 @@ state 118
     CTEI            reduce using rule 97 (termino -> factor termino2 .)
     CTEF            reduce using rule 97 (termino -> factor termino2 .)
     RCURLY          reduce using rule 97 (termino -> factor termino2 .)
-    WHERE           reduce using rule 97 (termino -> factor termino2 .)
     SEMIC           reduce using rule 97 (termino -> factor termino2 .)
     RPAREN          reduce using rule 97 (termino -> factor termino2 .)
     LCURLY          reduce using rule 97 (termino -> factor termino2 .)
+    WHERE           reduce using rule 97 (termino -> factor termino2 .)
     RBRACKET        reduce using rule 97 (termino -> factor termino2 .)
 
 
@@ -3989,10 +3956,10 @@ state 120
     CTEI            reduce using rule 101 (termino2 -> empty .)
     CTEF            reduce using rule 101 (termino2 -> empty .)
     RCURLY          reduce using rule 101 (termino2 -> empty .)
-    WHERE           reduce using rule 101 (termino2 -> empty .)
     SEMIC           reduce using rule 101 (termino2 -> empty .)
     RPAREN          reduce using rule 101 (termino2 -> empty .)
     LCURLY          reduce using rule 101 (termino2 -> empty .)
+    WHERE           reduce using rule 101 (termino2 -> empty .)
     RBRACKET        reduce using rule 101 (termino2 -> empty .)
 
 
@@ -4066,10 +4033,10 @@ state 122
     CTEI            reduce using rule 104 (factor2 -> empty .)
     CTEF            reduce using rule 104 (factor2 -> empty .)
     RCURLY          reduce using rule 104 (factor2 -> empty .)
-    WHERE           reduce using rule 104 (factor2 -> empty .)
     SEMIC           reduce using rule 104 (factor2 -> empty .)
     RPAREN          reduce using rule 104 (factor2 -> empty .)
     LCURLY          reduce using rule 104 (factor2 -> empty .)
+    WHERE           reduce using rule 104 (factor2 -> empty .)
     RBRACKET        reduce using rule 104 (factor2 -> empty .)
 
 
@@ -4141,10 +4108,10 @@ state 124
     TINT            reduce using rule 102 (factor -> exponencial factor2 .)
     TBOOL           reduce using rule 102 (factor -> exponencial factor2 .)
     TFLOAT          reduce using rule 102 (factor -> exponencial factor2 .)
-    WHERE           reduce using rule 102 (factor -> exponencial factor2 .)
     SEMIC           reduce using rule 102 (factor -> exponencial factor2 .)
     RPAREN          reduce using rule 102 (factor -> exponencial factor2 .)
     LCURLY          reduce using rule 102 (factor -> exponencial factor2 .)
+    WHERE           reduce using rule 102 (factor -> exponencial factor2 .)
     RBRACKET        reduce using rule 102 (factor -> exponencial factor2 .)
 
 
@@ -4225,9 +4192,9 @@ state 127
     CTEI            reduce using rule 67 (expresion2 -> expresion3 expresion2i .)
     CTEF            reduce using rule 67 (expresion2 -> expresion3 expresion2i .)
     RCURLY          reduce using rule 67 (expresion2 -> expresion3 expresion2i .)
-    WHERE           reduce using rule 67 (expresion2 -> expresion3 expresion2i .)
     RPAREN          reduce using rule 67 (expresion2 -> expresion3 expresion2i .)
     LCURLY          reduce using rule 67 (expresion2 -> expresion3 expresion2i .)
+    WHERE           reduce using rule 67 (expresion2 -> expresion3 expresion2i .)
     RBRACKET        reduce using rule 67 (expresion2 -> expresion3 expresion2i .)
 
 
@@ -4255,10 +4222,10 @@ state 128
     CTEI            reduce using rule 69 (expresion2i -> empty .)
     CTEF            reduce using rule 69 (expresion2i -> empty .)
     RCURLY          reduce using rule 69 (expresion2i -> empty .)
-    WHERE           reduce using rule 69 (expresion2i -> empty .)
     SEMIC           reduce using rule 69 (expresion2i -> empty .)
     RPAREN          reduce using rule 69 (expresion2i -> empty .)
     LCURLY          reduce using rule 69 (expresion2i -> empty .)
+    WHERE           reduce using rule 69 (expresion2i -> empty .)
     RBRACKET        reduce using rule 69 (expresion2i -> empty .)
 
 
@@ -4268,7 +4235,6 @@ state 129
 
     SEMIC           reduce using rule 64 (expresion -> expresion2 expresioni .)
     COMMA           reduce using rule 64 (expresion -> expresion2 expresioni .)
-    RPAREN          reduce using rule 64 (expresion -> expresion2 expresioni .)
     IF              reduce using rule 64 (expresion -> expresion2 expresioni .)
     PRINT           reduce using rule 64 (expresion -> expresion2 expresioni .)
     FOR             reduce using rule 64 (expresion -> expresion2 expresioni .)
@@ -4287,8 +4253,9 @@ state 129
     CTEI            reduce using rule 64 (expresion -> expresion2 expresioni .)
     CTEF            reduce using rule 64 (expresion -> expresion2 expresioni .)
     RCURLY          reduce using rule 64 (expresion -> expresion2 expresioni .)
-    WHERE           reduce using rule 64 (expresion -> expresion2 expresioni .)
+    RPAREN          reduce using rule 64 (expresion -> expresion2 expresioni .)
     LCURLY          reduce using rule 64 (expresion -> expresion2 expresioni .)
+    WHERE           reduce using rule 64 (expresion -> expresion2 expresioni .)
     RBRACKET        reduce using rule 64 (expresion -> expresion2 expresioni .)
 
 
@@ -4362,10 +4329,10 @@ state 131
     CTEI            reduce using rule 66 (expresioni -> empty .)
     CTEF            reduce using rule 66 (expresioni -> empty .)
     RCURLY          reduce using rule 66 (expresioni -> empty .)
-    WHERE           reduce using rule 66 (expresioni -> empty .)
     SEMIC           reduce using rule 66 (expresioni -> empty .)
     RPAREN          reduce using rule 66 (expresioni -> empty .)
     LCURLY          reduce using rule 66 (expresioni -> empty .)
+    WHERE           reduce using rule 66 (expresioni -> empty .)
     RBRACKET        reduce using rule 66 (expresioni -> empty .)
 
 
@@ -4376,8 +4343,6 @@ state 132
     AND             reduce using rule 70 (expresion3 -> expresion4 expresion3i .)
     OR              reduce using rule 70 (expresion3 -> expresion4 expresion3i .)
     COMMA           reduce using rule 70 (expresion3 -> expresion4 expresion3i .)
-    SEMIC           reduce using rule 70 (expresion3 -> expresion4 expresion3i .)
-    RPAREN          reduce using rule 70 (expresion3 -> expresion4 expresion3i .)
     IF              reduce using rule 70 (expresion3 -> expresion4 expresion3i .)
     PRINT           reduce using rule 70 (expresion3 -> expresion4 expresion3i .)
     FOR             reduce using rule 70 (expresion3 -> expresion4 expresion3i .)
@@ -4396,8 +4361,10 @@ state 132
     CTEI            reduce using rule 70 (expresion3 -> expresion4 expresion3i .)
     CTEF            reduce using rule 70 (expresion3 -> expresion4 expresion3i .)
     RCURLY          reduce using rule 70 (expresion3 -> expresion4 expresion3i .)
-    WHERE           reduce using rule 70 (expresion3 -> expresion4 expresion3i .)
+    SEMIC           reduce using rule 70 (expresion3 -> expresion4 expresion3i .)
+    RPAREN          reduce using rule 70 (expresion3 -> expresion4 expresion3i .)
     LCURLY          reduce using rule 70 (expresion3 -> expresion4 expresion3i .)
+    WHERE           reduce using rule 70 (expresion3 -> expresion4 expresion3i .)
     RBRACKET        reduce using rule 70 (expresion3 -> expresion4 expresion3i .)
 
 
@@ -4469,10 +4436,10 @@ state 134
     CTEI            reduce using rule 72 (expresion3i -> empty .)
     CTEF            reduce using rule 72 (expresion3i -> empty .)
     RCURLY          reduce using rule 72 (expresion3i -> empty .)
-    WHERE           reduce using rule 72 (expresion3i -> empty .)
     SEMIC           reduce using rule 72 (expresion3i -> empty .)
     RPAREN          reduce using rule 72 (expresion3i -> empty .)
     LCURLY          reduce using rule 72 (expresion3i -> empty .)
+    WHERE           reduce using rule 72 (expresion3i -> empty .)
     RBRACKET        reduce using rule 72 (expresion3i -> empty .)
 
 
@@ -4583,10 +4550,10 @@ state 138
     CTEI            reduce using rule 78 (expresion5i -> empty .)
     CTEF            reduce using rule 78 (expresion5i -> empty .)
     RCURLY          reduce using rule 78 (expresion5i -> empty .)
-    WHERE           reduce using rule 78 (expresion5i -> empty .)
     SEMIC           reduce using rule 78 (expresion5i -> empty .)
     RPAREN          reduce using rule 78 (expresion5i -> empty .)
     LCURLY          reduce using rule 78 (expresion5i -> empty .)
+    WHERE           reduce using rule 78 (expresion5i -> empty .)
     RBRACKET        reduce using rule 78 (expresion5i -> empty .)
 
 
@@ -4727,10 +4694,10 @@ state 142
     CTEI            reduce using rule 86 (expresion7i -> empty .)
     CTEF            reduce using rule 86 (expresion7i -> empty .)
     RCURLY          reduce using rule 86 (expresion7i -> empty .)
-    WHERE           reduce using rule 86 (expresion7i -> empty .)
     SEMIC           reduce using rule 86 (expresion7i -> empty .)
     RPAREN          reduce using rule 86 (expresion7i -> empty .)
     LCURLY          reduce using rule 86 (expresion7i -> empty .)
+    WHERE           reduce using rule 86 (expresion7i -> empty .)
     RBRACKET        reduce using rule 86 (expresion7i -> empty .)
 
 
@@ -4801,10 +4768,10 @@ state 144
     CTEI            reduce using rule 75 (expresion4i -> empty .)
     CTEF            reduce using rule 75 (expresion4i -> empty .)
     RCURLY          reduce using rule 75 (expresion4i -> empty .)
-    WHERE           reduce using rule 75 (expresion4i -> empty .)
     SEMIC           reduce using rule 75 (expresion4i -> empty .)
     RPAREN          reduce using rule 75 (expresion4i -> empty .)
     LCURLY          reduce using rule 75 (expresion4i -> empty .)
+    WHERE           reduce using rule 75 (expresion4i -> empty .)
     RBRACKET        reduce using rule 75 (expresion4i -> empty .)
 
 
@@ -4836,8 +4803,8 @@ state 145
     CTEF            reduce using rule 73 (expresion4 -> expresion5 expresion4i .)
     RCURLY          reduce using rule 73 (expresion4 -> expresion5 expresion4i .)
     LCURLY          reduce using rule 73 (expresion4 -> expresion5 expresion4i .)
-    WHERE           reduce using rule 73 (expresion4 -> expresion5 expresion4i .)
     RPAREN          reduce using rule 73 (expresion4 -> expresion5 expresion4i .)
+    WHERE           reduce using rule 73 (expresion4 -> expresion5 expresion4i .)
     RBRACKET        reduce using rule 73 (expresion4 -> expresion5 expresion4i .)
 
 
@@ -4869,10 +4836,10 @@ state 146
     CTEI            reduce using rule 79 (expresion6 -> expresion7 expresion6i .)
     CTEF            reduce using rule 79 (expresion6 -> expresion7 expresion6i .)
     RCURLY          reduce using rule 79 (expresion6 -> expresion7 expresion6i .)
-    WHERE           reduce using rule 79 (expresion6 -> expresion7 expresion6i .)
     SEMIC           reduce using rule 79 (expresion6 -> expresion7 expresion6i .)
     RPAREN          reduce using rule 79 (expresion6 -> expresion7 expresion6i .)
     LCURLY          reduce using rule 79 (expresion6 -> expresion7 expresion6i .)
+    WHERE           reduce using rule 79 (expresion6 -> expresion7 expresion6i .)
     RBRACKET        reduce using rule 79 (expresion6 -> expresion7 expresion6i .)
 
 
@@ -4978,10 +4945,10 @@ state 149
     CTEI            reduce using rule 82 (expresion6i -> empty .)
     CTEF            reduce using rule 82 (expresion6i -> empty .)
     RCURLY          reduce using rule 82 (expresion6i -> empty .)
-    WHERE           reduce using rule 82 (expresion6i -> empty .)
     SEMIC           reduce using rule 82 (expresion6i -> empty .)
     RPAREN          reduce using rule 82 (expresion6i -> empty .)
     LCURLY          reduce using rule 82 (expresion6i -> empty .)
+    WHERE           reduce using rule 82 (expresion6i -> empty .)
     RBRACKET        reduce using rule 82 (expresion6i -> empty .)
 
 
@@ -5035,9 +5002,9 @@ state 154
     (36) condition -> IF asign . bloque condition1
     (60) bloque -> . LCURLY bloque2 RCURLY
 
-    LCURLY          shift and go to state 158
+    LCURLY          shift and go to state 199
 
-    bloque                         shift and go to state 199
+    bloque                         shift and go to state 200
 
 state 155
 
@@ -5074,7 +5041,7 @@ state 155
     CTEF            reduce using rule 128 (empty -> .)
 
     termino                        shift and go to state 34
-    expresiones                    shift and go to state 200
+    expresiones                    shift and go to state 201
     exponencial2                   shift and go to state 39
     factor                         shift and go to state 44
     exponencial                    shift and go to state 45
@@ -5106,7 +5073,7 @@ state 156
     (36) condition -> . IF asign bloque condition1
     (39) write -> . PRINT asign write2 SEMIC
     (42) ciclo -> . FOR ID IN DOT ID bloque
-    (63) return -> . RETURN asign
+    (63) return -> . RETURN expresion SEMIC
     (13) build -> . BUILD expresion SEMIC
     (15) wherecondition -> . CONDITION expresion SEMIC
     (53) typedeclaration -> . type dimensionsfixed
@@ -5147,8 +5114,8 @@ state 156
     CONDITION       shift and go to state 70
     ID              shift and go to state 40
     TINT            shift and go to state 7
-    TBOOL           shift and go to state 10
-    TFLOAT          shift and go to state 8
+    TBOOL           shift and go to state 11
+    TFLOAT          shift and go to state 9
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
@@ -5168,7 +5135,7 @@ state 156
     write                          shift and go to state 41
     expresion9                     shift and go to state 33
     build                          shift and go to state 42
-    statement                      shift and go to state 201
+    statement                      shift and go to state 202
     factor                         shift and go to state 44
     exponencial                    shift and go to state 45
     type                           shift and go to state 28
@@ -5191,120 +5158,10 @@ state 157
 
     (15) wherecondition -> CONDITION expresion . SEMIC
 
-    SEMIC           shift and go to state 202
+    SEMIC           shift and go to state 203
 
 
 state 158
-
-    (60) bloque -> LCURLY . bloque2 RCURLY
-    (61) bloque2 -> . statement bloque2
-    (62) bloque2 -> . empty
-    (16) statement -> . declaration
-    (17) statement -> . asign
-    (18) statement -> . condition
-    (19) statement -> . write
-    (20) statement -> . ciclo
-    (21) statement -> . return
-    (22) statement -> . build
-    (23) statement -> . wherecondition
-    (128) empty -> .
-    (52) declaration -> . typedeclaration POINTS ID dec22 SEMIC
-    (27) asign -> . id asign_signo expresiones SEMIC
-    (28) asign -> . expresiones
-    (36) condition -> . IF asign bloque condition1
-    (39) write -> . PRINT asign write2 SEMIC
-    (42) ciclo -> . FOR ID IN DOT ID bloque
-    (63) return -> . RETURN asign
-    (13) build -> . BUILD expresion SEMIC
-    (15) wherecondition -> . CONDITION expresion SEMIC
-    (53) typedeclaration -> . type dimensionsfixed
-    (116) id -> . ID llamarfuncion
-    (117) id -> . ID dimensions
-    (118) id -> . ID
-    (29) expresiones -> . expresion COMMA expresiones
-    (30) expresiones -> . expresion
-    (125) type -> . TINT
-    (126) type -> . TBOOL
-    (127) type -> . TFLOAT
-    (64) expresion -> . expresion2 expresioni
-    (67) expresion2 -> . expresion3 expresion2i
-    (70) expresion3 -> . expresion4 expresion3i
-    (73) expresion4 -> . expresion5 expresion4i
-    (76) expresion5 -> . expresion6 expresion5i
-    (79) expresion6 -> . expresion7 expresion6i
-    (83) expresion7 -> . expresion8 expresion7i
-    (87) expresion8 -> . expresion9 expresion8i
-    (93) expresion9 -> . termino expresion9i
-    (97) termino -> . factor termino2
-    (102) factor -> . exponencial factor2
-    (105) exponencial -> . LPAREN expresion RPAREN
-    (106) exponencial -> . exponencial2 valor
-    (107) exponencial2 -> . NOT
-    (108) exponencial2 -> . MM
-    (109) exponencial2 -> . PP
-    (110) exponencial2 -> . NEW
-    (111) exponencial2 -> . empty
-
-  ! shift/reduce conflict for ID resolved as shift
-    RCURLY          reduce using rule 128 (empty -> .)
-    CTEI            reduce using rule 128 (empty -> .)
-    CTEF            reduce using rule 128 (empty -> .)
-    IF              shift and go to state 63
-    PRINT           shift and go to state 36
-    FOR             shift and go to state 52
-    RETURN          shift and go to state 31
-    BUILD           shift and go to state 58
-    CONDITION       shift and go to state 70
-    ID              shift and go to state 40
-    TINT            shift and go to state 7
-    TBOOL           shift and go to state 10
-    TFLOAT          shift and go to state 8
-    LPAREN          shift and go to state 59
-    NOT             shift and go to state 71
-    MM              shift and go to state 67
-    PP              shift and go to state 66
-    NEW             shift and go to state 35
-
-  ! ID              [ reduce using rule 128 (empty -> .) ]
-
-    termino                        shift and go to state 34
-    expresion5                     shift and go to state 56
-    id                             shift and go to state 37
-    expresiones                    shift and go to state 55
-    ciclo                          shift and go to state 38
-    exponencial2                   shift and go to state 39
-    write                          shift and go to state 41
-    expresion9                     shift and go to state 33
-    build                          shift and go to state 42
-    statement                      shift and go to state 43
-    factor                         shift and go to state 44
-    exponencial                    shift and go to state 45
-    type                           shift and go to state 28
-    empty                          shift and go to state 115
-    expresion3                     shift and go to state 48
-    expresion2                     shift and go to state 49
-    return                         shift and go to state 50
-    expresion4                     shift and go to state 51
-    expresion7                     shift and go to state 57
-    expresion6                     shift and go to state 53
-    expresion8                     shift and go to state 54
-    typedeclaration                shift and go to state 25
-    declaration                    shift and go to state 60
-    condition                      shift and go to state 62
-    expresion                      shift and go to state 64
-    bloque2                        shift and go to state 203
-    asign                          shift and go to state 69
-    wherecondition                 shift and go to state 72
-
-state 159
-
-    (43) funcion -> FUNC funcion3 ID LPAREN funcion1 RPAREN bloque .
-
-    FUNC            reduce using rule 43 (funcion -> FUNC funcion3 ID LPAREN funcion1 RPAREN bloque .)
-    MODEL           reduce using rule 43 (funcion -> FUNC funcion3 ID LPAREN funcion1 RPAREN bloque .)
-
-
-state 160
 
     (46) funcion2 -> COMMA . type ID funcion2
     (125) type -> . TINT
@@ -5312,44 +5169,57 @@ state 160
     (127) type -> . TFLOAT
 
     TINT            shift and go to state 7
-    TBOOL           shift and go to state 10
-    TFLOAT          shift and go to state 8
+    TBOOL           shift and go to state 11
+    TFLOAT          shift and go to state 9
 
     type                           shift and go to state 204
 
-state 161
+state 159
 
     (44) funcion1 -> type ID funcion2 .
 
     RPAREN          reduce using rule 44 (funcion1 -> type ID funcion2 .)
 
 
-state 162
+state 160
+
+    (43) funcion -> FUNC funcion3 ID LPAREN funcion1 RPAREN LCURLY . vars data bloque2 RCURLY
+    (4) vars -> . varblock
+    (5) vars -> . empty
+    (6) varblock -> . VARS LCURLY lvars RCURLY
+    (128) empty -> .
+
+    VARS            shift and go to state 15
+    DATA            reduce using rule 128 (empty -> .)
+
+    vars                           shift and go to state 205
+    varblock                       shift and go to state 17
+    empty                          shift and go to state 18
+
+state 161
 
     (52) declaration -> typedeclaration POINTS ID . dec22 SEMIC
     (58) dec22 -> . COMMA ID dec22
     (59) dec22 -> . empty
     (128) empty -> .
 
-    COMMA           shift and go to state 205
+    COMMA           shift and go to state 206
     SEMIC           reduce using rule 128 (empty -> .)
 
-    dec22                          shift and go to state 206
-    empty                          shift and go to state 207
+    dec22                          shift and go to state 207
+    empty                          shift and go to state 208
 
-state 163
+state 162
 
     (56) dimensionsfixed -> LBRACKET CTEI . RBRACKET dimensionsfixed
 
-    RBRACKET        shift and go to state 208
+    RBRACKET        shift and go to state 209
 
 
-state 164
+state 163
 
     (24) data -> DATA LCURLY asignmany RCURLY .
 
-    MIN             reduce using rule 24 (data -> DATA LCURLY asignmany RCURLY .)
-    MAX             reduce using rule 24 (data -> DATA LCURLY asignmany RCURLY .)
     IF              reduce using rule 24 (data -> DATA LCURLY asignmany RCURLY .)
     PRINT           reduce using rule 24 (data -> DATA LCURLY asignmany RCURLY .)
     FOR             reduce using rule 24 (data -> DATA LCURLY asignmany RCURLY .)
@@ -5368,13 +5238,40 @@ state 164
     RCURLY          reduce using rule 24 (data -> DATA LCURLY asignmany RCURLY .)
     CTEI            reduce using rule 24 (data -> DATA LCURLY asignmany RCURLY .)
     CTEF            reduce using rule 24 (data -> DATA LCURLY asignmany RCURLY .)
+    MIN             reduce using rule 24 (data -> DATA LCURLY asignmany RCURLY .)
+    MAX             reduce using rule 24 (data -> DATA LCURLY asignmany RCURLY .)
 
 
-state 165
+state 164
 
     (25) asignmany -> asign asignmany .
 
     RCURLY          reduce using rule 25 (asignmany -> asign asignmany .)
+
+
+state 165
+
+    (63) return -> RETURN expresion SEMIC .
+
+    IF              reduce using rule 63 (return -> RETURN expresion SEMIC .)
+    PRINT           reduce using rule 63 (return -> RETURN expresion SEMIC .)
+    FOR             reduce using rule 63 (return -> RETURN expresion SEMIC .)
+    RETURN          reduce using rule 63 (return -> RETURN expresion SEMIC .)
+    BUILD           reduce using rule 63 (return -> RETURN expresion SEMIC .)
+    CONDITION       reduce using rule 63 (return -> RETURN expresion SEMIC .)
+    ID              reduce using rule 63 (return -> RETURN expresion SEMIC .)
+    TINT            reduce using rule 63 (return -> RETURN expresion SEMIC .)
+    TBOOL           reduce using rule 63 (return -> RETURN expresion SEMIC .)
+    TFLOAT          reduce using rule 63 (return -> RETURN expresion SEMIC .)
+    LPAREN          reduce using rule 63 (return -> RETURN expresion SEMIC .)
+    NOT             reduce using rule 63 (return -> RETURN expresion SEMIC .)
+    MM              reduce using rule 63 (return -> RETURN expresion SEMIC .)
+    PP              reduce using rule 63 (return -> RETURN expresion SEMIC .)
+    NEW             reduce using rule 63 (return -> RETURN expresion SEMIC .)
+    CTEI            reduce using rule 63 (return -> RETURN expresion SEMIC .)
+    CTEF            reduce using rule 63 (return -> RETURN expresion SEMIC .)
+    RCURLY          reduce using rule 63 (return -> RETURN expresion SEMIC .)
+    WHERE           reduce using rule 63 (return -> RETURN expresion SEMIC .)
 
 
 state 166
@@ -5384,7 +5281,7 @@ state 166
 
     WHERE           shift and go to state 153
 
-    where                          shift and go to state 209
+    where                          shift and go to state 210
 
 state 167
 
@@ -5418,10 +5315,10 @@ state 167
     CTEI            reduce using rule 90 (expresion8i -> GREATEREQUAL expresion8 .)
     CTEF            reduce using rule 90 (expresion8i -> GREATEREQUAL expresion8 .)
     RCURLY          reduce using rule 90 (expresion8i -> GREATEREQUAL expresion8 .)
-    WHERE           reduce using rule 90 (expresion8i -> GREATEREQUAL expresion8 .)
     SEMIC           reduce using rule 90 (expresion8i -> GREATEREQUAL expresion8 .)
     RPAREN          reduce using rule 90 (expresion8i -> GREATEREQUAL expresion8 .)
     LCURLY          reduce using rule 90 (expresion8i -> GREATEREQUAL expresion8 .)
+    WHERE           reduce using rule 90 (expresion8i -> GREATEREQUAL expresion8 .)
     RBRACKET        reduce using rule 90 (expresion8i -> GREATEREQUAL expresion8 .)
 
 
@@ -5457,10 +5354,10 @@ state 168
     CTEI            reduce using rule 89 (expresion8i -> LESSTHAN expresion8 .)
     CTEF            reduce using rule 89 (expresion8i -> LESSTHAN expresion8 .)
     RCURLY          reduce using rule 89 (expresion8i -> LESSTHAN expresion8 .)
-    WHERE           reduce using rule 89 (expresion8i -> LESSTHAN expresion8 .)
     SEMIC           reduce using rule 89 (expresion8i -> LESSTHAN expresion8 .)
     RPAREN          reduce using rule 89 (expresion8i -> LESSTHAN expresion8 .)
     LCURLY          reduce using rule 89 (expresion8i -> LESSTHAN expresion8 .)
+    WHERE           reduce using rule 89 (expresion8i -> LESSTHAN expresion8 .)
     RBRACKET        reduce using rule 89 (expresion8i -> LESSTHAN expresion8 .)
 
 
@@ -5496,10 +5393,10 @@ state 169
     CTEI            reduce using rule 88 (expresion8i -> GREATERTHAN expresion8 .)
     CTEF            reduce using rule 88 (expresion8i -> GREATERTHAN expresion8 .)
     RCURLY          reduce using rule 88 (expresion8i -> GREATERTHAN expresion8 .)
-    WHERE           reduce using rule 88 (expresion8i -> GREATERTHAN expresion8 .)
     SEMIC           reduce using rule 88 (expresion8i -> GREATERTHAN expresion8 .)
     RPAREN          reduce using rule 88 (expresion8i -> GREATERTHAN expresion8 .)
     LCURLY          reduce using rule 88 (expresion8i -> GREATERTHAN expresion8 .)
+    WHERE           reduce using rule 88 (expresion8i -> GREATERTHAN expresion8 .)
     RBRACKET        reduce using rule 88 (expresion8i -> GREATERTHAN expresion8 .)
 
 
@@ -5535,10 +5432,10 @@ state 170
     CTEI            reduce using rule 91 (expresion8i -> LESSEQUAL expresion8 .)
     CTEF            reduce using rule 91 (expresion8i -> LESSEQUAL expresion8 .)
     RCURLY          reduce using rule 91 (expresion8i -> LESSEQUAL expresion8 .)
-    WHERE           reduce using rule 91 (expresion8i -> LESSEQUAL expresion8 .)
     SEMIC           reduce using rule 91 (expresion8i -> LESSEQUAL expresion8 .)
     RPAREN          reduce using rule 91 (expresion8i -> LESSEQUAL expresion8 .)
     LCURLY          reduce using rule 91 (expresion8i -> LESSEQUAL expresion8 .)
+    WHERE           reduce using rule 91 (expresion8i -> LESSEQUAL expresion8 .)
     RBRACKET        reduce using rule 91 (expresion8i -> LESSEQUAL expresion8 .)
 
 
@@ -5578,10 +5475,10 @@ state 171
     CTEI            reduce using rule 94 (expresion9i -> PLUS expresion9 .)
     CTEF            reduce using rule 94 (expresion9i -> PLUS expresion9 .)
     RCURLY          reduce using rule 94 (expresion9i -> PLUS expresion9 .)
-    WHERE           reduce using rule 94 (expresion9i -> PLUS expresion9 .)
     SEMIC           reduce using rule 94 (expresion9i -> PLUS expresion9 .)
     RPAREN          reduce using rule 94 (expresion9i -> PLUS expresion9 .)
     LCURLY          reduce using rule 94 (expresion9i -> PLUS expresion9 .)
+    WHERE           reduce using rule 94 (expresion9i -> PLUS expresion9 .)
     RBRACKET        reduce using rule 94 (expresion9i -> PLUS expresion9 .)
 
 
@@ -5621,10 +5518,10 @@ state 172
     CTEI            reduce using rule 95 (expresion9i -> MINUS expresion9 .)
     CTEF            reduce using rule 95 (expresion9i -> MINUS expresion9 .)
     RCURLY          reduce using rule 95 (expresion9i -> MINUS expresion9 .)
-    WHERE           reduce using rule 95 (expresion9i -> MINUS expresion9 .)
     SEMIC           reduce using rule 95 (expresion9i -> MINUS expresion9 .)
     RPAREN          reduce using rule 95 (expresion9i -> MINUS expresion9 .)
     LCURLY          reduce using rule 95 (expresion9i -> MINUS expresion9 .)
+    WHERE           reduce using rule 95 (expresion9i -> MINUS expresion9 .)
     RBRACKET        reduce using rule 95 (expresion9i -> MINUS expresion9 .)
 
 
@@ -5632,7 +5529,7 @@ state 173
 
     (39) write -> PRINT asign write2 . SEMIC
 
-    SEMIC           shift and go to state 210
+    SEMIC           shift and go to state 211
 
 
 state 174
@@ -5693,7 +5590,7 @@ state 174
     expresion6                     shift and go to state 53
     expresion8                     shift and go to state 54
     expresion                      shift and go to state 64
-    asign                          shift and go to state 211
+    asign                          shift and go to state 212
 
 state 175
 
@@ -5706,21 +5603,21 @@ state 176
 
     (27) asign -> id asign_signo expresiones . SEMIC
 
-    SEMIC           shift and go to state 212
+    SEMIC           shift and go to state 213
 
 
 state 177
 
     (54) dimensions -> LBRACKET expresion . RBRACKET dimensions
 
-    RBRACKET        shift and go to state 213
+    RBRACKET        shift and go to state 214
 
 
 state 178
 
     (120) llamarfuncion -> LPAREN llamarfuncion3 . RPAREN
 
-    RPAREN          shift and go to state 214
+    RPAREN          shift and go to state 215
 
 
 state 179
@@ -5741,11 +5638,11 @@ state 180
     (124) llamarfuncion33 -> . empty
     (128) empty -> .
 
-    COMMA           shift and go to state 216
+    COMMA           shift and go to state 217
     RPAREN          reduce using rule 128 (empty -> .)
 
-    llamarfuncion33                shift and go to state 215
-    empty                          shift and go to state 217
+    llamarfuncion33                shift and go to state 216
+    empty                          shift and go to state 218
 
 state 181
 
@@ -5785,10 +5682,10 @@ state 181
     CTEI            reduce using rule 98 (termino2 -> STAR termino .)
     CTEF            reduce using rule 98 (termino2 -> STAR termino .)
     RCURLY          reduce using rule 98 (termino2 -> STAR termino .)
-    WHERE           reduce using rule 98 (termino2 -> STAR termino .)
     SEMIC           reduce using rule 98 (termino2 -> STAR termino .)
     RPAREN          reduce using rule 98 (termino2 -> STAR termino .)
     LCURLY          reduce using rule 98 (termino2 -> STAR termino .)
+    WHERE           reduce using rule 98 (termino2 -> STAR termino .)
     RBRACKET        reduce using rule 98 (termino2 -> STAR termino .)
 
 
@@ -5830,10 +5727,10 @@ state 182
     CTEI            reduce using rule 99 (termino2 -> SLASH termino .)
     CTEF            reduce using rule 99 (termino2 -> SLASH termino .)
     RCURLY          reduce using rule 99 (termino2 -> SLASH termino .)
-    WHERE           reduce using rule 99 (termino2 -> SLASH termino .)
     SEMIC           reduce using rule 99 (termino2 -> SLASH termino .)
     RPAREN          reduce using rule 99 (termino2 -> SLASH termino .)
     LCURLY          reduce using rule 99 (termino2 -> SLASH termino .)
+    WHERE           reduce using rule 99 (termino2 -> SLASH termino .)
     RBRACKET        reduce using rule 99 (termino2 -> SLASH termino .)
 
 
@@ -5875,10 +5772,10 @@ state 183
     CTEI            reduce using rule 100 (termino2 -> MOD termino .)
     CTEF            reduce using rule 100 (termino2 -> MOD termino .)
     RCURLY          reduce using rule 100 (termino2 -> MOD termino .)
-    WHERE           reduce using rule 100 (termino2 -> MOD termino .)
     SEMIC           reduce using rule 100 (termino2 -> MOD termino .)
     RPAREN          reduce using rule 100 (termino2 -> MOD termino .)
     LCURLY          reduce using rule 100 (termino2 -> MOD termino .)
+    WHERE           reduce using rule 100 (termino2 -> MOD termino .)
     RBRACKET        reduce using rule 100 (termino2 -> MOD termino .)
 
 
@@ -5923,10 +5820,10 @@ state 184
     CTEI            reduce using rule 103 (factor2 -> EXP factor .)
     CTEF            reduce using rule 103 (factor2 -> EXP factor .)
     RCURLY          reduce using rule 103 (factor2 -> EXP factor .)
-    WHERE           reduce using rule 103 (factor2 -> EXP factor .)
     SEMIC           reduce using rule 103 (factor2 -> EXP factor .)
     RPAREN          reduce using rule 103 (factor2 -> EXP factor .)
     LCURLY          reduce using rule 103 (factor2 -> EXP factor .)
+    WHERE           reduce using rule 103 (factor2 -> EXP factor .)
     RBRACKET        reduce using rule 103 (factor2 -> EXP factor .)
 
 
@@ -5961,10 +5858,10 @@ state 186
     CTEI            reduce using rule 68 (expresion2i -> AND expresion2 .)
     CTEF            reduce using rule 68 (expresion2i -> AND expresion2 .)
     RCURLY          reduce using rule 68 (expresion2i -> AND expresion2 .)
-    WHERE           reduce using rule 68 (expresion2i -> AND expresion2 .)
     SEMIC           reduce using rule 68 (expresion2i -> AND expresion2 .)
     RPAREN          reduce using rule 68 (expresion2i -> AND expresion2 .)
     LCURLY          reduce using rule 68 (expresion2i -> AND expresion2 .)
+    WHERE           reduce using rule 68 (expresion2i -> AND expresion2 .)
     RBRACKET        reduce using rule 68 (expresion2i -> AND expresion2 .)
 
 
@@ -5991,10 +5888,10 @@ state 187
     CTEI            reduce using rule 65 (expresioni -> OR expresion .)
     CTEF            reduce using rule 65 (expresioni -> OR expresion .)
     RCURLY          reduce using rule 65 (expresioni -> OR expresion .)
-    WHERE           reduce using rule 65 (expresioni -> OR expresion .)
     SEMIC           reduce using rule 65 (expresioni -> OR expresion .)
     RPAREN          reduce using rule 65 (expresioni -> OR expresion .)
     LCURLY          reduce using rule 65 (expresioni -> OR expresion .)
+    WHERE           reduce using rule 65 (expresioni -> OR expresion .)
     RBRACKET        reduce using rule 65 (expresioni -> OR expresion .)
 
 
@@ -6023,10 +5920,10 @@ state 188
     CTEI            reduce using rule 71 (expresion3i -> ORB expresion3 .)
     CTEF            reduce using rule 71 (expresion3i -> ORB expresion3 .)
     RCURLY          reduce using rule 71 (expresion3i -> ORB expresion3 .)
-    WHERE           reduce using rule 71 (expresion3i -> ORB expresion3 .)
     SEMIC           reduce using rule 71 (expresion3i -> ORB expresion3 .)
     RPAREN          reduce using rule 71 (expresion3i -> ORB expresion3 .)
     LCURLY          reduce using rule 71 (expresion3i -> ORB expresion3 .)
+    WHERE           reduce using rule 71 (expresion3i -> ORB expresion3 .)
     RBRACKET        reduce using rule 71 (expresion3i -> ORB expresion3 .)
 
 
@@ -6034,7 +5931,7 @@ state 189
 
     (42) ciclo -> FOR ID IN . DOT ID bloque
 
-    DOT             shift and go to state 218
+    DOT             shift and go to state 219
 
 
 state 190
@@ -6064,10 +5961,10 @@ state 190
     CTEI            reduce using rule 77 (expresion5i -> ANDB expresion5 .)
     CTEF            reduce using rule 77 (expresion5i -> ANDB expresion5 .)
     RCURLY          reduce using rule 77 (expresion5i -> ANDB expresion5 .)
-    WHERE           reduce using rule 77 (expresion5i -> ANDB expresion5 .)
     SEMIC           reduce using rule 77 (expresion5i -> ANDB expresion5 .)
     RPAREN          reduce using rule 77 (expresion5i -> ANDB expresion5 .)
     LCURLY          reduce using rule 77 (expresion5i -> ANDB expresion5 .)
+    WHERE           reduce using rule 77 (expresion5i -> ANDB expresion5 .)
     RBRACKET        reduce using rule 77 (expresion5i -> ANDB expresion5 .)
 
 
@@ -6101,10 +5998,10 @@ state 191
     CTEI            reduce using rule 84 (expresion7i -> SHR expresion7 .)
     CTEF            reduce using rule 84 (expresion7i -> SHR expresion7 .)
     RCURLY          reduce using rule 84 (expresion7i -> SHR expresion7 .)
-    WHERE           reduce using rule 84 (expresion7i -> SHR expresion7 .)
     SEMIC           reduce using rule 84 (expresion7i -> SHR expresion7 .)
     RPAREN          reduce using rule 84 (expresion7i -> SHR expresion7 .)
     LCURLY          reduce using rule 84 (expresion7i -> SHR expresion7 .)
+    WHERE           reduce using rule 84 (expresion7i -> SHR expresion7 .)
     RBRACKET        reduce using rule 84 (expresion7i -> SHR expresion7 .)
 
 
@@ -6138,10 +6035,10 @@ state 192
     CTEI            reduce using rule 85 (expresion7i -> SHL expresion7 .)
     CTEF            reduce using rule 85 (expresion7i -> SHL expresion7 .)
     RCURLY          reduce using rule 85 (expresion7i -> SHL expresion7 .)
-    WHERE           reduce using rule 85 (expresion7i -> SHL expresion7 .)
     SEMIC           reduce using rule 85 (expresion7i -> SHL expresion7 .)
     RPAREN          reduce using rule 85 (expresion7i -> SHL expresion7 .)
     LCURLY          reduce using rule 85 (expresion7i -> SHL expresion7 .)
+    WHERE           reduce using rule 85 (expresion7i -> SHL expresion7 .)
     RBRACKET        reduce using rule 85 (expresion7i -> SHL expresion7 .)
 
 
@@ -6171,10 +6068,10 @@ state 193
     CTEI            reduce using rule 74 (expresion4i -> XOR expresion4 .)
     CTEF            reduce using rule 74 (expresion4i -> XOR expresion4 .)
     RCURLY          reduce using rule 74 (expresion4i -> XOR expresion4 .)
-    WHERE           reduce using rule 74 (expresion4i -> XOR expresion4 .)
     SEMIC           reduce using rule 74 (expresion4i -> XOR expresion4 .)
     RPAREN          reduce using rule 74 (expresion4i -> XOR expresion4 .)
     LCURLY          reduce using rule 74 (expresion4i -> XOR expresion4 .)
+    WHERE           reduce using rule 74 (expresion4i -> XOR expresion4 .)
     RBRACKET        reduce using rule 74 (expresion4i -> XOR expresion4 .)
 
 
@@ -6206,10 +6103,10 @@ state 194
     CTEI            reduce using rule 81 (expresion6i -> DIF expresion6 .)
     CTEF            reduce using rule 81 (expresion6i -> DIF expresion6 .)
     RCURLY          reduce using rule 81 (expresion6i -> DIF expresion6 .)
-    WHERE           reduce using rule 81 (expresion6i -> DIF expresion6 .)
     SEMIC           reduce using rule 81 (expresion6i -> DIF expresion6 .)
     RPAREN          reduce using rule 81 (expresion6i -> DIF expresion6 .)
     LCURLY          reduce using rule 81 (expresion6i -> DIF expresion6 .)
+    WHERE           reduce using rule 81 (expresion6i -> DIF expresion6 .)
     RBRACKET        reduce using rule 81 (expresion6i -> DIF expresion6 .)
 
 
@@ -6241,10 +6138,10 @@ state 195
     CTEI            reduce using rule 80 (expresion6i -> EQ expresion6 .)
     CTEF            reduce using rule 80 (expresion6i -> EQ expresion6 .)
     RCURLY          reduce using rule 80 (expresion6i -> EQ expresion6 .)
-    WHERE           reduce using rule 80 (expresion6i -> EQ expresion6 .)
     SEMIC           reduce using rule 80 (expresion6i -> EQ expresion6 .)
     RPAREN          reduce using rule 80 (expresion6i -> EQ expresion6 .)
     LCURLY          reduce using rule 80 (expresion6i -> EQ expresion6 .)
+    WHERE           reduce using rule 80 (expresion6i -> EQ expresion6 .)
     RBRACKET        reduce using rule 80 (expresion6i -> EQ expresion6 .)
 
 
@@ -6315,10 +6212,10 @@ state 197
     CTEI            reduce using rule 105 (exponencial -> LPAREN expresion RPAREN .)
     CTEF            reduce using rule 105 (exponencial -> LPAREN expresion RPAREN .)
     RCURLY          reduce using rule 105 (exponencial -> LPAREN expresion RPAREN .)
-    WHERE           reduce using rule 105 (exponencial -> LPAREN expresion RPAREN .)
     SEMIC           reduce using rule 105 (exponencial -> LPAREN expresion RPAREN .)
     RPAREN          reduce using rule 105 (exponencial -> LPAREN expresion RPAREN .)
     LCURLY          reduce using rule 105 (exponencial -> LPAREN expresion RPAREN .)
+    WHERE           reduce using rule 105 (exponencial -> LPAREN expresion RPAREN .)
     RBRACKET        reduce using rule 105 (exponencial -> LPAREN expresion RPAREN .)
 
 
@@ -6342,7 +6239,7 @@ state 198
     (36) condition -> . IF asign bloque condition1
     (39) write -> . PRINT asign write2 SEMIC
     (42) ciclo -> . FOR ID IN DOT ID bloque
-    (63) return -> . RETURN asign
+    (63) return -> . RETURN expresion SEMIC
     (13) build -> . BUILD expresion SEMIC
     (15) wherecondition -> . CONDITION expresion SEMIC
     (53) typedeclaration -> . type dimensionsfixed
@@ -6385,8 +6282,8 @@ state 198
     CONDITION       shift and go to state 70
     ID              shift and go to state 40
     TINT            shift and go to state 7
-    TBOOL           shift and go to state 10
-    TFLOAT          shift and go to state 8
+    TBOOL           shift and go to state 11
+    TFLOAT          shift and go to state 9
     LPAREN          shift and go to state 59
     NOT             shift and go to state 71
     MM              shift and go to state 67
@@ -6420,18 +6317,120 @@ state 198
     declaration                    shift and go to state 60
     condition                      shift and go to state 62
     expresion                      shift and go to state 64
-    bloque2                        shift and go to state 219
+    bloque2                        shift and go to state 220
     asign                          shift and go to state 69
     wherecondition                 shift and go to state 72
 
 state 199
+
+    (60) bloque -> LCURLY . bloque2 RCURLY
+    (61) bloque2 -> . statement bloque2
+    (62) bloque2 -> . empty
+    (16) statement -> . declaration
+    (17) statement -> . asign
+    (18) statement -> . condition
+    (19) statement -> . write
+    (20) statement -> . ciclo
+    (21) statement -> . return
+    (22) statement -> . build
+    (23) statement -> . wherecondition
+    (128) empty -> .
+    (52) declaration -> . typedeclaration POINTS ID dec22 SEMIC
+    (27) asign -> . id asign_signo expresiones SEMIC
+    (28) asign -> . expresiones
+    (36) condition -> . IF asign bloque condition1
+    (39) write -> . PRINT asign write2 SEMIC
+    (42) ciclo -> . FOR ID IN DOT ID bloque
+    (63) return -> . RETURN expresion SEMIC
+    (13) build -> . BUILD expresion SEMIC
+    (15) wherecondition -> . CONDITION expresion SEMIC
+    (53) typedeclaration -> . type dimensionsfixed
+    (116) id -> . ID llamarfuncion
+    (117) id -> . ID dimensions
+    (118) id -> . ID
+    (29) expresiones -> . expresion COMMA expresiones
+    (30) expresiones -> . expresion
+    (125) type -> . TINT
+    (126) type -> . TBOOL
+    (127) type -> . TFLOAT
+    (64) expresion -> . expresion2 expresioni
+    (67) expresion2 -> . expresion3 expresion2i
+    (70) expresion3 -> . expresion4 expresion3i
+    (73) expresion4 -> . expresion5 expresion4i
+    (76) expresion5 -> . expresion6 expresion5i
+    (79) expresion6 -> . expresion7 expresion6i
+    (83) expresion7 -> . expresion8 expresion7i
+    (87) expresion8 -> . expresion9 expresion8i
+    (93) expresion9 -> . termino expresion9i
+    (97) termino -> . factor termino2
+    (102) factor -> . exponencial factor2
+    (105) exponencial -> . LPAREN expresion RPAREN
+    (106) exponencial -> . exponencial2 valor
+    (107) exponencial2 -> . NOT
+    (108) exponencial2 -> . MM
+    (109) exponencial2 -> . PP
+    (110) exponencial2 -> . NEW
+    (111) exponencial2 -> . empty
+
+  ! shift/reduce conflict for ID resolved as shift
+    RCURLY          reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
+    IF              shift and go to state 63
+    PRINT           shift and go to state 36
+    FOR             shift and go to state 52
+    RETURN          shift and go to state 31
+    BUILD           shift and go to state 58
+    CONDITION       shift and go to state 70
+    ID              shift and go to state 40
+    TINT            shift and go to state 7
+    TBOOL           shift and go to state 11
+    TFLOAT          shift and go to state 9
+    LPAREN          shift and go to state 59
+    NOT             shift and go to state 71
+    MM              shift and go to state 67
+    PP              shift and go to state 66
+    NEW             shift and go to state 35
+
+  ! ID              [ reduce using rule 128 (empty -> .) ]
+
+    termino                        shift and go to state 34
+    expresion5                     shift and go to state 56
+    id                             shift and go to state 37
+    expresiones                    shift and go to state 55
+    ciclo                          shift and go to state 38
+    exponencial2                   shift and go to state 39
+    write                          shift and go to state 41
+    expresion9                     shift and go to state 33
+    build                          shift and go to state 42
+    statement                      shift and go to state 43
+    factor                         shift and go to state 44
+    exponencial                    shift and go to state 45
+    type                           shift and go to state 28
+    empty                          shift and go to state 115
+    expresion3                     shift and go to state 48
+    expresion2                     shift and go to state 49
+    return                         shift and go to state 50
+    expresion4                     shift and go to state 51
+    expresion7                     shift and go to state 57
+    expresion6                     shift and go to state 53
+    expresion8                     shift and go to state 54
+    typedeclaration                shift and go to state 25
+    declaration                    shift and go to state 60
+    condition                      shift and go to state 62
+    expresion                      shift and go to state 64
+    bloque2                        shift and go to state 221
+    asign                          shift and go to state 69
+    wherecondition                 shift and go to state 72
+
+state 200
 
     (36) condition -> IF asign bloque . condition1
     (37) condition1 -> . ELSE bloque
     (38) condition1 -> . empty
     (128) empty -> .
 
-    ELSE            shift and go to state 221
+    ELSE            shift and go to state 223
     IF              reduce using rule 128 (empty -> .)
     PRINT           reduce using rule 128 (empty -> .)
     FOR             reduce using rule 128 (empty -> .)
@@ -6452,10 +6451,10 @@ state 199
     RCURLY          reduce using rule 128 (empty -> .)
     WHERE           reduce using rule 128 (empty -> .)
 
-    empty                          shift and go to state 222
-    condition1                     shift and go to state 220
+    empty                          shift and go to state 224
+    condition1                     shift and go to state 222
 
-state 200
+state 201
 
     (29) expresiones -> expresion COMMA expresiones .
 
@@ -6477,23 +6476,23 @@ state 200
     CTEI            reduce using rule 29 (expresiones -> expresion COMMA expresiones .)
     CTEF            reduce using rule 29 (expresiones -> expresion COMMA expresiones .)
     RCURLY          reduce using rule 29 (expresiones -> expresion COMMA expresiones .)
-    WHERE           reduce using rule 29 (expresiones -> expresion COMMA expresiones .)
     COMMA           reduce using rule 29 (expresiones -> expresion COMMA expresiones .)
     SEMIC           reduce using rule 29 (expresiones -> expresion COMMA expresiones .)
     LCURLY          reduce using rule 29 (expresiones -> expresion COMMA expresiones .)
+    WHERE           reduce using rule 29 (expresiones -> expresion COMMA expresiones .)
     RPAREN          reduce using rule 29 (expresiones -> expresion COMMA expresiones .)
 
 
-state 201
+state 202
 
     (12) optimize -> MAX LCURLY statement . where RCURLY
     (14) where -> . WHERE LCURLY bloque2 RCURLY
 
     WHERE           shift and go to state 153
 
-    where                          shift and go to state 223
+    where                          shift and go to state 225
 
-state 202
+state 203
 
     (15) wherecondition -> CONDITION expresion SEMIC .
 
@@ -6518,42 +6517,44 @@ state 202
     WHERE           reduce using rule 15 (wherecondition -> CONDITION expresion SEMIC .)
 
 
-state 203
-
-    (60) bloque -> LCURLY bloque2 . RCURLY
-
-    RCURLY          shift and go to state 224
-
-
 state 204
 
     (46) funcion2 -> COMMA type . ID funcion2
 
-    ID              shift and go to state 225
+    ID              shift and go to state 226
 
 
 state 205
 
-    (58) dec22 -> COMMA . ID dec22
+    (43) funcion -> FUNC funcion3 ID LPAREN funcion1 RPAREN LCURLY vars . data bloque2 RCURLY
+    (24) data -> . DATA LCURLY asignmany RCURLY
 
-    ID              shift and go to state 226
+    DATA            shift and go to state 21
 
+    data                           shift and go to state 227
 
 state 206
 
-    (52) declaration -> typedeclaration POINTS ID dec22 . SEMIC
+    (58) dec22 -> COMMA . ID dec22
 
-    SEMIC           shift and go to state 227
+    ID              shift and go to state 228
 
 
 state 207
+
+    (52) declaration -> typedeclaration POINTS ID dec22 . SEMIC
+
+    SEMIC           shift and go to state 229
+
+
+state 208
 
     (59) dec22 -> empty .
 
     SEMIC           reduce using rule 59 (dec22 -> empty .)
 
 
-state 208
+state 209
 
     (56) dimensionsfixed -> LBRACKET CTEI RBRACKET . dimensionsfixed
     (56) dimensionsfixed -> . LBRACKET CTEI RBRACKET dimensionsfixed
@@ -6563,17 +6564,17 @@ state 208
     LBRACKET        shift and go to state 79
     POINTS          reduce using rule 128 (empty -> .)
 
-    dimensionsfixed                shift and go to state 228
+    dimensionsfixed                shift and go to state 230
     empty                          shift and go to state 80
 
-state 209
+state 210
 
     (11) optimize -> MIN LCURLY statement where . RCURLY
 
-    RCURLY          shift and go to state 229
+    RCURLY          shift and go to state 231
 
 
-state 210
+state 211
 
     (39) write -> PRINT asign write2 SEMIC .
 
@@ -6598,7 +6599,7 @@ state 210
     WHERE           reduce using rule 39 (write -> PRINT asign write2 SEMIC .)
 
 
-state 211
+state 212
 
     (40) write2 -> COMMA asign . write2
     (40) write2 -> . COMMA asign write2
@@ -6608,10 +6609,10 @@ state 211
     COMMA           shift and go to state 174
     SEMIC           reduce using rule 128 (empty -> .)
 
-    write2                         shift and go to state 230
+    write2                         shift and go to state 232
     empty                          shift and go to state 175
 
-state 212
+state 213
 
     (27) asign -> id asign_signo expresiones SEMIC .
 
@@ -6636,11 +6637,11 @@ state 212
     WHERE           reduce using rule 27 (asign -> id asign_signo expresiones SEMIC .)
     LCURLY          reduce using rule 27 (asign -> id asign_signo expresiones SEMIC .)
     COMMA           reduce using rule 27 (asign -> id asign_signo expresiones SEMIC .)
-    SEMIC           reduce using rule 27 (asign -> id asign_signo expresiones SEMIC .)
     RPAREN          reduce using rule 27 (asign -> id asign_signo expresiones SEMIC .)
+    SEMIC           reduce using rule 27 (asign -> id asign_signo expresiones SEMIC .)
 
 
-state 213
+state 214
 
     (54) dimensions -> LBRACKET expresion RBRACKET . dimensions
     (54) dimensions -> . LBRACKET expresion RBRACKET dimensions
@@ -6691,16 +6692,16 @@ state 213
     CTEI            reduce using rule 128 (empty -> .)
     CTEF            reduce using rule 128 (empty -> .)
     RCURLY          reduce using rule 128 (empty -> .)
-    WHERE           reduce using rule 128 (empty -> .)
     SEMIC           reduce using rule 128 (empty -> .)
     RPAREN          reduce using rule 128 (empty -> .)
     LCURLY          reduce using rule 128 (empty -> .)
+    WHERE           reduce using rule 128 (empty -> .)
     RBRACKET        reduce using rule 128 (empty -> .)
 
-    dimensions                     shift and go to state 231
+    dimensions                     shift and go to state 233
     empty                          shift and go to state 114
 
-state 214
+state 215
 
     (120) llamarfuncion -> LPAREN llamarfuncion3 RPAREN .
 
@@ -6747,21 +6748,21 @@ state 214
     CTEI            reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
     CTEF            reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
     RCURLY          reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
-    WHERE           reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
     SEMIC           reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
     RPAREN          reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
     LCURLY          reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
+    WHERE           reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
     RBRACKET        reduce using rule 120 (llamarfuncion -> LPAREN llamarfuncion3 RPAREN .)
 
 
-state 215
+state 216
 
     (121) llamarfuncion3 -> asign llamarfuncion33 .
 
     RPAREN          reduce using rule 121 (llamarfuncion3 -> asign llamarfuncion33 .)
 
 
-state 216
+state 217
 
     (123) llamarfuncion33 -> COMMA . asign llamarfuncion33
     (27) asign -> . id asign_signo expresiones SEMIC
@@ -6819,30 +6820,37 @@ state 216
     expresion6                     shift and go to state 53
     expresion8                     shift and go to state 54
     expresion                      shift and go to state 64
-    asign                          shift and go to state 232
+    asign                          shift and go to state 234
 
-state 217
+state 218
 
     (124) llamarfuncion33 -> empty .
 
     RPAREN          reduce using rule 124 (llamarfuncion33 -> empty .)
 
 
-state 218
+state 219
 
     (42) ciclo -> FOR ID IN DOT . ID bloque
 
-    ID              shift and go to state 233
-
-
-state 219
-
-    (14) where -> WHERE LCURLY bloque2 . RCURLY
-
-    RCURLY          shift and go to state 234
+    ID              shift and go to state 235
 
 
 state 220
+
+    (14) where -> WHERE LCURLY bloque2 . RCURLY
+
+    RCURLY          shift and go to state 236
+
+
+state 221
+
+    (60) bloque -> LCURLY bloque2 . RCURLY
+
+    RCURLY          shift and go to state 237
+
+
+state 222
 
     (36) condition -> IF asign bloque condition1 .
 
@@ -6867,16 +6875,16 @@ state 220
     WHERE           reduce using rule 36 (condition -> IF asign bloque condition1 .)
 
 
-state 221
+state 223
 
     (37) condition1 -> ELSE . bloque
     (60) bloque -> . LCURLY bloque2 RCURLY
 
-    LCURLY          shift and go to state 158
+    LCURLY          shift and go to state 199
 
-    bloque                         shift and go to state 235
+    bloque                         shift and go to state 238
 
-state 222
+state 224
 
     (38) condition1 -> empty .
 
@@ -6901,70 +6909,143 @@ state 222
     WHERE           reduce using rule 38 (condition1 -> empty .)
 
 
-state 223
+state 225
 
     (12) optimize -> MAX LCURLY statement where . RCURLY
 
-    RCURLY          shift and go to state 236
+    RCURLY          shift and go to state 239
 
 
-state 224
-
-    (60) bloque -> LCURLY bloque2 RCURLY .
-
-    IF              reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
-    PRINT           reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
-    FOR             reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
-    RETURN          reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
-    BUILD           reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
-    CONDITION       reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
-    ID              reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
-    TINT            reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
-    TBOOL           reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
-    TFLOAT          reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
-    LPAREN          reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
-    NOT             reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
-    MM              reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
-    PP              reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
-    NEW             reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
-    CTEI            reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
-    CTEF            reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
-    RCURLY          reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
-    WHERE           reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
-    FUNC            reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
-    MODEL           reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
-    ELSE            reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
-
-
-state 225
+state 226
 
     (46) funcion2 -> COMMA type ID . funcion2
     (46) funcion2 -> . COMMA type ID funcion2
     (47) funcion2 -> .
 
-    COMMA           shift and go to state 160
+    COMMA           shift and go to state 158
     RPAREN          reduce using rule 47 (funcion2 -> .)
 
-    funcion2                       shift and go to state 237
+    funcion2                       shift and go to state 240
 
-state 226
+state 227
+
+    (43) funcion -> FUNC funcion3 ID LPAREN funcion1 RPAREN LCURLY vars data . bloque2 RCURLY
+    (61) bloque2 -> . statement bloque2
+    (62) bloque2 -> . empty
+    (16) statement -> . declaration
+    (17) statement -> . asign
+    (18) statement -> . condition
+    (19) statement -> . write
+    (20) statement -> . ciclo
+    (21) statement -> . return
+    (22) statement -> . build
+    (23) statement -> . wherecondition
+    (128) empty -> .
+    (52) declaration -> . typedeclaration POINTS ID dec22 SEMIC
+    (27) asign -> . id asign_signo expresiones SEMIC
+    (28) asign -> . expresiones
+    (36) condition -> . IF asign bloque condition1
+    (39) write -> . PRINT asign write2 SEMIC
+    (42) ciclo -> . FOR ID IN DOT ID bloque
+    (63) return -> . RETURN expresion SEMIC
+    (13) build -> . BUILD expresion SEMIC
+    (15) wherecondition -> . CONDITION expresion SEMIC
+    (53) typedeclaration -> . type dimensionsfixed
+    (116) id -> . ID llamarfuncion
+    (117) id -> . ID dimensions
+    (118) id -> . ID
+    (29) expresiones -> . expresion COMMA expresiones
+    (30) expresiones -> . expresion
+    (125) type -> . TINT
+    (126) type -> . TBOOL
+    (127) type -> . TFLOAT
+    (64) expresion -> . expresion2 expresioni
+    (67) expresion2 -> . expresion3 expresion2i
+    (70) expresion3 -> . expresion4 expresion3i
+    (73) expresion4 -> . expresion5 expresion4i
+    (76) expresion5 -> . expresion6 expresion5i
+    (79) expresion6 -> . expresion7 expresion6i
+    (83) expresion7 -> . expresion8 expresion7i
+    (87) expresion8 -> . expresion9 expresion8i
+    (93) expresion9 -> . termino expresion9i
+    (97) termino -> . factor termino2
+    (102) factor -> . exponencial factor2
+    (105) exponencial -> . LPAREN expresion RPAREN
+    (106) exponencial -> . exponencial2 valor
+    (107) exponencial2 -> . NOT
+    (108) exponencial2 -> . MM
+    (109) exponencial2 -> . PP
+    (110) exponencial2 -> . NEW
+    (111) exponencial2 -> . empty
+
+  ! shift/reduce conflict for ID resolved as shift
+    RCURLY          reduce using rule 128 (empty -> .)
+    CTEI            reduce using rule 128 (empty -> .)
+    CTEF            reduce using rule 128 (empty -> .)
+    IF              shift and go to state 63
+    PRINT           shift and go to state 36
+    FOR             shift and go to state 52
+    RETURN          shift and go to state 31
+    BUILD           shift and go to state 58
+    CONDITION       shift and go to state 70
+    ID              shift and go to state 40
+    TINT            shift and go to state 7
+    TBOOL           shift and go to state 11
+    TFLOAT          shift and go to state 9
+    LPAREN          shift and go to state 59
+    NOT             shift and go to state 71
+    MM              shift and go to state 67
+    PP              shift and go to state 66
+    NEW             shift and go to state 35
+
+  ! ID              [ reduce using rule 128 (empty -> .) ]
+
+    termino                        shift and go to state 34
+    expresion5                     shift and go to state 56
+    id                             shift and go to state 37
+    expresiones                    shift and go to state 55
+    ciclo                          shift and go to state 38
+    exponencial2                   shift and go to state 39
+    write                          shift and go to state 41
+    expresion9                     shift and go to state 33
+    build                          shift and go to state 42
+    statement                      shift and go to state 43
+    factor                         shift and go to state 44
+    exponencial                    shift and go to state 45
+    type                           shift and go to state 28
+    empty                          shift and go to state 115
+    expresion3                     shift and go to state 48
+    expresion2                     shift and go to state 49
+    return                         shift and go to state 50
+    expresion4                     shift and go to state 51
+    expresion7                     shift and go to state 57
+    expresion6                     shift and go to state 53
+    expresion8                     shift and go to state 54
+    typedeclaration                shift and go to state 25
+    declaration                    shift and go to state 60
+    condition                      shift and go to state 62
+    expresion                      shift and go to state 64
+    bloque2                        shift and go to state 241
+    asign                          shift and go to state 69
+    wherecondition                 shift and go to state 72
+
+state 228
 
     (58) dec22 -> COMMA ID . dec22
     (58) dec22 -> . COMMA ID dec22
     (59) dec22 -> . empty
     (128) empty -> .
 
-    COMMA           shift and go to state 205
+    COMMA           shift and go to state 206
     SEMIC           reduce using rule 128 (empty -> .)
 
-    dec22                          shift and go to state 238
-    empty                          shift and go to state 207
+    dec22                          shift and go to state 242
+    empty                          shift and go to state 208
 
-state 227
+state 229
 
     (52) declaration -> typedeclaration POINTS ID dec22 SEMIC .
 
-    WHERE           reduce using rule 52 (declaration -> typedeclaration POINTS ID dec22 SEMIC .)
     IF              reduce using rule 52 (declaration -> typedeclaration POINTS ID dec22 SEMIC .)
     PRINT           reduce using rule 52 (declaration -> typedeclaration POINTS ID dec22 SEMIC .)
     FOR             reduce using rule 52 (declaration -> typedeclaration POINTS ID dec22 SEMIC .)
@@ -6983,16 +7064,17 @@ state 227
     CTEI            reduce using rule 52 (declaration -> typedeclaration POINTS ID dec22 SEMIC .)
     CTEF            reduce using rule 52 (declaration -> typedeclaration POINTS ID dec22 SEMIC .)
     RCURLY          reduce using rule 52 (declaration -> typedeclaration POINTS ID dec22 SEMIC .)
+    WHERE           reduce using rule 52 (declaration -> typedeclaration POINTS ID dec22 SEMIC .)
 
 
-state 228
+state 230
 
     (56) dimensionsfixed -> LBRACKET CTEI RBRACKET dimensionsfixed .
 
     POINTS          reduce using rule 56 (dimensionsfixed -> LBRACKET CTEI RBRACKET dimensionsfixed .)
 
 
-state 229
+state 231
 
     (11) optimize -> MIN LCURLY statement where RCURLY .
 
@@ -7017,14 +7099,14 @@ state 229
     CTEF            reduce using rule 11 (optimize -> MIN LCURLY statement where RCURLY .)
 
 
-state 230
+state 232
 
     (40) write2 -> COMMA asign write2 .
 
     SEMIC           reduce using rule 40 (write2 -> COMMA asign write2 .)
 
 
-state 231
+state 233
 
     (54) dimensions -> LBRACKET expresion RBRACKET dimensions .
 
@@ -7071,36 +7153,36 @@ state 231
     CTEI            reduce using rule 54 (dimensions -> LBRACKET expresion RBRACKET dimensions .)
     CTEF            reduce using rule 54 (dimensions -> LBRACKET expresion RBRACKET dimensions .)
     RCURLY          reduce using rule 54 (dimensions -> LBRACKET expresion RBRACKET dimensions .)
-    WHERE           reduce using rule 54 (dimensions -> LBRACKET expresion RBRACKET dimensions .)
     SEMIC           reduce using rule 54 (dimensions -> LBRACKET expresion RBRACKET dimensions .)
     RPAREN          reduce using rule 54 (dimensions -> LBRACKET expresion RBRACKET dimensions .)
     LCURLY          reduce using rule 54 (dimensions -> LBRACKET expresion RBRACKET dimensions .)
+    WHERE           reduce using rule 54 (dimensions -> LBRACKET expresion RBRACKET dimensions .)
     RBRACKET        reduce using rule 54 (dimensions -> LBRACKET expresion RBRACKET dimensions .)
 
 
-state 232
+state 234
 
     (123) llamarfuncion33 -> COMMA asign . llamarfuncion33
     (123) llamarfuncion33 -> . COMMA asign llamarfuncion33
     (124) llamarfuncion33 -> . empty
     (128) empty -> .
 
-    COMMA           shift and go to state 216
+    COMMA           shift and go to state 217
     RPAREN          reduce using rule 128 (empty -> .)
 
-    llamarfuncion33                shift and go to state 239
-    empty                          shift and go to state 217
+    llamarfuncion33                shift and go to state 243
+    empty                          shift and go to state 218
 
-state 233
+state 235
 
     (42) ciclo -> FOR ID IN DOT ID . bloque
     (60) bloque -> . LCURLY bloque2 RCURLY
 
-    LCURLY          shift and go to state 158
+    LCURLY          shift and go to state 199
 
-    bloque                         shift and go to state 240
+    bloque                         shift and go to state 244
 
-state 234
+state 236
 
     (14) where -> WHERE LCURLY bloque2 RCURLY .
 
@@ -7124,7 +7206,33 @@ state 234
     CTEF            reduce using rule 14 (where -> WHERE LCURLY bloque2 RCURLY .)
 
 
-state 235
+state 237
+
+    (60) bloque -> LCURLY bloque2 RCURLY .
+
+    ELSE            reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
+    IF              reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
+    PRINT           reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
+    FOR             reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
+    RETURN          reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
+    BUILD           reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
+    CONDITION       reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
+    ID              reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
+    TINT            reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
+    TBOOL           reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
+    TFLOAT          reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
+    LPAREN          reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
+    NOT             reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
+    MM              reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
+    PP              reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
+    NEW             reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
+    CTEI            reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
+    CTEF            reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
+    RCURLY          reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
+    WHERE           reduce using rule 60 (bloque -> LCURLY bloque2 RCURLY .)
+
+
+state 238
 
     (37) condition1 -> ELSE bloque .
 
@@ -7149,7 +7257,7 @@ state 235
     WHERE           reduce using rule 37 (condition1 -> ELSE bloque .)
 
 
-state 236
+state 239
 
     (12) optimize -> MAX LCURLY statement where RCURLY .
 
@@ -7174,28 +7282,35 @@ state 236
     CTEF            reduce using rule 12 (optimize -> MAX LCURLY statement where RCURLY .)
 
 
-state 237
+state 240
 
     (46) funcion2 -> COMMA type ID funcion2 .
 
     RPAREN          reduce using rule 46 (funcion2 -> COMMA type ID funcion2 .)
 
 
-state 238
+state 241
+
+    (43) funcion -> FUNC funcion3 ID LPAREN funcion1 RPAREN LCURLY vars data bloque2 . RCURLY
+
+    RCURLY          shift and go to state 245
+
+
+state 242
 
     (58) dec22 -> COMMA ID dec22 .
 
     SEMIC           reduce using rule 58 (dec22 -> COMMA ID dec22 .)
 
 
-state 239
+state 243
 
     (123) llamarfuncion33 -> COMMA asign llamarfuncion33 .
 
     RPAREN          reduce using rule 123 (llamarfuncion33 -> COMMA asign llamarfuncion33 .)
 
 
-state 240
+state 244
 
     (42) ciclo -> FOR ID IN DOT ID bloque .
 
@@ -7219,6 +7334,14 @@ state 240
     RCURLY          reduce using rule 42 (ciclo -> FOR ID IN DOT ID bloque .)
     WHERE           reduce using rule 42 (ciclo -> FOR ID IN DOT ID bloque .)
 
+
+state 245
+
+    (43) funcion -> FUNC funcion3 ID LPAREN funcion1 RPAREN LCURLY vars data bloque2 RCURLY .
+
+    FUNC            reduce using rule 43 (funcion -> FUNC funcion3 ID LPAREN funcion1 RPAREN LCURLY vars data bloque2 RCURLY .)
+    MODEL           reduce using rule 43 (funcion -> FUNC funcion3 ID LPAREN funcion1 RPAREN LCURLY vars data bloque2 RCURLY .)
+
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
@@ -7238,7 +7361,6 @@ WARNING: shift/reduce conflict for MM in state 22 resolved as shift
 WARNING: shift/reduce conflict for PP in state 22 resolved as shift
 WARNING: shift/reduce conflict for NEW in state 22 resolved as shift
 WARNING: shift/reduce conflict for ID in state 30 resolved as shift
-WARNING: shift/reduce conflict for ID in state 31 resolved as shift
 WARNING: shift/reduce conflict for ID in state 36 resolved as shift
 WARNING: shift/reduce conflict for LPAREN in state 40 resolved as shift
 WARNING: shift/reduce conflict for LPAREN in state 40 resolved as shift
@@ -7264,10 +7386,11 @@ WARNING: shift/reduce conflict for ID in state 83 resolved as shift
 WARNING: shift/reduce conflict for ID in state 86 resolved as shift
 WARNING: shift/reduce conflict for ID in state 113 resolved as shift
 WARNING: shift/reduce conflict for ID in state 156 resolved as shift
-WARNING: shift/reduce conflict for ID in state 158 resolved as shift
 WARNING: shift/reduce conflict for ID in state 174 resolved as shift
 WARNING: shift/reduce conflict for ID in state 198 resolved as shift
-WARNING: shift/reduce conflict for ID in state 216 resolved as shift
+WARNING: shift/reduce conflict for ID in state 199 resolved as shift
+WARNING: shift/reduce conflict for ID in state 217 resolved as shift
+WARNING: shift/reduce conflict for ID in state 227 resolved as shift
 WARNING: reduce/reduce conflict in state 40 resolved using rule (id -> ID)
 WARNING: rejected rule (empty -> <empty>) in state 40
 WARNING: reduce/reduce conflict in state 46 resolved using rule (model -> empty)

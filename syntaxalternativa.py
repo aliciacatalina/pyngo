@@ -157,9 +157,10 @@ def p_ciclo(p):
 
 
 def p_funcion(p):
-	"""funcion : FUNC funcion3 ID LPAREN funcion1 RPAREN bloque
+	"""funcion : FUNC funcion3 ID LPAREN funcion1 RPAREN LCURLY vars data bloque2 RCURLY
 	"""
-	p[0] = Node('funcion', p[2], p[3], p[5], p[7])
+	print 'prueba funcion'
+	p[0] = Node('funcion', p[2], p[3], p[5], p[8], p[9], p[10])
 
 def p_funcion1(p):
 	"""funcion1 : type ID funcion2
@@ -245,7 +246,7 @@ def p_bloque2(p):
 	else : p[0] = p[1]
 
 def p_return(p):
-	"""return : RETURN asign
+	"""return : RETURN expresion SEMIC
 	"""
 	p[0] = Node('return', p[2])
 

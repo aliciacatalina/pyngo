@@ -1,5 +1,11 @@
 func int b(int a) {
-	a = 5+1;
+	vars {
+	 int : a;
+	}
+	data {
+	 a = 5+1;
+	}
+	return a;
 }
 
 model {
