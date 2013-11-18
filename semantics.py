@@ -48,10 +48,10 @@ class Node(object):
 		print "TYPE" ,self.type
 		if self.type == "program":	
 			print "This is a program"
-			self.args[0].semantic(function_name, result)
+			self.args[1].semantic(function_name, result)
 			# self.args[1] sends vars to resulf
 			#self.args[2] sends data to result
-			result = self.args[0].semantic(function_name, result)
+			result = self.args[1].semantic(function_name, result)
 			self.args[3].semantic(function_name, result)	
 			
 			#functions
@@ -89,18 +89,19 @@ class Node(object):
 			print "dimensions", dimensions
 			# for every element on the id array, check if it exists on array, if the id already exists on the table, raise Exception
 			for i in self.args[1] :
-				for key in globaltable:
-					if i in globaltable[key].values():
+				print globaltable[function_name]
+				for key in globaltable[function_name]:
+					if i in globaltable[function_name][key].values():
 						raise Exception("Variable " + i + " alreay in use")
 				# Send the type and id to the function add to give them an address
 				for j in range(dimensions):
-					globaltable.add(self.args[0].args[0].args[0], i)
+					globaltable.add(function_name, self.args[0].args[0].args[0], i)
 			print globaltable
 
 		# receives asignmany
 		elif self.type == "data":
-			for i in globaltable:
-				varlookup[i] = ({v:k for k, v in globaltable[i].items()})
+			for i in globaltable[function_name]:
+				varlookup[i] = ({v:k for k, v in globaltable[function_name][i].items()})
 			print "data segment"
 			result = self.args[0].semantic(function_name, result)
 
@@ -159,7 +160,7 @@ class Node(object):
 			print 'id', self.args[0], 'in', 'punto', self.args[1], 'otro id', self.args[2], 'bloque', self.args[3].args[0]
 			back = len(cuadruplos)
 			pointer = globaltable.getintpointer()
-			globaltable.add('int', self.args[0])
+			globaltable.add(function_name, 'int', self.args[0])
 			cuadruplos.append(['=', 0 , '', pointer])
 			cuadruplos.append(['length', self.args[2], "", pointerdirtemp['int']])
 			cuadruplos.append(['<', pointer, pointerdirtemp['int'], pointerdirtemp['int']+1])

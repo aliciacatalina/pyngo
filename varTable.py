@@ -18,7 +18,7 @@ class Vartable(dict):
 
 		if function_name not in self:
 			self[function_name] = {}
-			
+
 		if t not in self[function_name]:
 			self[function_name][t] = {}
 		if t == 'int':
@@ -35,13 +35,13 @@ class Vartable(dict):
 			raise Exception("No type")
 
 globaltable = Vartable('global')
-globaltable.add('global', 'int', 'a')
+globaltable.add('a', 'int', 'a')
 globaltable.add('global', 'float', 'c')
 globaltable.add('global', 'float', 'd')
 globaltable.add('global', 'float', 'i')
-globaltable.add('global', 'float', 'b')
+globaltable.add('a', 'float', 'b')
 globaltable.add('global', 'bool', 'c')
-print globaltable
+print globaltable['a']
 
 
 
