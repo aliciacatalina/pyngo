@@ -1,11 +1,11 @@
 model {
 	vars {
-		int: a;
+		int: var;
 	}
 
 	data {
-		a = 3 * 2 + 2 / 5;
+		var = 3 * 2 + 2 / 5;
 	}
 
-	print 5*a+2;
+	print 5*var+2;
 }

@@ -11,10 +11,9 @@ dir_local = {}
 dir_temp = {}
 dir_cons = {}
 varlookup = {}
+dir_func = {}
 cuadruplos = []
 cuadruploactual = []
-pilaO = []
-pOper = []
 
 class Node(object):
 	def __init__(self, t, *args):
@@ -40,6 +39,7 @@ class Node(object):
 		return self.semantic("global", class_dir)
 		
 	def semantic(self, function_name, result):
+		result = {}
 		if function_name is None :
 			function_name = "global"
 
@@ -48,10 +48,10 @@ class Node(object):
 		print "TYPE" ,self.type
 		if self.type == "program":	
 			print "This is a program"
-			self.args[1].semantic(function_name, result)
+			self.args[0].semantic(function_name, result)
 			# self.args[1] sends vars to resulf
 			#self.args[2] sends data to result
-			result = self.args[1].semantic(function_name, result)
+			result = self.args[0].semantic(function_name, result)
 			self.args[3].semantic(function_name, result)	
 			
 			#functions
@@ -82,12 +82,13 @@ class Node(object):
 			#self.args[1] is the id 
 			print "las cosas:", "is this a type?", self.args[0].args[0].args[0],  "this is an id", self.args[1]
 			if self.args[0].args[1] is not None:
-				print "aqui", self.args[0].args[1]
 				dimensions = reduce(lambda x, y: x*y, self.args[0].args[1].args[0])
 			else:
 				dimensions = 1
 			print "dimensions", dimensions
 			# for every element on the id array, check if it exists on array, if the id already exists on the table, raise Exception
+			print globaltable
+			# !!!!!!!! Verify for !!!!!!!! #
 			for i in self.args[1] :
 				for key in globaltable[function_name]:
 					if i in globaltable[function_name][key].values():
@@ -176,14 +177,22 @@ class Node(object):
 			print cuadruplos
 
 		elif self.type == "funcion":
+			result[self.args[1]] = {}
 			nombrfunc = self.args[1]
-			if nombrfunc in result:
+			print "result", result
+			print "funciones", dir_func
+			if nombrfunc in dir_func:
 				raise Exception("Funcion ya definida: " + nombrfunc)
 			else:
+				dir_func[self.args[1]] = {}
 				if self.args[2] is not None:
+					# I don't think this is best practice
+					dir_func[self.args[1]] = {'params' : {} }
 					params = self.args[2].args[0]
 					print params
+					print dir_func
 					parametros = {}
+					print dir_func
 					for x in range(len(params)):
 						parametro = params.pop()
 						tipo = var_tipos[parametro[0]]
