@@ -1,6 +1,6 @@
 #int 0-5000, float 5001-10000, bool 10001-15000
 class Vartable(dict):
-	def __init__(self, intpointer=0, 
+	def __init__(self, function_name, intpointer=0, 
 				floatpointer=5001, boolpointer=10000):
 		self.intpointer = intpointer
 		self.floatpointer = floatpointer
@@ -12,29 +12,32 @@ class Vartable(dict):
 	def setintpointer(self):
 		self.intpointer += 1
 
-	def add(self, t, name):
+	def add(self, function_name, t, name):
+		if function_name is None:
+			function_name = "global"
+		self[function_name] = {}
 		if not t in self:
-			self[t] = {}
+			self[function_name][t] = {}
 		if t == 'int':
 			globalvartable = self.intpointer
-			self[t][self.intpointer] = name
+			self[function_name][t][self.intpointer] = name
 			self.intpointer += 1
 		elif t == 'float':
-			self[t][self.floatpointer] = name
+			self[function_name][t][self.floatpointer] = name
 			self.floatpointer += 1
 		elif t == 'bool':
-			self[t][self.boolpointer] = name
+			self[function_name][t][self.boolpointer] = name
 			self.boolpointer += 1
 		else:
 			raise Exception("No type")
 
-globaltable = Vartable()
+globaltable = Vartable('global')
 #globaltable.add('int', 'a')
-globaltable.add('float', 'c')
-globaltable.add('float', 'd')
-globaltable.add('float', 'i')
-globaltable.add('float', 'b')
-globaltable.add('bool', 'c')
+globaltable.add('global', 'float', 'c')
+globaltable.add('global', 'float', 'd')
+globaltable.add('global', 'float', 'i')
+globaltable.add('global', 'float', 'b')
+globaltable.add('global', 'bool', 'c')
 print globaltable
 
 
