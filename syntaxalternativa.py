@@ -157,9 +157,9 @@ def p_ciclo(p):
 
 
 def p_funcion(p):
-	"""funcion : FUNC ID LPAREN funcion1 RPAREN funcion3 bloque
+	"""funcion : FUNC funcion3 ID LPAREN funcion1 RPAREN bloque
 	"""
-	p[0] = Node('funcion', p[2], p[4], p[6], p[7])
+	p[0] = Node('funcion', p[2], p[3], p[5], p[7])
 
 def p_funcion1(p):
 	"""funcion1 : type ID funcion2
@@ -182,11 +182,11 @@ def p_funcion2(p):
 			p[0] = [[p[2].args[0], p[3]]] + p[4]
 
 def p_funcion3(p):
-	"""funcion3 : LPAREN type RPAREN
+	"""funcion3 : type
 	|
 	"""
 	if len(p) > 1:
-		p[0] = Node('funcion3', p[2].args[0])
+		p[0] = Node('funcion3', p[1].args[0])
 
 def p_lvars(p):
 	'''lvars : declaration lvars

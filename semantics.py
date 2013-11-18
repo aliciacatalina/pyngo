@@ -37,40 +37,44 @@ class Node(object):
 
 	def semantic_all(self):
 		class_dir = []
-		return self.semantic(class_dir)
+		return self.semantic("global", class_dir)
 		
-	def semantic(self, result):
+	def semantic(self, function_name, result):
+		if function_name is None :
+			function_name = "global"
+
+		var_tipos = {'int' : 1, 'float' : 2, 'bool' : 3, 'bit' : 4, 'String' : 5}
 		# start
 		print "TYPE" ,self.type
 		if self.type == "program":	
 			print "This is a program"
-			print "this should be functions", self.args[0]
-			self.args[0].semantic(result)
+			self.args[0].semantic(function_name, result)
 			# self.args[1] sends vars to resulf
 			#self.args[2] sends data to result
-			result = self.args[0].semantic(result)
-			self.args[3].semantic(result)	
+			result = self.args[0].semantic(function_name, result)
+			self.args[3].semantic(function_name, result)	
 			
 			#functions
 		elif self.type == "functions":
 			print "funciones"
+			result = self.args[0].semantic(function_name, result)
 
 			#sends a varblock
 		elif self.type == "vars":
-			result = self.args[0].semantic(result)
+			result = self.args[0].semantic(function_name, result)
 
 			#receives VARS { lvars }
 			#sends lvars to semantics
 		elif self.type == "varblock":
-			result = self.args[0].semantic(result)
+			result = self.args[0].semantic(function_name, result)
 
 			# VARS { type : var; }
 			# if it declares more than one variable, sends lvars again
 		elif self.type == "lvars":
 			print len(self.args)
-			result = self.args[0].semantic(result)
+			result = self.args[0].semantic(function_name, result)
 			if self.args[1] is not None:
-				result = self.args[1].semantic(result)
+				result = self.args[1].semantic(function_name, result)
 
 			# receives : type : var;
 		elif self.type == "declaration":
@@ -98,56 +102,56 @@ class Node(object):
 			for i in globaltable:
 				varlookup[i] = ({v:k for k, v in globaltable[i].items()})
 			print "data segment"
-			result = self.args[0].semantic(result)
+			result = self.args[0].semantic(function_name, result)
 
 		#receive a single asign or comes back to asign many
 		elif self.type == "asignmany":
 			print "asignmany"
-			result = self.args[0].semantic(result)
+			result = self.args[0].semantic(function_name, result)
 			if self.args[1] is not None:
-				result = self.args[1].semantic(result)
+				result = self.args[1].semantic(function_name, result)
 
 		#receives var = 1, 2;
 		# or var = 3+3;
 		elif self.type == "asign":
 			print "asign"
-			self.expression('global', result)
+			self.expression(function_name, result)
 			
 		elif self.type == "model":
 			print "model"
-			result = self.args[0].semantic(result)
+			result = self.args[0].semantic(function_name, result)
 
 		elif self.type == "bloque":
 			if self.args[0] is not None:
-				result = self.args[0].semantic(result)
+				result = self.args[0].semantic(function_name, result)
 		
 		elif self.type == "statement":
 			if self.args[0] is not None:
-				result = self.args[0].semantic(result)
+				result = self.args[0].semantic(function_name, result)
 		
 		elif self.type == "bloque2":
 			if self.args[0] is not None:
-				result = self.args[0].semantic(result)
+				result = self.args[0].semantic(function_name, result)
 			if len(self.args) > 1 and self.args[1] is not None:
-				result = self.args[1].semantic(result)
+				result = self.args[1].semantic(function_name, result)
 		
 		#conditions
 		elif self.type == "condition":
 			print 'args', self.args[0].args[0]
-			tipo, direccion = self.args[0].args[0].expression("global", result)
+			tipo, direccion = self.args[0].args[0].expression(function_name, result)
 			if tipo != 'bool':
 				raise Exception("Condicion debe ser tipo bool")
 			#GOTO en falso
 			gotof = [31, direccion, " ", " "]
 			cuadruplos.append(gotof)
 			lena = len(cuadruplos)
-			result = self.args[1].semantic(result)
+			result = self.args[1].semantic(function_name, result)
 			goto = [32, " ", " ", 0]
 			cuadruplos.append(goto)
 			gotof[3] = len(cuadruplos) - lena
 			if self.args[2] is not None:
 				lenelsea = len(cuadruplos)
-				result = self.args[2].semantic(result)
+				result = self.args[2].semantic(function_name, result)
 				goto[3] = len(cuadruplos) - lenelsea
 			print cuadruplos
 
@@ -163,7 +167,7 @@ class Node(object):
 			gotof = [31, pointerdirtemp['int'], " ", " "]
 			cuadruplos.append(gotof)
 			lena = len(cuadruplos)
-			result = self.args[3].semantic(result)
+			result = self.args[3].semantic(function_name, result)
 			cuadruplos.append(['+', 1, pointer, pointerdirtemp['int']])
 			pointerdirtemp['int'] += 1
 			goto = [32, back - len(cuadruplos), " ", ]
@@ -172,12 +176,12 @@ class Node(object):
 			print cuadruplos
 
 		elif self.type == "funcion":
-			nombrfunc = self.args[0]
-			if nombrfunc in result[class_name]:
+			nombrfunc = self.args[1]
+			if nombrfunc in result:
 				raise Exception("Funcion ya definida: " + nombrfunc)
 			else:
-				if self.args[1] is not None:
-					params = self.args[1].args[0]
+				if self.args[2] is not None:
+					params = self.args[2].args[0]
 					print params
 					parametros = {}
 					for x in range(len(params)):
@@ -185,53 +189,56 @@ class Node(object):
 						tipo = var_tipos[parametro[0]]
 						if tipo not in parametros:
 							parametros[tipo] = [parametro[1]]
-							result[class_name][self.args[0]][tipo] = [parametro[1]]
+							result[self.args[1]][tipo] = [parametro[1]]
 						else:
 							parametros[tipo].append(parametro[1])
-							result[class_name][self.args[0]][tipo].append(parametro[1])
+							result[self.args[1]][tipo].append(parametro[1])
 					print parametros
-					print self.args[2].args[0]
-					result[class_name][self.args[0]]["parametros_func"] = parametros
+					print self.args[0].args[0]
+					result[self.args[1]]["parametros_func"] = parametros
 					
-				if self.args[2] is not None and self.args[2].args[0] > 0:
-					result[class_name][self.args[0]]["retorno"] = self.args[2].args[0]
+				if self.args[0] is not None and self.args[0].args[0] > 0:
+					result[self.args[1]]["retorno"] = self.args[0].args[0]
 				if self.args[3] is not None:
-					result = self.args[3].semantic_body(class_name, self.args[0], result)
+					result = self.args[3].semantic(self.args[0], result)
 
 
 		# print
 		elif self.type == "write" :
-			result_type, address = self.args[0].args[0].expression("global", result)
+			result_type, address = self.args[0].args[0].expression(function_name, result)
 			print cuadruplos
 			print "write", address
 
 
 	#Expression function to receive all expressions
 	def expression(self, function_name, result):
+		if function_name is None :
+			function_name = "global"
+
 		var_tipos = {'int' : 1, 'float' : 2, 'bool' : 3, 'bit' : 4, 'String' : 5}
 		if self.type == "asign":
 			print "asign dentro de expresiones"
 			#print "operador", self.args[0].args[0], "id", self.args[1].args[0]	
 			if self.args[2] is not None :
 				print 'mas numeros', self.args[2]
-				result_type, address = self.args[2].expression("global", result)
+				result_type, address = self.args[2].expression(function_name, result)
 
-			result = self.args[0].expression("global", result)
+			result = self.args[0].expression(function_name, result)
 			cuadruplos.append([self.args[0].args[0], address, '', varlookup[result_type][self.args[1].args[0]]])
 
 		elif self.type == "expresiones":
 			print "expresiones"
 			print self.args[0], self.args[1]
-			result = self.args[0].semantic(result)
+			result = self.args[0].semantic(function_name, result)
 			if self.args[1] is not None:
-				result = self.args[1].semantic(result)
+				result = self.args[1].semantic(function_name, result)
 
 		elif self.type == "expresion":
 			print 'expresion', self.args[1]
-			left_type, direccion = self.args[1].expression("global", result)
+			left_type, direccion = self.args[1].expression(function_name, result)
 			lefty = direccion
 			print direccion, "left"
-			right_type, direccion = self.args[2].expression("global", result)
+			right_type, direccion = self.args[2].expression(function_name, result)
 			print "arg1", self.args[1],"op", self.args[0],"arg2", self.args[2]
 			print "ope", self.args[0], left_type, right_type, direccion
 			#Verify type of arguments and send to semantic cube
@@ -282,7 +289,7 @@ class Node(object):
 			return 'string', pointerdirconst['string'] - 1
 
 		elif self.type == "id" :
-			table = result[class_name] if function_name == "global" else result[function_name]
+			table = result if function_name == "global" else result[function_name]
 			var_type = None
 			for t in table :
 				tableiter = result[t] if function_name == "global" else result[function_name][t]
