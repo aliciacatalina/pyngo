@@ -15,8 +15,11 @@ class Vartable(dict):
 	def add(self, function_name, t, name):
 		if function_name is None:
 			function_name = "global"
-		self[function_name] = {}
-		if not t in self:
+
+		if function_name not in self:
+			self[function_name] = {}
+			
+		if t not in self[function_name]:
 			self[function_name][t] = {}
 		if t == 'int':
 			globalvartable = self.intpointer
@@ -32,7 +35,7 @@ class Vartable(dict):
 			raise Exception("No type")
 
 globaltable = Vartable('global')
-#globaltable.add('int', 'a')
+globaltable.add('global', 'int', 'a')
 globaltable.add('global', 'float', 'c')
 globaltable.add('global', 'float', 'd')
 globaltable.add('global', 'float', 'i')
