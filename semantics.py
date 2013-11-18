@@ -89,7 +89,6 @@ class Node(object):
 			print "dimensions", dimensions
 			# for every element on the id array, check if it exists on array, if the id already exists on the table, raise Exception
 			for i in self.args[1] :
-				print globaltable[function_name]
 				for key in globaltable[function_name]:
 					if i in globaltable[function_name][key].values():
 						raise Exception("Variable " + i + " alreay in use")

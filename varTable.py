@@ -41,7 +41,7 @@ globaltable.add('global', 'float', 'd')
 globaltable.add('global', 'float', 'i')
 globaltable.add('a', 'float', 'b')
 globaltable.add('global', 'bool', 'c')
-print globaltable['a']
+print globaltable['global']
 
 
 
