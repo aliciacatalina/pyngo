@@ -313,14 +313,7 @@ class Node(object):
 			
 
 		elif self.type == "llamarfuncion" :
-			funcion = self.args[0]
-			if "." in self.args[0]:
-				llamadafuncion = self.args[0].rsplit(".")
-				clase = llamadafuncion[0]
-				funcion = llamadafuncion[1]
-			if funcion not in result[clase]:
-				raise Exception("Funcion no definida " + funcion)
-			#var_tipos = {'int' : 1, 'float' : 2, 'bool' : 3, 'bit' : 4, 'String' : 5}
+			
 			return result[funcion]["retorno"], 1
 
 		print cuadruplos
