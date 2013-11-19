@@ -1,0 +1,15 @@
+func int b(int a) {
+	vars {
+	 int : a;
+	}
+	data {
+	 a = 5+1;
+	}
+	return a;
+}
+
+model {
+	data {
+		a = 3 * 2 + 2 / 5;
+	}
+}
