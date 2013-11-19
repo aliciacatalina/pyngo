@@ -1,6 +1,6 @@
 func int b(int a) {
 	vars {
-	 int : a;
+	 int : x;
 	}
 	data {
 	 a = 5+1;

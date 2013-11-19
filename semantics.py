@@ -48,7 +48,6 @@ class Node(object):
 		print "TYPE" ,self.type
 		if self.type == "program":	
 			print "This is a program"
-			self.args[0].semantic(function_name, result)
 			# self.args[1] sends vars to resulf
 			#self.args[2] sends data to result
 			result = self.args[0].semantic(function_name, result)
@@ -187,33 +186,41 @@ class Node(object):
 				globaltable[self.args[1]] = {}
 				dir_func[self.args[1]] = {}
 				if self.args[2] is not None:
-					# I don't think this is best practice
 					dir_func[self.args[1]] = {'params' : {} }
+					dir_func[self.args[1]] = {'start' : len(cuadruplos)}
 					params = self.args[2].args[0]
-					print params
-					print dir_func
 					parametros = {}
 					print dir_func
 					for x in range(len(params)):
 						parametro = params.pop()
 						tipo = parametro[0]
-						if tipo not in parametros:
-							parametros[tipo] = [parametro[1]]
-							result[self.args[1]][tipo] = [parametro[1]]
-						else:
-							parametros[tipo].append(parametro[1])
-							result[self.args[1]][tipo].append(parametro[1])
-					print parametros
-					dir_func[self.args[1]]['params'] = parametros
-					print dir_func
-					print self.args[0].args[0]
-					result[self.args[1]]["parametros_func"] = parametros
-					
+						if tipo not in globaltable[self.args[1]]:
+							if tipo not in parametros:
+								globaltable.add(self.args[1], tipo, parametro[1])
+								parametros[tipo] = [parametro[1]]
+								result[self.args[1]][tipo] = [parametro[1]]
+							else:
+								globaltable.add(self.args[1], tipo, parametro[1])
+								parametros[tipo].append(parametro[1])
+								result[self.args[1]][tipo].append(parametro[1])
+						print parametros
+						dir_func[self.args[1]]['params'] = parametros
+						print globaltable
+						print dir_func
+						print self.args[0].args[0]
+						result[self.args[1]]["parametros_func"] = parametros
+
 				if self.args[0] is not None and self.args[0].args[0] > 0:
 					result[self.args[1]]["retorno"] = self.args[0].args[0]
 				if self.args[3] is not None:
-					print 'return', self.args[3]
-					result = self.args[3].semantic(self.args[1], result)
+					#dir_func[self.args[1]] = { 'return' : self.args[3].semantic(self.args[1], result)}
+					print "selfargs5", self.args[5]
+					result = self.args[5].semantic(self.args[1], result)
+					print 'print result!!!', result
+
+		elif self.type == "return" :
+			print "returnnnnnnnnnn"
+			result = self.args[0].expression(function_name, result)
 
 
 		# print
@@ -302,16 +309,8 @@ class Node(object):
 			return 'string', pointerdirconst['string'] - 1
 
 		elif self.type == "id" :
-			table = result if function_name == "global" else result[function_name]
-			var_type = None
-			for t in table :
-				tableiter = result[t] if function_name == "global" else result[function_name][t]
-				if self.args[1] in tableiter :
-					var_type = t
-					break
-			if not var_type :
-				raise Exception("Variable no declarada" + self.args[1])
-			return var_type, dir_global.keys()[dir_global.values.index(self.args[0])]
+			print "thisiiis", result, function_name, globaltable
+			
 
 		elif self.type == "llamarfuncion" :
 			funcion = self.args[0]
