@@ -310,10 +310,18 @@ class Node(object):
 
 		elif self.type == "id" :
 			print "thisiiis", result, function_name, globaltable
-			
+			table = result if function_name == "global" else result[function_name]
+			var_type = None
+			for t in table :
+				tableiter = result[t] if function_name == "global" else result[function_name][t]
+				if self.args[1] in tableiter :
+					var_type = t
+					break
+			if not var_type :
+				raise Exception("Variable no declarada" + self.args[1])
+			return var_type, dir_global.keys()[dir_global.values.index(self.args[0])]
 
 		elif self.type == "llamarfuncion" :
-			
 			return result[funcion]["retorno"], 1
 
 		print cuadruplos
