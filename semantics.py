@@ -216,8 +216,15 @@ class Node(object):
 		if self.type == "asign":
 			varname = self.args[1].args[0]
 			result_type, address = self.args[2].expression(function_name, result)
-			#TODO: Check if types match, check if var declared (KEY ERROR)
-			cuadruplos.append([self.args[0], address, "", globaltable[function_name][result_type][varname]])
+
+			for key in globaltable[function_name]:
+				if self.args[1].args[0] in globaltable[function_name][key].keys():
+					if result_type == key:
+						cuadruplos.append([self.args[0], address, "", globaltable[function_name][result_type][varname]])
+					else:
+						raise Exception("You're asigning a different type of value")
+				else:
+					raise Exception("You're trying to asign '" + self.args[1].args[0]+ "' a value and it has not been declared in vars")
 
 		elif self.type == "expresiones":
 			print "expresiones"
