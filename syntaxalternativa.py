@@ -20,7 +20,7 @@ def p_vars(p):
 
 def p_varblock(p):
     'varblock : VARS LCURLY lvars RCURLY'
-    p[0]= Node('varblock', p[3])
+    p[0]= p[3]
 
 
 def p_model(p):
@@ -63,15 +63,15 @@ def p_statement(p):
 #Data
 def p_data(p):
 	'''data : DATA LCURLY asignmany RCURLY'''
-	p[0] = Node('data', p[3])
+	p[0] = p[3]
 
 def p_asignmany(p):
 	'''asignmany : asign asignmany
 				| empty'''
 	if len(p) > 2 : p[0] =  Node('asignmany', p[1], p[2])
-	else : p[0] =  p[1]
 
 def p_asign(p):
+	#TODO: Sum when expresiones
 	"""asign : id asign_signo expresiones SEMIC
 			| expresiones"""
 	if len(p) > 2 :
@@ -92,7 +92,7 @@ def p_asign_signo(p):
 	| MULTEQ
 	| DIVEQ
 	"""
-	p[0] = Node('asign_signo', p[1])
+	p[0] = p[1]
 
 def p_condition(p):
 	"""condition : IF asign bloque condition1
@@ -133,29 +133,6 @@ def p_ciclo(p):
 	"""
 	p[0] = Node('for', p[2], p[4], p[5], p[6])
 
-# def p_ciclo1(p):
-# 	"""ciclo1 : asign
-# 	|
-# 	"""
-# 	if len(p) > 1:
-# 		p[0] = p[1]
-
-# def p_ciclo2(p):
-# 	"""ciclo2 : asign
-# 	|
-# 	"""
-# 	if len(p) > 1:
-# 		p[0] = p[1]
-
-
-# def p_ciclo3(p):
-# 	"""ciclo3 : asign
-# 	|
-# 	"""
-# 	if len(p) > 1:
-# 		p[0] = p[1]
-
-
 def p_funcion(p):
 	"""funcion : FUNC funcion3 ID LPAREN funcion1 RPAREN LCURLY vars data bloque2 RCURLY
 	"""
@@ -193,7 +170,6 @@ def p_lvars(p):
 	'''lvars : declaration lvars
 			| empty'''
 	if len(p) > 2 : p[0] = Node('lvars', p[1], p[2])
-	else:  p[0] = p[1]
 
 def p_declaration(p):
 	"""declaration : typedeclaration POINTS ID dec22 SEMIC
@@ -344,10 +320,7 @@ def p_expresion6i(p):
 	| empty
 	"""
 	if len(p) > 2:
-		if p[1] == "==":
-			p[0] = ('==', p[2])
-		if p[1] == "!=":
-			p[0] = ('!=', p[2])
+		p[0] = (p[1], p[2])
 	else : p[0] = p[1]
 	
 def p_expresion7(p):
@@ -364,10 +337,7 @@ def p_expresion7i(p):
 	| empty
 	"""
 	if len(p) > 2:
-		if p[1] == ">>":
-			p[0] = ('>>', p[2])
-		if p[1] == "<<":
-			p[0] = ('<<', p[2])
+		p[0] = (p[1], p[2])
 	else : p[0] = p[1]
 def p_expresion8(p):
 	"""expresion8 : expresion9 expresion8i 
@@ -385,14 +355,7 @@ def p_expresion8i(p):
 	| empty	
 	"""
 	if len(p) > 2:
-		if p[1] == ">":
-			p[0] = ('>', p[2])
-		if p[1] == "<":
-			p[0] = ('<', p[2])
-		if p[1] == ">=":
-			p[0] = ('>=', p[2])
-		if p[1] == "<=":
-			p[0] = ('<=', p[2])
+		p[0] = (p[1], p[2])
 	else : p[0] = p[1]
 def p_expresion9(p):
 	"""expresion9 : termino expresion9i
@@ -408,10 +371,7 @@ def p_expresion9i(p):
 	| empty
 	"""
 	if len(p) > 2:
-		if p[1] == "+":
-			p[0] = ('+', p[2])
-		if p[1] == "-":
-			p[0] = ('-', p[2])
+		p[0] = (p[1], p[2])
 	else : p[0] = p[1]
 def p_termino(p):
 	"""termino : factor termino2
@@ -428,12 +388,7 @@ def p_termino2(p):
 	| empty
 	"""
 	if len(p) > 2:
-		if p[1] == "*":
-			p[0] = ('*', p[2])
-		if p[1] == "/":
-			p[0] = ('/', p[2])
-		if p[1] == "%":
-			p[0] = ('%', p[2])
+		p[0] = (p[1], p[2])
 	else : p[0] = p[1]
 
 def p_factor(p):
@@ -449,8 +404,7 @@ def p_factor2(p):
 	| empty
 	"""
 	if len(p) > 2:
-		if p[1] == "**":
-			p[0] = ('**', p[2])
+		p[0] = (p[1], p[2])
 	else: p[0] = p[1]
 
 def p_exponencial(p):
@@ -474,18 +428,8 @@ def p_exponencial2(p):
 	| NEW
 	| empty
 	"""
-	if len(p) > 2:
-		if p[1] == "!":
-			p[0] = '!'
-		if p[1] == "--":
-			p[0] = '--'
-		if p[1] == "++":
-			p[0] = '++'
-		if p[1] == "+":
-			p[0] = '+'
-		if p[1] == "-":
-			p[0] = '-'
-	else : p[0] = p[1]
+	if len(p) > 1:
+		p[0] = p[1]
 
 def p_valor(p):
 	"""valor : id
@@ -552,7 +496,7 @@ def p_type(p):
 	| TBOOL
 	| TFLOAT
 	"""
-	p[0] = Node('type', p[1])
+	p[0] = p[1]
 
 def p_empty(p):
     'empty :'
