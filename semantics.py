@@ -118,11 +118,11 @@ class Node(object):
 			if tipo != 'bool':
 				raise Exception("Condicion debe ser tipo bool")
 			#GOTO en falso
-			gotof = [31, direccion, " ", " "]
+			gotof = ['gotof', direccion, " ", " "]
 			cuadruplos.append(gotof)
 			lena = len(cuadruplos)
 			result = self.args[1].semantic(function_name, result)
-			goto = [32, " ", " ", 0]
+			goto = ['goto', " ", " ", 0]
 			cuadruplos.append(goto)
 			gotof[3] = len(cuadruplos) - lena
 			if self.args[2] is not None:
@@ -131,25 +131,25 @@ class Node(object):
 				goto[3] = len(cuadruplos) - lenelsea
 			print cuadruplos
 
-		elif self.type == "for" :
-			print 'id', self.args[0], 'in', 'punto', self.args[1], 'otro id', self.args[2], 'bloque', self.args[3].args[0]
-			back = len(cuadruplos)
-			pointer = globaltable.getintpointer()
-			globaltable.add(function_name, 'int', self.args[0])
-			cuadruplos.append(['=', 0 , '', pointer])
-			cuadruplos.append(['length', self.args[2], "", pointerdirtemp['int']])
-			cuadruplos.append(['<', pointer, pointerdirtemp['int'], pointerdirtemp['int']+1])
-			pointerdirtemp['int'] += 1
-			gotof = [31, pointerdirtemp['int'], " ", " "]
-			cuadruplos.append(gotof)
-			lena = len(cuadruplos)
-			result = self.args[3].semantic(function_name, result)
-			cuadruplos.append(['+', 1, pointer, pointerdirtemp['int']])
-			pointerdirtemp['int'] += 1
-			goto = [32, back - len(cuadruplos), " ", ]
-			cuadruplos.append(goto)
-			gotof[3] = len(cuadruplos) - lena
-			print cuadruplos
+		#elif self.type == "for" :
+			# print 'id', self.args[0], 'in', 'punto', self.args[1], 'otro id', self.args[2], 'bloque', self.args[3].args[0]
+			# back = len(cuadruplos)
+			# pointer = globaltable.getintpointer()
+			# globaltable.add(function_name, 'int', self.args[0])
+			# cuadruplos.append(['=', 0 , '', pointer])
+			# cuadruplos.append(['length', self.args[2], "", pointerdirtemp['int']])
+			# cuadruplos.append(['<', pointer, pointerdirtemp['int'], pointerdirtemp['int']+1])
+			# pointerdirtemp['int'] += 1
+			# gotof = [31, pointerdirtemp['int'], " ", " "]
+			# cuadruplos.append(gotof)
+			# lena = len(cuadruplos)
+			# result = self.args[3].semantic(function_name, result)
+			# cuadruplos.append(['+', 1, pointer, pointerdirtemp['int']])
+			# pointerdirtemp['int'] += 1
+			# goto = [32, back - len(cuadruplos), " ", ]
+			# cuadruplos.append(goto)
+			# gotof[3] = len(cuadruplos) - lena
+			# print cuadruplos
 
 		elif self.type == "return" :
 			print "returnnnnnnnnnn", result
