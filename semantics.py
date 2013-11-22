@@ -26,7 +26,7 @@ class Node(object):
 	def semantic_all(self):
 		class_dir = []
 		return self.semantic("global", class_dir)
-		
+
 	def semantic(self, function_name, result):
 		result = {}
 		if function_name is None :
@@ -37,13 +37,13 @@ class Node(object):
 		print "TYPE" ,self.type
 
 		#Program
-		if self.type == "program":	
+		if self.type == "program":
 			print "This is a program"
 			for elements in self.args:
 				if elements is not None:
 					elements.semantic(function_name, result)
 			print globaltable, cuadruplos
-			
+
 		#TODO: functions
 		elif self.type == "functions":
 			print "funciones"
@@ -59,17 +59,27 @@ class Node(object):
 				result = self.args[1].semantic(function_name, result) #lvars
 
 		elif self.type == "declaration":
-			#TODO: Check if the variable has been declared before
+
 			dimensions = self.args[0].args[1]
 			if dimensions is not None:
 				dimensions = reduce(lambda x, y: x*y, dimensions.args[0])
 			else:
 				dimensions = 1
 			for i in self.args[1]:
-				if dimensions == 1:
-					globaltable.add(function_name, self.args[0].args[0], i)
-				else: 
-					globaltable.addmany(function_name, self.args[0].args[0], i, dimensions)
+				if function_name in globaltable:
+					for key in globaltable[function_name]:
+						if i in globaltable[function_name][key].keys():
+							raise Exception ("Variable " + i + " alreay in use")
+						else :
+							if dimensions == 1:
+								globaltable.add(function_name, self.args[0].args[0], i)
+							else:
+								globaltable.addmany(function_name, self.args[0].args[0], i, dimensions)
+				else :
+					if dimensions == 1:
+						globaltable.add(function_name, self.args[0].args[0], i)
+					else:
+						globaltable.addmany(function_name, self.args[0].args[0], i, dimensions)
 			print "declaration", globaltable
 
 		# receives asignmany
@@ -88,19 +98,19 @@ class Node(object):
 		elif self.type == "bloque":
 			if self.args[0] is not None:
 				result = self.args[0].semantic(function_name, result)
-		
+
 		elif self.type == "statement":
 			print "STAAAATE", result
 			if self.args[0] is not None:
 				result = self.args[0].semantic(function_name, result)
-		
+
 		elif self.type == "bloque2":
 			print "BLOQUE", result
 			if self.args[0] is not None:
 				result = self.args[0].semantic(function_name, result)
 			if len(self.args) > 1 and self.args[1] is not None:
 				result = self.args[1].semantic(function_name, result)
-		
+
 		#conditions
 		elif self.type == "condition":
 			print 'args', self.args[0].args[0]
@@ -223,7 +233,7 @@ class Node(object):
 			cuadruplos.append([self.args[0], left_address, right_address, result_address])
 			return result_type, result_address
 
-		elif self.type == "int" : 
+		elif self.type == "int" :
 			return "int", globaltable.add(function_name, "int", self.args[0])
 
 		elif self.type == "float" :
@@ -235,7 +245,7 @@ class Node(object):
 		elif self.type == "id":
 			table = globaltable[function_name]
 			for i in table:
-				for j in table[i]: 
+				for j in table[i]:
 					if j == self.args[0]:
 						return i, table[i][j]
 			raise Exception("Variable doesn't exist: " + self.args[0])

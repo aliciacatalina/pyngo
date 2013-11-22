@@ -1,6 +1,7 @@
 model {
 	vars {
 		int: var;
+		int : a;
 	}
 
 	data {
