@@ -8,10 +8,30 @@ def p_program(p):
 
 #Functions 
 def p_functions(p):
-	'''functions : funcion functions 
+	'''functions : function functions 
 				| empty'''
 	if len(p) > 2: p[0] = Node('functions', p[1], p[2])
 	else : p[0] = p[1]
+	
+def p_function(p):
+	'''function : FUNC type ID LPAREN lparameters RPAREN LCURLY vars data bloque2 RCURLY'''
+	p[0] = Node('function', p[4], p[7], p[8], p[9])
+
+def p_lparameters(p):
+	'''lparameters : parameter parameters
+					| empty'''
+	if len(p) > 2 : p[0] = Node('lparameters', p[1], p[2])
+	else : p[0] = p[1] 
+
+def p_parameters(p):
+	'''parameters : COMMA parameters
+				| empty'''
+	if len(p) > 2 : p[0] = Node('parameters', p[2])
+	else : p[0] = Node('parameters', p[1])
+
+def p_parameter(p):
+	'''parameter : type ID'''
+	p[0] = Node('parameter', p[1], p[2])
 
 def p_vars(p):
 	'''vars : varblock
@@ -132,39 +152,6 @@ def p_ciclo(p):
 	"""ciclo : FOR ID IN DOT ID bloque
 	"""
 	p[0] = Node('for', p[2], p[4], p[5], p[6])
-
-def p_funcion(p):
-	"""funcion : FUNC funcion3 ID LPAREN funcion1 RPAREN LCURLY vars data bloque2 RCURLY
-	"""
-	print 'prueba funcion'
-	p[0] = Node('funcion', p[2], p[3], p[5], p[8], p[9], p[10])
-
-def p_funcion1(p):
-	"""funcion1 : type ID funcion2
-	|
-	"""
-	if len(p) > 1:
-		if p[3] is None: 
-			p[0] = Node('funcion1', [[p[1].args[0], p[2]]])
-		else:
-			p[0] = Node('funcion1', [[p[1].args[0], p[2]]] + p[3])
-
-def p_funcion2(p):
-	"""funcion2 : COMMA type ID funcion2
-	|
-	"""
-	if len(p) > 1:
-		if p[4] is None: 
-			p[0] = [[p[2].args[0], p[3]]]
-		else:
-			p[0] = [[p[2].args[0], p[3]]] + p[4]
-
-def p_funcion3(p):
-	"""funcion3 : type
-	|
-	"""
-	if len(p) > 1:
-		p[0] = Node('funcion3', p[1].args[0])
 
 def p_lvars(p):
 	'''lvars : declaration lvars
