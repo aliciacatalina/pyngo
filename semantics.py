@@ -140,25 +140,25 @@ class Node(object):
 		elif self.type == "for" :
 			print 'id', self.args[0], 'in', 'punto', self.args[1], 'otro id', self.args[2], 'bloque', self.args[3].args[0]
 			back = len(cuadruplos)
-			pointer = globaltable.getintpointer()
-			globaltable.add(function_name, 'int', self.args[0])
+			pointer = currenttable.getintpointer()
+			currenttable.add(function_name, 'int', self.args[0])
 			# i = 0
-			cuadruplos.append(['=', 0 , '', globaltable[function_name]['int'][self.args[0]]])
+			cuadruplos.append(['=', 0 , '', currenttable[function_name]['int'][self.args[0]]])
 			# length array id
-			for key in globaltable[function_name]:
-				if self.args[2] in globaltable[function_name][key].keys():
-					cuadruplos.append(['length', globaltable[function_name][key][self.args[2]], "", ])
+			for key in currenttable[function_name]:
+				if self.args[2] in currenttable[function_name][key].keys():
+					savelength = temptable.add("Temp", "int", "temp")
+					cuadruplos.append(['length', currenttable[function_name][key][self.args[2]], "",savelength ])
 				else:
 					raise Exception("The array is not defined")
-			cuadruplos.append(['<',globaltable[function_name]['int'][self.args[0]] ,globaltable[function_name][key][self.args[2]], pointerdirtemp['int']+1])
-
-			gotof = ['gotof', pointerdirtemp['int'], " ", " "]
+			savebool = temptable.add("Temp", "int", "temp")
+			cuadruplos.append(['<',currenttable[function_name]['int'][self.args[0]] ,currenttable[function_name][key][self.args[2]], savebool])
+			gotof = ['gotof', savebool, " ", " "]
 			cuadruplos.append(gotof)
 			lena = len(cuadruplos)
 			result = self.args[3].semantic(function_name, result)
-			cuadruplos.append(['+', 1, pointer, pointerdirtemp['int']])
-			pointerdirtemp['int'] += 1
-			goto = [32, back - len(cuadruplos), " ", ]
+			cuadruplos.append(['+', 1, currenttable[function_name]['int'][self.args[0]], currenttable[function_name]['int'][self.args[0]]])
+			goto = ['goto', back - len(cuadruplos), " ", ]
 			cuadruplos.append(goto)
 			gotof[3] = len(cuadruplos) - lena
 			print cuadruplos
@@ -251,9 +251,7 @@ class Node(object):
 			left_type, left_address = self.args[1].expression(function_name, result)
 			right_type, right_address = self.args[2].expression(function_name, result)
 			result_type = cubo_semantico[left_type][right_type][self.args[0]]
-			currenttable = temptable
-			result_address = currenttable.add("Temp", result_type, "temp")
-			currenttable = globaltable
+			result_address = temptable.add("Temp", result_type, "temp")
 			cuadruplos.append([self.args[0], left_address, right_address, result_address])
 			return result_type, result_address
 
