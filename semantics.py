@@ -3,6 +3,8 @@ from CuboSemantico import *
 import sys
 cuadruplos = []
 globaltable = Vartable()
+localtable = Vartable(15001, 20001, 25001)
+temptable = Vartable(30001, 35001, 40001)
 
 class Node(object):
 	def __init__(self, t, *args):
@@ -31,6 +33,10 @@ class Node(object):
 		result = {}
 		if function_name is None :
 			function_name = "global"
+		if function_name == "global":
+			currenttable = globaltable
+		else:
+			currenttable = localtable
 
 		var_tipos = {'int' : 1, 'float' : 2, 'bool' : 3, 'bit' : 4, 'String' : 5}
 		# start
@@ -42,7 +48,7 @@ class Node(object):
 			for elements in self.args:
 				if elements is not None:
 					elements.semantic(function_name, result)
-			print globaltable, cuadruplos
+			print dict(globaltable.items() + localtable.items() + temptable.items()), cuadruplos
 
 		#TODO: functions
 		elif self.type == "functions":
@@ -66,21 +72,21 @@ class Node(object):
 			else:
 				dimensions = 1
 			for i in self.args[1]:
-				if function_name in globaltable:
-					for key in globaltable[function_name]:
-						if i in globaltable[function_name][key].keys():
+				if function_name in currenttable:
+					for key in currenttable[function_name]:
+						if i in currenttable[function_name][key].keys():
 							raise Exception ("Variable " + i + " alreay in use")
 						else :
 							if dimensions == 1:
-								globaltable.add(function_name, self.args[0].args[0], i)
+								currenttable.add(function_name, self.args[0].args[0], i)
 							else:
-								globaltable.addmany(function_name, self.args[0].args[0], i, dimensions)
+								currenttable.addmany(function_name, self.args[0].args[0], i, dimensions)
 				else :
 					if dimensions == 1:
-						globaltable.add(function_name, self.args[0].args[0], i)
+						currenttable.add(function_name, self.args[0].args[0], i)
 					else:
-						globaltable.addmany(function_name, self.args[0].args[0], i, dimensions)
-			print "declaration", globaltable
+						currenttable.addmany(function_name, self.args[0].args[0], i, dimensions)
+			print "declaration", currenttable
 
 		# receives asignmany
 			#for i in globaltable[function_name]:
@@ -209,18 +215,21 @@ class Node(object):
 
 	#Expression function to receive all expressions
 	def expression(self, function_name, result):
-		if function_name is None :
-			function_name = "global"
+		if function_name == "global":
+			currenttable = globaltable
+		else:
+			currenttable = localtable
+
 		var_tipos = {'int' : 1, 'float' : 2, 'bool' : 3, 'bit' : 4, 'String' : 5}
 
 		if self.type == "asign":
 			varname = self.args[1].args[0]
 			result_type, address = self.args[2].expression(function_name, result)
 
-			for key in globaltable[function_name]:
-				if self.args[1].args[0] in globaltable[function_name][key].keys():
+			for key in currenttable[function_name]:
+				if self.args[1].args[0] in currenttable[function_name][key].keys():
 					if result_type == key:
-						cuadruplos.append([self.args[0], address, "", globaltable[function_name][result_type][varname]])
+						cuadruplos.append([self.args[0], address, "", currenttable[function_name][result_type][varname]])
 					else:
 						raise Exception("You're asigning a different type of value")
 				else:
@@ -236,21 +245,23 @@ class Node(object):
 			left_type, left_address = self.args[1].expression(function_name, result)
 			right_type, right_address = self.args[2].expression(function_name, result)
 			result_type = cubo_semantico[left_type][right_type][self.args[0]]
-			result_address = globaltable.add("Temp" + function_name, result_type, "temp")
+			currenttable = temptable
+			result_address = currenttable.add("Temp", result_type, "temp")
+			currenttable = globaltable
 			cuadruplos.append([self.args[0], left_address, right_address, result_address])
 			return result_type, result_address
 
 		elif self.type == "int" :
-			return "int", globaltable.add(function_name, "int", self.args[0])
+			return "int", currenttable.add(function_name, "int", self.args[0])
 
 		elif self.type == "float" :
-			return "float", globaltable.add(function_name, "float", self.args[0])
+			return "float", currenttable.add(function_name, "float", self.args[0])
 
 		elif self.type == "bool" :
-			return "bool", globaltable.add(function_name, "int", self.args[0])
+			return "bool", currenttable.add(function_name, "int", self.args[0])
 
 		elif self.type == "id":
-			table = globaltable[function_name]
+			table = currenttable[function_name]
 			for i in table:
 				for j in table[i]:
 					if j == self.args[0]:
