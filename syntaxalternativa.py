@@ -129,7 +129,7 @@ def p_condition1(p):
 		p[0] = p[1]
 
 def p_write(p):
-	"""write : PRINT asign write2 SEMIC
+	"""write : PRINT expresion write2 SEMIC
 	"""
 	if p[3] is None: 
 		p[0] = Node('write',p[2])
@@ -137,7 +137,7 @@ def p_write(p):
 		p[0] = Node('write', [p[2]] + p[3])
 
 def p_write2(p):
-	"""write2 : COMMA asign write2
+	"""write2 : COMMA expresion write2
 	| empty
 	"""
 	if len(p) > 2:
@@ -457,7 +457,7 @@ def  p_llamarfuncion(p):
 	# "." in string
 
 def p_llamarfuncion3(p):
-	"""llamarfuncion3 : asign llamarfuncion33
+	"""llamarfuncion3 : expresion llamarfuncion33
 	| empty
 	"""
 	if len(p) > 2:
@@ -468,7 +468,7 @@ def p_llamarfuncion3(p):
 	else : p[0] = p[1]
 
 def p_llamarfuncion33(p):
-	"""llamarfuncion33 : COMMA asign llamarfuncion33
+	"""llamarfuncion33 : COMMA expresion llamarfuncion33
 	| empty
 	"""
 	if len(p) > 2:
