@@ -40,10 +40,11 @@ class Vartable(dict):
 			self[function_name][t][name] = self.boolpointer
 			self.lastpointer = self.boolpointer
 			self.boolpointer += 1
+		elif t == 'functype':
+			self[function_name][t]["return"] = name
 		else:
 			raise Exception("No type")
 		return self.lastpointer
-
 
 	def addmany(self, function_name, t, name, size):
 		if function_name not in self:

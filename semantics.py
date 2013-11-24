@@ -38,26 +38,41 @@ class Node(object):
 		else:
 			currenttable = localtable
 
-		var_tipos = {'int' : 1, 'float' : 2, 'bool' : 3, 'bit' : 4, 'String' : 5}
 		# start
 		print "TYPE" ,self.type
 
 		#Program
 		if self.type == "program":
 			print "This is a program"
-			for elements in self.args:
-				if elements is not None:
-					elements.semantic(function_name, result)
+			for element in self.args:
+				if element is not None:
+					element.semantic(function_name, result)
 			print dict(globaltable.items() + localtable.items() + temptable.items()), cuadruplos
 
-		#TODO: functions
 		elif self.type == "functions":
-			print "funciones"
-			result = self.args[0].semantic(function_name, result)
+			for element in self.args:
+				if element is not None:
+					element.semantic(function_name, result)
 
+		elif self.type == "function":
+			function_name = self.args[1]
+			localtable.add(function_name, self.args[0], "return")
+			localtable.add(function_name, "functype", self.args[0])
+			for element in self.args[2:]:
+				if element is not None:
+					element.semantic(function_name, result)
+			cuadruplos.append(["ret","","",""])
+
+		elif self.type == "lparameters":
+			print self.args[0]
+			for i in self.args[0]:
+				print i[0], i[1]
+				currenttable.add(function_name, i[0], i[1])
+			
 		#Vars
 		elif self.type == "vars":
-			result = self.args[0].semantic(function_name, result)
+			if self.args[0] is not None: 
+				result = self.args[0].semantic(function_name, result)
 
 		elif self.type == "lvars":
 			result = self.args[0].semantic(function_name, result) #declaration
@@ -164,57 +179,16 @@ class Node(object):
 			print cuadruplos
 
 		elif self.type == "return" :
-			print "returnnnnnnnnnn", result
-			result, address = self.args[0].expression(function_name, result)
+			resulttype, address = self.args[0].expression(function_name, result)
+			#TODO: check if types are compatible
+			localtable[function_name][resulttype]["return"] = address
+			cuadruplos.append(["return", address, "", ""])
 
 		# print
 		elif self.type == "write" :
-			result_type, address = self.args[0].args[0].expression(function_name, result)
+			result_type, address = self.args[0].expression(function_name, result)
 			cuadruplos.append(["print", address, "", ""])
 
-		elif self.type == "funcion":
-			pass
-			#result[self.args[1]] = {}
-			#nombrfunc = self.args[1]
-			#print "result", result
-			#print "funciones", dir_func
-			#if nombrfunc in dir_func:
-			#	raise Exception("Funcion ya definida: " + nombrfunc)
-			#else:
-			#	globaltable[self.args[1]] = {}
-			#	dir_func[self.args[1]] = {}
-			#	if self.args[2] is not None:
-			#		dir_func[self.args[1]] = {'params' : {} }
-			#		dir_func[self.args[1]] = {'start' : len(cuadruplos)}
-			#		params = self.args[2].args[0]
-			#		parametros = {}
-			#		print dir_func
-			#		for x in range(len(params)):
-			#			parametro = params.pop()
-			#			tipo = parametro[0]
-			#			if tipo not in globaltable[self.args[1]]:
-			#				if tipo not in parametros:
-			#					globaltable.add(self.args[1], tipo, parametro[1])
-			#					parametros[tipo] = [parametro[1]]
-			#					result[self.args[1]][tipo] = [parametro[1]]
-			#				else:
-			#					globaltable.add(self.args[1], tipo, parametro[1])
-			#					parametros[tipo].append(parametro[1])
-			#					result[self.args[1]][tipo].append(parametro[1])
-			#			print parametros
-			#			dir_func[self.args[1]]['params'] = parametros
-			#			print globaltable
-			#			print dir_func
-			#			print self.args[0].args[0]
-			#			result[self.args[1]]["parametros_func"] = parametros
-
-			#	if self.args[0] is not None and self.args[0].args[0] > 0:
-			#		result[self.args[1]]["retorno"] = self.args[0].args[0]
-			#	if self.args[3] is not None:
-			#		#dir_func[self.args[1]] = { 'return' : self.args[3].semantic(self.args[1], result)}
-			#		print "selfargs5", self.args[5]
-			#		result = self.args[5].semantic(self.args[1], result)
-			#		print 'print result!!!', self.args[5].semantic(self.args[1],
 		else:
 			print "type not found"
 
@@ -236,9 +210,11 @@ class Node(object):
 				if self.args[1].args[0] in currenttable[function_name][key].keys():
 					if result_type == key:
 						cuadruplos.append([self.args[0], address, "", currenttable[function_name][result_type][varname]])
+						break
 					else:
 						raise Exception("You're asigning a different type of value")
 				else:
+					print self.args[1].args[0], currenttable[function_name][key].keys()
 					raise Exception("You're trying to asign '" + self.args[1].args[0]+ "' a value and it has not been declared in vars")
 
 		elif self.type == "expresiones":
@@ -273,19 +249,12 @@ class Node(object):
 			raise Exception("Variable doesn't exist: " + self.args[0])
 
 		elif self.type == "llamarfuncion" :
-			return result[funcion]["retorno"], 1
-
-	def get_names(self, arg):
-		result = []
-
-		#if arg[1] is not None:
-		#	print arg, arg[1].args
-		while arg is not None:
-			result.append(arg[0])
-			#print arg[0], type(arg[0])
-			if len(arg) < 2 or arg[1] is None:
-				arg = None
-			else:
-				arg = arg[1].args
+			cuadruplos.append(["ERA", self.args[0], "",""])
+			for i in self.args[1]:
+				resulttype, resultaddress = i.expression(function_name, result) 
+				cuadruplos.append(["Param", resultaddress, "", ""])
+			cuadruplos.append(["Gosub", self.args[0], "", ""])
+			functype = localtable[self.args[0]]["functype"]["return"]
+			return functype, localtable[self.args[0]][functype]["return"]
 
 		return result

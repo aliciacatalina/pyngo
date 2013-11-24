@@ -11,27 +11,28 @@ def p_functions(p):
 	'''functions : function functions 
 				| empty'''
 	if len(p) > 2: p[0] = Node('functions', p[1], p[2])
-	else : p[0] = p[1]
 	
 def p_function(p):
 	'''function : FUNC type ID LPAREN lparameters RPAREN LCURLY vars data bloque2 RCURLY'''
-	p[0] = Node('function', p[4], p[7], p[8], p[9])
+	p[0] = Node('function', p[2], p[3], p[5], p[8], p[9], p[10])
 
 def p_lparameters(p):
 	'''lparameters : parameter parameters
 					| empty'''
-	if len(p) > 2 : p[0] = Node('lparameters', p[1], p[2])
-	else : p[0] = p[1] 
+	if len(p) > 2 : 
+		if p[2] is None:
+			p[0] = Node('lparameters', [p[1]])
+		else:
+			p[0] = Node('lparameters', [p[1]] + p[2].args[0])
 
 def p_parameters(p):
-	'''parameters : COMMA parameters
+	'''parameters : COMMA lparameters
 				| empty'''
-	if len(p) > 2 : p[0] = Node('parameters', p[2])
-	else : p[0] = Node('parameters', p[1])
+	if len(p) > 2 : p[0] = p[2]
 
 def p_parameter(p):
 	'''parameter : type ID'''
-	p[0] = Node('parameter', p[1], p[2])
+	p[0] = (p[1], p[2])
 
 def p_vars(p):
 	'''vars : varblock
@@ -422,6 +423,7 @@ def p_valor(p):
 	"""valor : id
 	| int
 	| float
+	| bool
 	"""
 	p[0] = p[1]
 
@@ -444,17 +446,16 @@ def p_float(p):
 	"""float : CTEF
 	"""
 	p[0] = Node('float', p[1])
-# def p_bool(p):
-# 	"""bool : CTEBool
-# 	"""
-#	p[0] = Node('bool', p[1])
+
+def p_bool(p):
+ 	"""bool : CTEBOOL
+ 	"""
+	p[0] = Node('bool', p[1])
 
 def  p_llamarfuncion(p):
 	"""llamarfuncion : LPAREN llamarfuncion3 RPAREN
 	"""
-	if len(p) > 1:
-		p[0] = p[2]
-	# "." in string
+	p[0] = p[2]
 
 def p_llamarfuncion3(p):
 	"""llamarfuncion3 : expresion llamarfuncion33
@@ -462,10 +463,9 @@ def p_llamarfuncion3(p):
 	"""
 	if len(p) > 2:
 		if p[2] is None: 
-			p[0] = Node('llamarfuncion3', [p[1]])
+			p[0] = [p[1]]
 		else:
-			p[0] = Node('llamarfuncion3', [p[1]] + p[2])
-	else : p[0] = p[1]
+			p[0] = [p[1]] + p[2]
 
 def p_llamarfuncion33(p):
 	"""llamarfuncion33 : COMMA expresion llamarfuncion33
@@ -476,7 +476,6 @@ def p_llamarfuncion33(p):
 			p[0] = [p[2]]
 		else:
 			p[0] = [p[2]] + p[3]
-	else : p[0] = p[1]
 
 def p_type(p):
 	"""type : TINT
