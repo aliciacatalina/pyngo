@@ -1,4 +1,14 @@
-func int b(int c) {
+func int b(int c, int x) {
+	vars {
+	 int : a;
+	}
+	data {
+	 a = 5+1;
+	}
+	return a + c;
+}
+
+func int aag(int c) {
 	vars {
 	 int : a;
 	}

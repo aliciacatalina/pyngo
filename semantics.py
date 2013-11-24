@@ -58,6 +58,8 @@ class Node(object):
 			function_name = self.args[1]
 			localtable.add(function_name, self.args[0], "return")
 			localtable.add(function_name, "functype", self.args[0])
+			localtable[function_name]["functype"]["begin"] = len(cuadruplos)
+
 			for element in self.args[2:]:
 				if element is not None:
 					element.semantic(function_name, result)
@@ -65,13 +67,17 @@ class Node(object):
 
 		elif self.type == "lparameters":
 			print self.args[0]
+			cont = 1;
 			for i in self.args[0]:
-				print i[0], i[1]
+				print 'lparams', i[0], i[1]
 				currenttable.add(function_name, i[0], i[1])
-			
+				localtable[function_name]["functype"]["param"+str(cont)] = i[1]
+				cont += 1
+			print localtable
+
 		#Vars
 		elif self.type == "vars":
-			if self.args[0] is not None: 
+			if self.args[0] is not None:
 				result = self.args[0].semantic(function_name, result)
 
 		elif self.type == "lvars":
@@ -251,7 +257,7 @@ class Node(object):
 		elif self.type == "llamarfuncion" :
 			cuadruplos.append(["ERA", self.args[0], "",""])
 			for i in self.args[1]:
-				resulttype, resultaddress = i.expression(function_name, result) 
+				resulttype, resultaddress = i.expression(function_name, result)
 				cuadruplos.append(["Param", resultaddress, "", ""])
 			cuadruplos.append(["Gosub", self.args[0], "", ""])
 			functype = localtable[self.args[0]]["functype"]["return"]
