@@ -256,9 +256,11 @@ class Node(object):
 
 		elif self.type == "llamarfuncion" :
 			cuadruplos.append(["ERA", self.args[0], "",""])
+			contp = 1
 			for i in self.args[1]:
 				resulttype, resultaddress = i.expression(function_name, result)
-				cuadruplos.append(["Param", resultaddress, "", ""])
+				cuadruplos.append(["Param", resultaddress, "", "param"+str(contp)])
+				contp += 1
 			cuadruplos.append(["Gosub", self.args[0], "", ""])
 			functype = localtable[self.args[0]]["functype"]["return"]
 			tempaddress = temptable.add("Temp", functype, "temp")
