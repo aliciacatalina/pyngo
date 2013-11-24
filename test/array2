@@ -1,11 +1,11 @@
-func int b(int jj) {
+func int b(int c) {
 	vars {
 	 int : a;
 	}
 	data {
 	 a = 5+1;
 	}
-	return 3 + 2 + 8;
+	return a + c;
 }
 
 model {
@@ -15,5 +15,5 @@ model {
 	data {
 		a = 3 * 2 + 2 / 5;
 	}
-	print b(a, 3+5);
+	print b(3) + b(5);
 }

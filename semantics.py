@@ -255,6 +255,8 @@ class Node(object):
 				cuadruplos.append(["Param", resultaddress, "", ""])
 			cuadruplos.append(["Gosub", self.args[0], "", ""])
 			functype = localtable[self.args[0]]["functype"]["return"]
-			return functype, localtable[self.args[0]][functype]["return"]
+			tempaddress = temptable.add("Temp", functype, "temp")
+			cuadruplos.append(["=", localtable[self.args[0]][functype]["return"], "", tempaddress])
+			return functype, tempaddress
 
 		return result
