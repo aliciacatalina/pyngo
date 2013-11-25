@@ -87,6 +87,7 @@ class Node(object):
 		elif self.type == "declaration":
 
 			dimensions = self.args[0].args[1]
+
 			if dimensions is not None:
 				dimensions = reduce(lambda x, y: x*y, dimensions.args[0])
 			else:
@@ -103,6 +104,8 @@ class Node(object):
 
 								currenttable.addmany(function_name, self.args[0].args[0], i, dimensions)
 								currenttable.add(function_name, "array", dimensions)
+								currenttable[function_name]["array"]["begin"] = currenttable[function_name][self.args[0].args[0]][i][0]
+								currenttable[function_name]["array"]["dimensions"] = self.args[0].args[1].args[0]
 				else :
 					if dimensions == 1:
 						print currenttable.add(function_name, self.args[0].args[0], i)
@@ -110,6 +113,8 @@ class Node(object):
 
 						currenttable.addmany(function_name, self.args[0].args[0], i, dimensions)
 						currenttable.add(function_name, "array", dimensions)
+						currenttable[function_name]["array"]["begin"] = currenttable[function_name][self.args[0].args[0]][i][0]
+						currenttable[function_name]["array"]["dimensions"] = self.args[0].args[1].args[0]
 
 			print "declaration", currenttable
 
