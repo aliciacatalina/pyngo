@@ -55,7 +55,7 @@ def p_model(p):
 def p_optimize(p):
 	'''optimize : MIN LCURLY statement where RCURLY
 				| MAX LCURLY statement where RCURLY'''
-	p[0] = Node('optimize', p[3], p[4])
+	p[0] = Node('optimize', p[1], p[3], p[4])
 
 def p_build(p):
 	'''build : BUILD expresion SEMIC'''
@@ -99,7 +99,7 @@ def p_asign(p):
 def p_expresiones(p):
 	'''expresiones : expresion expresiones2'''
 	if p[2] is None:
-		p[0] = [p[1]] 
+		p[0] = [p[1]]
 	else:
 		p[0] = [p[1]] + p[2]
 

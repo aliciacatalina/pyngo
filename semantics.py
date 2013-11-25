@@ -203,6 +203,15 @@ class Node(object):
 			result_type, address = self.args[0].expression(function_name, result)
 			cuadruplos.append(["print", address, "", ""])
 
+		elif self.type == "optimize" :
+			print "optimization"
+
+			cuadruplos.append([self.args[0], '', '', ''])
+			result = self.args[1].semantic(function_name, result)
+		elif self.type == "build" :
+			print "builing"
+		elif self.type == "where" :
+			print "these are my conditions"
 		else:
 			print "type not found"
 
