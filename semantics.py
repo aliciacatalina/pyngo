@@ -207,21 +207,22 @@ class Node(object):
 		if self.type == "asign":
 			varname = self.args[1].args[0]
 			array_asign = self.args[2]
-			print 'array asign', array_asign
+			print 'array asign', len(array_asign)
+			print array_asign[0].expression(function_name, result)
+			#validate that arrays exists
 			if varname in currenttable[function_name]["arrays"].keys() :
 				print "asigning arrays "
 				array_size = currenttable[function_name]["arrays"][varname]["size"]
 				print 'array size', array_size
 				print currenttable[function_name]['int'][varname]
 				array_address = currenttable[function_name]['int'][varname]
+
 				counter = 0
-				for i in self.args[2]:
-					print i
-				for i in self.args[2] :
-					result_type, address = self.args[2].args[i]
-					while (counter < array_size - 1) :
-						cuadruplos.append(self.args[0], address , "", array_address + counter)
-						counter += 1
+				for i in range(array_size):
+					print 'i=', i
+					print array_asign[i]
+					result_type, address = array_asign[i].expression(function_name, result)
+					cuadruplos.append([self.args[0], address , "", array_address+i])
 
 			else :
 				result_type, address = self.args[2].expression(function_name, result)
