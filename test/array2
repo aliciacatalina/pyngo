@@ -13,7 +13,7 @@ model {
 	 int: a;
 	}
 	data {
-		a = 3 * 2 + 2 / 5;
+		a = 3 + 3 + 3 * 3;
 	}
 	print b(3) + b(5);
 }

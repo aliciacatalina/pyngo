@@ -43,7 +43,6 @@ class Node(object):
 
 		#Program
 		if self.type == "program":
-			print "This is a program"
 			for element in self.args:
 				if element is not None:
 					element.semantic(function_name, result)
@@ -93,14 +92,14 @@ class Node(object):
 							raise Exception ("Variable " + i + " alreay in use")
 						else :
 							if dimensions == 1:
-								currenttable.add(function_name, self.args[0].args[0], i)
+								print currenttable.add(function_name, self.args[0].args[0], i)
 							else:
-								currenttable.addmany(function_name, self.args[0].args[0], i, dimensions)
+								print currenttable.addmany(function_name, self.args[0].args[0], i, dimensions)
 				else :
 					if dimensions == 1:
-						currenttable.add(function_name, self.args[0].args[0], i)
+						print currenttable.add(function_name, self.args[0].args[0], i)
 					else:
-						currenttable.addmany(function_name, self.args[0].args[0], i, dimensions)
+						print currenttable.addmany(function_name, self.args[0].args[0], i, dimensions)
 			print "declaration", currenttable
 
 		# receives asignmany
