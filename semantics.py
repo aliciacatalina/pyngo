@@ -135,8 +135,8 @@ class Node(object):
 
 		#conditions
 		elif self.type == "condition":
-			print 'args', self.args[0].args[0]
-			tipo, direccion = self.args[0].args[0].expression(function_name, result)
+			print 'args', self.args[0]
+			tipo, direccion = self.args[0].expression(function_name, result)
 			if tipo != 'bool':
 				raise Exception("Condicion debe ser tipo bool")
 			#GOTO en falso
@@ -224,6 +224,7 @@ class Node(object):
 						cuadruplos.append([self.args[0], address , "", array_address+i])
 
 			else :
+				print 'no es array', self.args[2][0]
 				result_type, address = self.args[2][0].expression(function_name, result)
 				for key in currenttable[function_name]:
 					if self.args[1].args[0] in currenttable[function_name][key].keys():
