@@ -85,7 +85,7 @@ class Node(object):
 				result = self.args[1].semantic(function_name, result) #lvars
 
 		elif self.type == "declaration":
-
+			print '0', self.args[0].args[0], '1', self.args[1]
 			dimensions = self.args[0].args[1]
 
 			if dimensions is not None:
@@ -101,23 +101,38 @@ class Node(object):
 							if dimensions == 1:
 								print currenttable.add(function_name, self.args[0].args[0], i)
 							else:
-
-								currenttable.addmany(function_name, self.args[0].args[0], i, dimensions)
+								cont = 0
+								while (cont < dimensions) :
+									print "entra al if de arregloooos"
+									if (cont == 0):
+										currenttable.add(function_name, self.args[0].args[0], i)
+									else :
+										currenttable.add(function_name, self.args[0].args[0], i+str(cont))
+										cont += 1
 								currenttable.add(function_name, "array", i)
 								currenttable[function_name]["array"][i] = {}
 								currenttable[function_name]["array"][i]["size"] = dimensions
-								currenttable[function_name]["array"][i]["begin"] = currenttable[function_name][self.args[0].args[0]][i][0]
+								currenttable[function_name]["array"][i]["begin"] = currenttable[function_name][self.args[0].args[0]][i]
 								currenttable[function_name]["array"][i]["dimensions"] = self.args[0].args[1].args[0]
 				else :
 					if dimensions == 1:
 						print currenttable.add(function_name, self.args[0].args[0], i)
 					else:
+						cont = 0
+						while (cont < dimensions) :
+							print "entra al if de arregloooos"
+							if (cont == 0):
+								currenttable.add(function_name, self.args[0].args[0], i)
 
-						currenttable.addmany(function_name, self.args[0].args[0], i, dimensions)
+							else :
+								currenttable.add(function_name, self.args[0].args[0], i+str(cont))
+							cont += 1
+
+						print currenttable
 						currenttable.add(function_name, "array", i)
 						currenttable[function_name]["array"][i] = {}
 						currenttable[function_name]["array"][i]["size"] = dimensions
-						currenttable[function_name]["array"][i]["begin"] = currenttable[function_name][self.args[0].args[0]][i][0]
+						currenttable[function_name]["array"][i]["begin"] = currenttable[function_name][self.args[0].args[0]][i]
 						currenttable[function_name]["array"][i]["dimensions"] = self.args[0].args[1].args[0]
 
 			print "declaration", currenttable
