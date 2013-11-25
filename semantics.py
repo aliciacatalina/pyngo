@@ -86,60 +86,27 @@ class Node(object):
 
 		elif self.type == "declaration":
 			print '0', self.args[0].args[0], '1', self.args[1]
-			dimensions = self.args[0].args[1]
-
-			if dimensions is not None:
-				dimensions = reduce(lambda x, y: x*y, dimensions.args[0])
+			dimension = self.args[0].args[1]
+			if dimension is not None:
+				size = reduce(lambda x, y: x*y, dimension.args[0])
+				for i in self.args[1]:
+					if function_name in currenttable:
+						for key in currenttable[function_name]:
+							if i in currenttable[function_name][key].keys():
+								raise Exception ("Variable " + i + " already in use")
+					for j in range(size):
+						name = i if j == 0 else i + str(j)
+						currenttable.add(function_name, self.args[0].args[0], name)
+					currenttable.addarray(function_name, self.args[0].args[0], i, 
+										currenttable[function_name][self.args[0].args[0]][i], size, dimension.args[0])
 			else:
-				dimensions = 1
-			for i in self.args[1]:
-				if function_name in currenttable:
-					for key in currenttable[function_name]:
-						if i in currenttable[function_name][key].keys():
-							raise Exception ("Variable " + i + " alreay in use")
-						else :
-							if dimensions == 1:
-								print currenttable.add(function_name, self.args[0].args[0], i)
-							else:
-								cont = 0
-								while (cont < dimensions) :
-									print "entra al if de arregloooos"
-									if (cont == 0):
-										currenttable.add(function_name, self.args[0].args[0], i)
-									else :
-										currenttable.add(function_name, self.args[0].args[0], i+str(cont))
-										cont += 1
-								currenttable.add(function_name, "array", i)
-								currenttable[function_name]["array"][i] = {}
-								currenttable[function_name]["array"][i]["size"] = dimensions
-								currenttable[function_name]["array"][i]["begin"] = currenttable[function_name][self.args[0].args[0]][i]
-								currenttable[function_name]["array"][i]["dimensions"] = self.args[0].args[1].args[0]
-				else :
-					if dimensions == 1:
-						print currenttable.add(function_name, self.args[0].args[0], i)
-					else:
-						cont = 0
-						while (cont < dimensions) :
-							print "entra al if de arregloooos"
-							if (cont == 0):
-								currenttable.add(function_name, self.args[0].args[0], i)
-
-							else :
-								currenttable.add(function_name, self.args[0].args[0], i+str(cont))
-							cont += 1
-
-						print currenttable
-						currenttable.add(function_name, "array", i)
-						currenttable[function_name]["array"][i] = {}
-						currenttable[function_name]["array"][i]["size"] = dimensions
-						currenttable[function_name]["array"][i]["begin"] = currenttable[function_name][self.args[0].args[0]][i]
-						currenttable[function_name]["array"][i]["dimensions"] = self.args[0].args[1].args[0]
-
-			print "declaration", currenttable
-
-		# receives asignmany
-			#for i in globaltable[function_name]:
-			#	varlookup[i] = ({v:k for k, v in globaltable[function_name][i].items()})
+				size = 1
+				for i in self.args[1]:
+					if function_name in currenttable:
+						for key in currenttable[function_name]:
+							if i in currenttable[function_name][key].keys():
+								raise Exception ("Variable " + i + " already in use")
+					currenttable.add(function_name, self.args[0].args[0], i)
 
 		elif self.type == "asignmany":
 			result = self.args[0].expression(function_name, result)

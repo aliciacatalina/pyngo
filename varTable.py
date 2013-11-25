@@ -44,11 +44,18 @@ class Vartable(dict):
 			self.boolpointer += 1
 		elif t == 'functype':
 			self[function_name][t]["return"] = name
-		elif t == 'array':
-			self[function_name][t][name] = name
 		else:
 			raise Exception("No type")
 		return self.lastpointer
+
+	def addarray(self, function_name, t, name, begin, size, dimensions):
+		if "arrays" not in self[function_name]:
+			self[function_name]["arrays"] = {}
+		self[function_name]["arrays"][name] = {}
+		self[function_name]["arrays"][name]["begin"] = begin
+		self[function_name]["arrays"][name]["dimensions"] = dimensions
+		self[function_name]["arrays"][name]["size"] = size
+		self[function_name]["arrays"][name]["type"] = t
 
 	def addmany(self, function_name, t, name, size):
 		if function_name not in self:
