@@ -7,5 +7,6 @@ model {
 		var = 10 + 6 * 8 - 4;
 	}
 
-	if(var > 0){ print 5*var+2;}
+	if(var > 0)
+	{ print 5*var+2;}
 }

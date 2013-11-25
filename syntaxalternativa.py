@@ -123,7 +123,7 @@ def p_asign_signo(p):
 	p[0] = p[1]
 
 def p_condition(p):
-	"""condition : IF asign bloque condition1
+	"""condition : IF expresion bloque condition1
 	"""
 	p[0] = Node('condition', p[2], p[3], p[4])
 
