@@ -1,6 +1,6 @@
 #int 0-5000, float 5001-10000, bool 10001-15000
 class Vartable(dict):
-	def __init__(self, intpointer=0, 
+	def __init__(self, intpointer=0,
 				floatpointer=5001, boolpointer=10000):
 		self.intpointer = intpointer
 		self.floatpointer = floatpointer
@@ -42,6 +42,8 @@ class Vartable(dict):
 			self.boolpointer += 1
 		elif t == 'functype':
 			self[function_name][t]["return"] = name
+		elif t == 'array':
+			self[function_name][t]["size"] = name
 		else:
 			raise Exception("No type")
 		return self.lastpointer
@@ -70,7 +72,7 @@ class Vartable(dict):
 			raise Exception("No type")
 		return self.lastpointer
 #class Vartable(dict):
-#	def __init__(self, function_name, intpointer=0, 
+#	def __init__(self, function_name, intpointer=0,
 #				floatpointer=5001, boolpointer=10000):
 #		self.intpointer = intpointer
 #		self.floatpointer = floatpointer
