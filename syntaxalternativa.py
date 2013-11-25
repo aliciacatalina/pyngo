@@ -93,17 +93,24 @@ def p_asignmany(p):
 
 def p_asign(p):
 	#TODO: Sum when expresiones
-	"""asign : id asign_signo expresiones SEMIC
-			| expresiones"""
-	if len(p) > 2 :
-		p[0] = Node('asign',p[2],p[1],p[3])
-	else : p[0] = Node('asign', p[1])
-
+	"""asign : id asign_signo expresiones SEMIC"""
+	p[0] = Node('asign',p[2],p[1],p[3])
 
 def p_expresiones(p):
-	'''expresiones : expresion COMMA expresiones
-					| expresion'''
-	if len(p) > 2 : p[0] = Node ('expresiones', p[1], p[3])
+	'''expresiones : expresion expresiones2'''
+	if p[2] is None:
+		p[0] = [p[1]] 
+	else:
+		p[0] = [p[1]] + p[2]
+
+def p_expresiones2(p):
+	'''expresiones2 : COMMA expresion expresiones2
+					| empty'''
+	if len(p) > 2:
+		if p[3] is None:
+			p[0] = [p[2]]
+		else:
+			p[0] = [p[2]] + p[3]
 	else : p[0] = p[1]
 
 def p_asign_signo(p):

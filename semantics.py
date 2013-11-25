@@ -215,6 +215,8 @@ class Node(object):
 				print currenttable[function_name]['int'][varname]
 				array_address = currenttable[function_name]['int'][varname]
 				counter = 0
+				for i in self.args[2]:
+					print i
 				for i in self.args[2] :
 					result_type, address = self.args[2].args[i]
 					while (counter < array_size - 1) :
