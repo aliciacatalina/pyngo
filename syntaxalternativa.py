@@ -6,12 +6,12 @@ def p_program(p):
     '''program : functions MODEL LCURLY vars data model bloque2 RCURLY'''
     p[0] = Node('program', p[1], p[4], p[5], p[6], p[7])
 
-#Functions 
+#Functions
 def p_functions(p):
-	'''functions : function functions 
+	'''functions : function functions
 				| empty'''
 	if len(p) > 2: p[0] = Node('functions', p[1], p[2])
-	
+
 def p_function(p):
 	'''function : FUNC type ID LPAREN lparameters RPAREN LCURLY vars data bloque2 RCURLY'''
 	p[0] = Node('function', p[2], p[3], p[5], p[8], p[9], p[10])
@@ -19,7 +19,7 @@ def p_function(p):
 def p_lparameters(p):
 	'''lparameters : parameter parameters
 					| empty'''
-	if len(p) > 2 : 
+	if len(p) > 2 :
 		if p[2] is None:
 			p[0] = Node('lparameters', [p[1]])
 		else:
@@ -71,7 +71,7 @@ def p_wherecondition(p):
 
 def p_statement(p):
 	"""statement : declaration
-	 | asign 
+	 | asign
 	 | condition
 	 | write
 	 | ciclo
@@ -122,7 +122,7 @@ def p_condition(p):
 
 def p_condition1(p):
 	"""condition1 : ELSE bloque
-	| empty	
+	| empty
 	"""
 	if len(p) > 2:
 		p[0] = p[2]
@@ -132,7 +132,7 @@ def p_condition1(p):
 def p_write(p):
 	"""write : PRINT expresion write2 SEMIC
 	"""
-	if p[3] is None: 
+	if p[3] is None:
 		p[0] = Node('write',p[2])
 	else:
 		p[0] = Node('write', [p[2]] + p[3])
@@ -142,7 +142,7 @@ def p_write2(p):
 	| empty
 	"""
 	if len(p) > 2:
-		if p[3] is None: 
+		if p[3] is None:
 			p[0] = [p[2]]
 		else:
 			p[0] = [p[2]] + p[3]
@@ -162,7 +162,7 @@ def p_lvars(p):
 def p_declaration(p):
 	"""declaration : typedeclaration POINTS ID dec22 SEMIC
 	"""
-	if p[4] is None: 
+	if p[4] is None:
 		p[0] = Node('declaration', p[1], [p[3]])
 	else:
 		p[0] = Node('declaration', p[1], [p[3]] + p[4])
@@ -180,7 +180,7 @@ def p_dimensions(p):
 def p_dimensionsfixed(p):
 	'''dimensionsfixed : LBRACKET CTEI RBRACKET dimensionsfixed
 					| empty'''
-	if len(p) > 2 : 
+	if len(p) > 2 :
 		if p[4] is not None: p[0] = Node('dimensionsfixed', [p[2]]+p[4].args[0])
 		else: p[0] = Node('dimensionsfixed', [p[2]])
 
@@ -189,7 +189,7 @@ def p_dec22(p):
 	| empty
 	"""
 	if len(p) > 2:
-		if p[3] is None: 
+		if p[3] is None:
 			p[0] = [p[2]]
 		else:
 			p[0] = [p[2]] + p[3]
@@ -310,7 +310,7 @@ def p_expresion6i(p):
 	if len(p) > 2:
 		p[0] = (p[1], p[2])
 	else : p[0] = p[1]
-	
+
 def p_expresion7(p):
 	"""expresion7 : expresion8 expresion7i
 	"""
@@ -328,7 +328,7 @@ def p_expresion7i(p):
 		p[0] = (p[1], p[2])
 	else : p[0] = p[1]
 def p_expresion8(p):
-	"""expresion8 : expresion9 expresion8i 
+	"""expresion8 : expresion9 expresion8i
 	"""
 	if p[2] is None:
 		p[0] = p[1]
@@ -340,7 +340,7 @@ def p_expresion8i(p):
 	| LESSTHAN expresion8
 	| GREATEREQUAL expresion8
 	| LESSEQUAL expresion8
-	| empty	
+	| empty
 	"""
 	if len(p) > 2:
 		p[0] = (p[1], p[2])
@@ -397,7 +397,7 @@ def p_factor2(p):
 
 def p_exponencial(p):
 	"""exponencial : LPAREN expresion RPAREN
-	| exponencial2 valor 
+	| exponencial2 valor
 	"""
 	if len(p) == 2:
 		p[0] = p[1]
@@ -462,7 +462,7 @@ def p_llamarfuncion3(p):
 	| empty
 	"""
 	if len(p) > 2:
-		if p[2] is None: 
+		if p[2] is None:
 			p[0] = [p[1]]
 		else:
 			p[0] = [p[1]] + p[2]
@@ -472,7 +472,7 @@ def p_llamarfuncion33(p):
 	| empty
 	"""
 	if len(p) > 2:
-		if p[3] is None: 
+		if p[3] is None:
 			p[0] = [p[2]]
 		else:
 			p[0] = [p[2]] + p[3]
@@ -490,7 +490,7 @@ def p_empty(p):
 
 def p_error(p):
 	if p is None :
-		print "Error de sintaxis !" 
-	else : 
-		print "error"	
+		print "Error de sintaxis !"
+	else :
+		print "error"
 		print p

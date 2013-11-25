@@ -97,7 +97,7 @@ class Node(object):
 					for j in range(size):
 						name = i if j == 0 else i + str(j)
 						currenttable.add(function_name, self.args[0].args[0], name)
-					currenttable.addarray(function_name, self.args[0].args[0], i, 
+					currenttable.addarray(function_name, self.args[0].args[0], i,
 										currenttable[function_name][self.args[0].args[0]][i], size, dimension.args[0])
 			else:
 				size = 1
@@ -206,18 +206,34 @@ class Node(object):
 
 		if self.type == "asign":
 			varname = self.args[1].args[0]
-			result_type, address = self.args[2].expression(function_name, result)
+			array_asign = self.args[2]
+			print 'array asign', array_asign
+			if varname in currenttable[function_name]["arrays"].keys() :
+				print "asigning arrays "
+				array_size = currenttable[function_name]["arrays"][varname]["size"]
+				print 'array size', array_size
+				print currenttable[function_name]['int'][varname]
+				array_address = currenttable[function_name]['int'][varname]
+				counter = 0
+				for i in self.args[2] :
+					result_type, address = self.args[2].args[i]
+					while (counter < array_size - 1) :
+						cuadruplos.append(self.args[0], address , "", array_address + counter)
+						counter += 1
 
-			for key in currenttable[function_name]:
-				if self.args[1].args[0] in currenttable[function_name][key].keys():
-					if result_type == key:
-						cuadruplos.append([self.args[0], address, "", currenttable[function_name][result_type][varname]])
-						break
+			else :
+				result_type, address = self.args[2].expression(function_name, result)
+				for key in currenttable[function_name]:
+					if self.args[1].args[0] in currenttable[function_name][key].keys():
+						if result_type == key:
+							cuadruplos.append([self.args[0], address, "", currenttable[function_name][result_type][varname]])
+							break
+						else:
+							raise Exception("You're asigning a different type of value")
 					else:
-						raise Exception("You're asigning a different type of value")
-				else:
-					print self.args[1].args[0], currenttable[function_name][key].keys()
-					raise Exception("You're trying to asign '" + self.args[1].args[0]+ "' a value and it has not been declared in vars")
+						print self.args[1].args[0], currenttable[function_name][key].keys()
+						raise Exception("You're trying to asign '" + self.args[1].args[0]+ "' a value and it has not been declared in vars")
+
 
 		elif self.type == "expresiones":
 			print "expresiones"
