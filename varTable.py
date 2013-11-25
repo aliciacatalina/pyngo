@@ -28,6 +28,8 @@ class Vartable(dict):
 		if name is "temp":
 			name = "t" + str(self.temp)
 			self.temp += 1
+		if name in self[function_name][t]:
+			return self[function_name][t][name]
 		if t == 'int':
 			self[function_name][t][name] = self.intpointer
 			self.lastpointer = self.intpointer
