@@ -45,7 +45,7 @@ class Vartable(dict):
 		elif t == 'functype':
 			self[function_name][t]["return"] = name
 		elif t == 'array':
-			self[function_name][t]["size"] = name
+			self[function_name][t][name] = name
 		else:
 			raise Exception("No type")
 		return self.lastpointer

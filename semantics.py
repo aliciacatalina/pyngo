@@ -103,18 +103,22 @@ class Node(object):
 							else:
 
 								currenttable.addmany(function_name, self.args[0].args[0], i, dimensions)
-								currenttable.add(function_name, "array", dimensions)
-								currenttable[function_name]["array"]["begin"] = currenttable[function_name][self.args[0].args[0]][i][0]
-								currenttable[function_name]["array"]["dimensions"] = self.args[0].args[1].args[0]
+								currenttable.add(function_name, "array", i)
+								currenttable[function_name]["array"][i] = {}
+								currenttable[function_name]["array"][i]["size"] = dimensions
+								currenttable[function_name]["array"][i]["begin"] = currenttable[function_name][self.args[0].args[0]][i][0]
+								currenttable[function_name]["array"][i]["dimensions"] = self.args[0].args[1].args[0]
 				else :
 					if dimensions == 1:
 						print currenttable.add(function_name, self.args[0].args[0], i)
 					else:
 
 						currenttable.addmany(function_name, self.args[0].args[0], i, dimensions)
-						currenttable.add(function_name, "array", dimensions)
-						currenttable[function_name]["array"]["begin"] = currenttable[function_name][self.args[0].args[0]][i][0]
-						currenttable[function_name]["array"]["dimensions"] = self.args[0].args[1].args[0]
+						currenttable.add(function_name, "array", i)
+						currenttable[function_name]["array"][i] = {}
+						currenttable[function_name]["array"][i]["size"] = dimensions
+						currenttable[function_name]["array"][i]["begin"] = currenttable[function_name][self.args[0].args[0]][i][0]
+						currenttable[function_name]["array"][i]["dimensions"] = self.args[0].args[1].args[0]
 
 			print "declaration", currenttable
 
