@@ -210,22 +210,21 @@ class Node(object):
 			print 'array asign', len(array_asign)
 			print array_asign[0].expression(function_name, result)
 			#validate that arrays exists
-			if varname in currenttable[function_name]["arrays"].keys() :
-				print "asigning arrays "
-				array_size = currenttable[function_name]["arrays"][varname]["size"]
-				print 'array size', array_size
-				print currenttable[function_name]['int'][varname]
-				array_address = currenttable[function_name]['int'][varname]
+			if "arrays" in currenttable[function_name].keys():
+				if varname in currenttable[function_name]["arrays"].keys() :
+					print "asigning arrays "
+					array_size = currenttable[function_name]["arrays"][varname]["size"]
+					print 'array size', array_size
+					print currenttable[function_name]['int'][varname]
+					array_address = currenttable[function_name]['int'][varname]
 
-				counter = 0
-				for i in range(array_size):
-					print 'i=', i
-					print array_asign[i]
-					result_type, address = array_asign[i].expression(function_name, result)
-					cuadruplos.append([self.args[0], address , "", array_address+i])
+					counter = 0
+					for i in range(array_size):
+						result_type, address = array_asign[i].expression(function_name, result)
+						cuadruplos.append([self.args[0], address , "", array_address+i])
 
 			else :
-				result_type, address = self.args[2].expression(function_name, result)
+				result_type, address = self.args[2][0].expression(function_name, result)
 				for key in currenttable[function_name]:
 					if self.args[1].args[0] in currenttable[function_name][key].keys():
 						if result_type == key:
