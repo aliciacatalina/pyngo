@@ -102,6 +102,7 @@ class Node(object):
 								currenttable.add(function_name, self.args[0].args[0], i)
 							else:
 								currenttable.addmany(function_name, self.args[0].args[0], i, dimensions)
+								currenttable.add(function_name, "array", dimensions)
 
 				else :
 					if dimensions == 1:
