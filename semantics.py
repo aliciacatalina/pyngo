@@ -47,26 +47,29 @@ class Node(object):
 				if element is not None:
 					element.semantic(function_name, result)
 			print dict(globaltable.items() + localtable.items() + temptable.items()), cuadruplos
-
+		#receives type functions ans sends a function
 		elif self.type == "functions":
 			for element in self.args:
 				if element is not None:
 					element.semantic(function_name, result)
-
+		#receives a function
 		elif self.type == "function":
 			function_name = self.args[1]
+			#stores the function name and its return type
 			localtable.add(function_name, self.args[0], "return")
 			localtable.add(function_name, "functype", self.args[0])
+			#stores the quad where the array starts
 			localtable[function_name]["functype"]["begin"] = len(cuadruplos)
-
+			#creates a ret quad
 			for element in self.args[2:]:
 				if element is not None:
 					element.semantic(function_name, result)
 			cuadruplos.append(["ret","","",""])
-
+		#receives the parameteres inside a function
 		elif self.type == "lparameters":
 			print self.args[0]
 			cont = 1;
+			#saves the number of parameters and the name of the variable
 			for i in self.args[0]:
 				print 'lparams', i[0], i[1]
 				currenttable.add(function_name, i[0], i[1])
@@ -74,21 +77,22 @@ class Node(object):
 				cont += 1
 			print localtable
 
-		#Vars
+		#Vars block
 		elif self.type == "vars":
 			if self.args[0] is not None:
 				result = self.args[0].semantic(function_name, result)
-
+		# list of vars
 		elif self.type == "lvars":
 			result = self.args[0].semantic(function_name, result) #declaration
 			if self.args[1] is not None:
 				result = self.args[1].semantic(function_name, result) #lvars
-
+		# receives type[] : id or type : id
 		elif self.type == "declaration":
-			print '0', self.args[0].args[0], '1', self.args[1]
+			# if it is an array, stores its dimension
 			dimension = self.args[0].args[1]
 			if dimension is not None:
 				size = reduce(lambda x, y: x*y, dimension.args[0])
+				#validate that the variable is not in use
 				for i in self.args[1]:
 					if function_name in currenttable:
 						for key in currenttable[function_name]:
@@ -99,6 +103,7 @@ class Node(object):
 						currenttable.add(function_name, self.args[0].args[0], name)
 					currenttable.addarray(function_name, self.args[0].args[0], i,
 										currenttable[function_name][self.args[0].args[0]][i], size, dimension.args[0])
+			#not arrays
 			else:
 				size = 1
 				for i in self.args[1]:
@@ -112,20 +117,20 @@ class Node(object):
 			result = self.args[0].expression(function_name, result)
 			if self.args[1] is not None:
 				result = self.args[1].semantic(function_name, result)
-
+		# receives the model, that works as a main
 		elif self.type == "model":
 			print "model"
 			result = self.args[0].semantic(function_name, result)
-
+		# this can receive several statements between { }
 		elif self.type == "bloque":
 			if self.args[0] is not None:
 				result = self.args[0].semantic(function_name, result)
-
+		#statements
 		elif self.type == "statement":
 			print "STAAAATE", result
 			if self.args[0] is not None:
 				result = self.args[0].semantic(function_name, result)
-
+		# may receive several statements
 		elif self.type == "bloque2":
 			print "BLOQUE", result
 			if self.args[0] is not None:
@@ -139,22 +144,23 @@ class Node(object):
 			tipo, direccion = self.args[0].expression(function_name, result)
 			if tipo != 'bool':
 				raise Exception("Condicion debe ser tipo bool")
-			#GOTO en falso
+			#GOTO when the condition is false
 			gotof = ['gotof', direccion, " ", " "]
 			cuadruplos.append(gotof)
 			lena = len(cuadruplos)
 			result = self.args[1].semantic(function_name, result)
 			goto = ['goto', " ", " ", 0]
 			cuadruplos.append(goto)
+			# set quad in gotof to skip until the block inside
 			gotof[3] = len(cuadruplos) - lena
 			if self.args[2] is not None:
 				lenelsea = len(cuadruplos)
 				result = self.args[2].semantic(function_name, result)
 				goto[3] = len(cuadruplos) - lenelsea
 			print cuadruplos
-
+		#receives a for loop
 		elif self.type == "for" :
-			print 'id', self.args[0], 'in', 'punto', self.args[1], 'otro id', self.args[2], 'bloque', self.args[3].args[0]
+			#saves the first for quad
 			back = len(cuadruplos)
 			pointer = currenttable.getintpointer()
 			currenttable.add(function_name, 'int', self.args[0])
@@ -168,8 +174,10 @@ class Node(object):
 					break
 				else:
 					raise Exception("The array is not defined")
+			#saves the result of a boolean expression
 			savebool = temptable.add("Temp", "int", "temp")
 			cuadruplos.append(['<',currenttable[function_name]['int'][self.args[0]] ,currenttable[function_name][key][self.args[2]], savebool])
+			#gotof when the result of the expression is not true
 			gotof = ['gotof', savebool, " ", " "]
 			cuadruplos.append(gotof)
 			lena = len(cuadruplos)
@@ -177,14 +185,18 @@ class Node(object):
 			cuadruplos.append(['+', 1, currenttable[function_name]['int'][self.args[0]], currenttable[function_name]['int'][self.args[0]]])
 			goto = ['goto', back - len(cuadruplos), " ", ]
 			cuadruplos.append(goto)
+			#adds the forth item on the list, where to go when it is false
 			gotof[3] = len(cuadruplos) - lena
 			print cuadruplos
 
 		elif self.type == "return" :
 			resulttype, address = self.args[0].expression(function_name, result)
-			#TODO: check if types are compatible
-			localtable[function_name][resulttype]["return"] = address
-			cuadruplos.append(["return", address, "", ""])
+			#Verifies that the return type is compatible
+			if resulttype != currenttable[function_name]["functype"]["return"] :
+				raise Exception("The return type is different than the asigned one")
+			else :
+				localtable[function_name][resulttype]["return"] = address
+				cuadruplos.append(["return", address, "", ""])
 
 		# print
 		elif self.type == "write" :
@@ -207,26 +219,25 @@ class Node(object):
 		if self.type == "asign":
 			varname = self.args[1].args[0]
 			array_asign = self.args[2]
-			print 'array asign', len(array_asign)
-			print array_asign[0].expression(function_name, result)
 			#validate that arrays exists
 			if "arrays" in currenttable[function_name].keys():
+				#asigning arrays
+				#validates that the array is on the array table
 				if varname in currenttable[function_name]["arrays"].keys() :
-					print "asigning arrays "
+					#saves the array size
 					array_size = currenttable[function_name]["arrays"][varname]["size"]
-					print 'array size', array_size
-					print currenttable[function_name]['int'][varname]
+					#saves the address where the array begins
 					array_address = currenttable[function_name]['int'][varname]
-
-					counter = 0
+					#for every item on the array, it asigns them the value given
 					for i in range(array_size):
 						result_type, address = array_asign[i].expression(function_name, result)
 						cuadruplos.append([self.args[0], address , "", array_address+i])
 
 			else :
-				print 'no es array', self.args[2][0]
+				#asigns a simple variable
 				result_type, address = self.args[2][0].expression(function_name, result)
 				for key in currenttable[function_name]:
+					#verifies that the variable has been declared
 					if self.args[1].args[0] in currenttable[function_name][key].keys():
 						if result_type == key:
 							cuadruplos.append([self.args[0], address, "", currenttable[function_name][result_type][varname]])
@@ -243,11 +254,15 @@ class Node(object):
 			result = self.args[0].semantic(function_name, result)
 			if self.args[1] is not None:
 				result = self.args[1].semantic(function_name, result)
-
+		#handles an expression
 		elif self.type == "expresion":
+			#left operator type
 			left_type, left_address = self.args[1].expression(function_name, result)
+			#right operator type
 			right_type, right_address = self.args[2].expression(function_name, result)
+			#result type
 			result_type = cubo_semantico[left_type][right_type][self.args[0]]
+			#temp addresses
 			result_address = temptable.add("Temp", result_type, "temp")
 			cuadruplos.append([self.args[0], left_address, right_address, result_address])
 			return result_type, result_address
@@ -268,14 +283,15 @@ class Node(object):
 					if j == self.args[0]:
 						return i, table[i][j]
 			raise Exception("Variable doesn't exist: " + self.args[0])
-
+		#call function. Receives id(params)
 		elif self.type == "llamarfuncion" :
+			#separates a space for the function call
 			cuadruplos.append(["ERA", self.args[0], "",""])
-			contp = 1
+			#contp = 1
 			for i in self.args[1]:
 				resulttype, resultaddress = i.expression(function_name, result)
-				cuadruplos.append(["Param", resultaddress, "", "param"+str(contp)])
-				contp += 1
+				cuadruplos.append(["Param", resultaddress, "", "param"+str(i)])
+				#contp += 1
 			cuadruplos.append(["Gosub", self.args[0], "", ""])
 			functype = localtable[self.args[0]]["functype"]["return"]
 			tempaddress = temptable.add("Temp", functype, "temp")
