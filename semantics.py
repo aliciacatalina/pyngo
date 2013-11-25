@@ -103,7 +103,6 @@ class Node(object):
 							else:
 								cont = 0
 								while (cont < dimensions) :
-									print "entra al if de arregloooos"
 									if (cont == 0):
 										currenttable.add(function_name, self.args[0].args[0], i)
 									else :
@@ -120,7 +119,6 @@ class Node(object):
 					else:
 						cont = 0
 						while (cont < dimensions) :
-							print "entra al if de arregloooos"
 							if (cont == 0):
 								currenttable.add(function_name, self.args[0].args[0], i)
 
