@@ -174,6 +174,7 @@ class Node(object):
 				if self.args[2] in currenttable[function_name][key].keys():
 					savelength = temptable.add("Temp", "int", "temp")
 					cuadruplos.append(['length', currenttable[function_name][key][self.args[2]], "",savelength ])
+					break
 				else:
 					raise Exception("The array is not defined")
 			savebool = temptable.add("Temp", "int", "temp")
