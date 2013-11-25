@@ -1,10 +1,6 @@
 model {
 	vars {
-<<<<<<< HEAD
 		int[4][6]: a, b;
-=======
-		int[3][2]: a;
->>>>>>> 05db03744808b041dbe68282079e4fb29e10b4bb
 	}
 
 	data {
