@@ -43,7 +43,13 @@ class Node(object):
 
 		#Program
 		if self.type == "program":
-			for element in self.args:
+			if self.args[0] is not None:
+				gotomain = ["goto", '', '', '']
+				cuadruplos.append(gotomain)
+				self.args[0].semantic(function_name, result)
+				gotomain[3] = len(cuadruplos)
+
+			for element in self.args[1:]:
 				if element is not None:
 					element.semantic(function_name, result)
 			print dict(globaltable.items() + localtable.items() + temptable.items()), cuadruplos
@@ -72,8 +78,8 @@ class Node(object):
 			#saves the number of parameters and the name of the variable
 			for i in self.args[0]:
 				print 'lparams', i[0], i[1]
-				currenttable.add(function_name, i[0], i[1])
-				localtable[function_name]["functype"]["param"+str(cont)] = i[1]
+				paramaddress = currenttable.add(function_name, i[0], i[1])
+				localtable[function_name]["functype"]["param"+str(cont)] = paramaddress
 				cont += 1
 			print localtable
 
@@ -296,11 +302,11 @@ class Node(object):
 		elif self.type == "llamarfuncion" :
 			#separates a space for the function call
 			cuadruplos.append(["ERA", self.args[0], "",""])
-			#contp = 1
+			contp = 1
 			for i in self.args[1]:
 				resulttype, resultaddress = i.expression(function_name, result)
-				cuadruplos.append(["Param", resultaddress, "", "param"+str(i)])
-				#contp += 1
+				cuadruplos.append(["Param", resultaddress, "", "param"+str(contp)])
+				contp += 1
 			cuadruplos.append(["Gosub", self.args[0], "", ""])
 			functype = localtable[self.args[0]]["functype"]["return"]
 			tempaddress = temptable.add("Temp", functype, "temp")

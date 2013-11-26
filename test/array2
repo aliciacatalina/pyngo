@@ -1,11 +1,12 @@
-func int b(int c) {
-	vars {
-	 int : a;
-	}
+func int factorial(int n) {
 	data {
-	 a = 5+1;
 	}
-	return a + c;
+	if n == 0 {
+	return 1;
+	}
+	else {
+	return n * factorial(n-1);
+	}
 }
 
 model {
@@ -15,5 +16,5 @@ model {
 	data {
 		a = 3 + 3 + 3 * 3;
 	}
-	print b(3) + b(5);
+	print factorial(a);
 }
