@@ -5,7 +5,7 @@ cuadruplos = []
 globaltable = Vartable()
 localtable = Vartable(15001, 20001, 25001)
 temptable = Vartable(30001, 35001, 40001)
-
+nextreturn = ["", "", "", ""]
 class Node(object):
 	def __init__(self, t, *args):
 		self.type = t
@@ -47,7 +47,7 @@ class Node(object):
 				gotomain = ["goto", '', '', '']
 				cuadruplos.append(gotomain)
 				self.args[0].semantic(function_name, result)
-				gotomain[3] = len(cuadruplos)
+				gotomain[3] = len(cuadruplos) - 1
 
 			for element in self.args[1:]:
 				if element is not None:
@@ -195,7 +195,8 @@ class Node(object):
 			gotof[3] = len(cuadruplos) - lena
 			print cuadruplos
 
-		elif self.type == "return" :
+		elif self.type == "return":
+			global nextreturn
 			resulttype, address = self.args[0].expression(function_name, result)
 			#Verifies that the return type is compatible
 			if resulttype != currenttable[function_name]["functype"]["return"] :
@@ -203,6 +204,8 @@ class Node(object):
 			else :
 				localtable[function_name][resulttype]["return"] = address
 				cuadruplos.append(["return", address, "", ""])
+				print "-"*11, address
+				nextreturn[1] = address
 
 		# print
 		elif self.type == "write" :
@@ -300,6 +303,7 @@ class Node(object):
 			raise Exception("Variable doesn't exist: " + self.args[0])
 		#call function. Receives id(params)
 		elif self.type == "llamarfuncion" :
+			global nextreturn
 			#separates a space for the function call
 			cuadruplos.append(["ERA", self.args[0], "",""])
 			contp = 1
@@ -310,7 +314,8 @@ class Node(object):
 			cuadruplos.append(["Gosub", self.args[0], "", ""])
 			functype = localtable[self.args[0]]["functype"]["return"]
 			tempaddress = temptable.add("Temp", functype, "temp")
-			cuadruplos.append(["=", localtable[self.args[0]][functype]["return"], "", tempaddress])
+			nextreturn = ["=", localtable[self.args[0]][functype]["return"], "", tempaddress]
+			cuadruplos.append(nextreturn)
 			return functype, tempaddress
 
 		return result
