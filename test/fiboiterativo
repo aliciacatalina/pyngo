@@ -1,0 +1,15 @@
+model {
+	vars {
+	 int[10]: c;
+	 int: a, b;
+	}
+	data {
+	a = 0;
+	b = 1;
+	}
+	for i in .c{
+	a = b;
+	b = a + b;
+	}
+	print a;
+}

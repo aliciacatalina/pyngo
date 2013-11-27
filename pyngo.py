@@ -5,6 +5,7 @@ import ply.yacc as yacc
 from semantics import *
 from syntaxalternativa import *
 from tokens import *
+from virtualMachine import *
 lexer = lex.lex() 
 program_file = str(sys.argv[1])
 f = open(program_file, 'r').read()
@@ -18,6 +19,8 @@ def test(input_string):
     print 'Success!'
     if isinstance(parse_tree, Node):
         print (parse_tree.semantic_all())
+        print memory[0]
+        print virtual_machine(cuadruplos, memory[0])
     else:
         print 'Failed program'
 

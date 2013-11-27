@@ -8,29 +8,29 @@ import opMatrices
 #memory = dictvar
 #quad = cuadruplos
 
-memory = {'factorial': {'int': {0: 15003, 1: 15004, 'return': 30003, 'n': 15002}, 'functype': {'begin': 1, 'return': 'int', 'param1': 15002}}, 'global': {'int': {'a': 0, 3: 1}}, 'Temp': {'int': {'t6': 30006, 't7': 30007, 't4': 30004, 't5': 30005, 't2': 30002, 't3': 30003, 't1': 30001}, 'bool': {'t0': 40001}}}
-quad = [['goto', '', '', 12], ['==', 15002, 15003, 40001], ['gotof', 40001, ' ', 2], ['return', 15004, '', ''], ['goto', ' ', ' ', 7], ['ERA', 'factorial', '', ''], ['-', 15002, 15004, 30001], ['Param', 30001, '', 'param1'], ['Gosub', 'factorial', '', ''], ['=', 30003, '', 30002], ['*', 15002, 30002, 30003], ['return', 30003, '', ''], ['ret', '', '', ''], ['*', 1, 1, 30004], ['+', 1, 30004, 30005], ['+', 1, 30005, 30006], ['=', 30006, '', 0], ['ERA', 'factorial', '', ''], ['Param', 0, '', 'param1'], ['Gosub', 'factorial', '', ''], ['=', 30003, '', 30007], ['print', 30007, '', '']]
+#memory = {'factorial': {'int': {0: 15003, 1: 15004, 'return': 30003, 'n': 15002}, 'functype': {'begin': 1, 'return': 'int', 'param1': 15002}}, 'global': {'int': {'a': 0, 3: 1}}, 'Temp': {'int': {'t6': 30006, 't7': 30007, 't4': 30004, 't5': 30005, 't2': 30002, 't3': 30003, 't1': 30001}, 'bool': {'t0': 40001}}}
+#quad = [['goto', '', '', 12], ['==', 15002, 15003, 40001], ['gotof', 40001, ' ', 2], ['return', 15004, '', ''], ['goto', ' ', ' ', 7], ['ERA', 'factorial', '', ''], ['-', 15002, 15004, 30001], ['Param', 30001, '', 'param1'], ['Gosub', 'factorial', '', ''], ['=', 30003, '', 30002], ['*', 15002, 30002, 30003], ['return', 30003, '', ''], ['ret', '', '', ''], ['*', 1, 1, 30004], ['+', 1, 30004, 30005], ['+', 1, 30005, 30006], ['=', 30006, '', 0], ['ERA', 'factorial', '', ''], ['Param', 0, '', 'param1'], ['Gosub', 'factorial', '', ''], ['=', 30003, '', 30007], ['print', 30007, '', '']]
 #test arrays
-memory = {'global': {'int': {'a': 0, 1: 8, 2: 9, 'b': 4, 4: 11, 5: 12, 3: 10, 'i': 13, 'a1': 1, 'a3': 3, 'a2': 2, 'b1': 5, 'b2': 6, 'b3': 7, 0: 14}, 'arrays': {'a': {'begin': 0, 'type': 'int', 'dimensions': [2, 2], 'size': 4}, 'b': {'begin': 4, 'type': 'int', 'dimensions': [2, 2], 'size': 4}}}, 'Temp': {'int': {'t4': 30005, 't2': 30003, 't3': 30004, 't0': 30001, 't1': 30002}}}
-quad = [['=', 8, '', 0], ['=', 9, '', 1], ['=', 10, '', 2], ['=', 11, '', 3], ['=', 9, '', 4], ['=', 10, '', 5], ['=', 11, '', 6], ['=', 12, '', 7], ['*', 0, 4, 30001], ['print', 30001, '', ''], ['=', 14, '', 13], ['length', 0, '', 30002], ['<', 13, 30002, 30003], ['gotof', 30003, ' ', 5], ['*', 12, 12, 30004], ['+', 30004, 9, 30005], ['print', 30005, '', ''], ['+', 8, 13, 13], ['goto', ' ', ' ', -8]]
+#memory = {'global': {'int': {'a': 0, 1: 8, 2: 9, 'b': 4, 4: 11, 5: 12, 3: 10, 'i': 13, 'a1': 1, 'a3': 3, 'a2': 2, 'b1': 5, 'b2': 6, 'b3': 7, 0: 14}, 'arrays': {'a': {'begin': 0, 'type': 'int', 'dimensions': [2, 2], 'size': 4}, 'b': {'begin': 4, 'type': 'int', 'dimensions': [2, 2], 'size': 4}}}, 'Temp': {'int': {'t4': 30005, 't2': 30003, 't3': 30004, 't0': 30001, 't1': 30002}}}
+#quad = [['=', 8, '', 0], ['=', 9, '', 1], ['=', 10, '', 2], ['=', 11, '', 3], ['=', 9, '', 4], ['=', 10, '', 5], ['=', 11, '', 6], ['=', 12, '', 7], ['*', 0, 4, 30001], ['print', 30001, '', ''], ['=', 14, '', 13], ['length', 0, '', 30002], ['<', 13, 30002, 30003], ['gotof', 30003, ' ', 5], ['*', 12, 12, 30004], ['+', 30004, 9, 30005], ['print', 30005, '', ''], ['+', 8, 13, 13], ['goto', ' ', ' ', -8]]
 #quad = [['=', 8, '', 0], ['=', 9, '', 1], ['=', 10, '', 2], ['=', 11, '', 3], ['=', 9, '', 4], ['=', 10, '', 5], ['=', 11, '', 6], ['=', 12, '', 7], ['*', 0, 4, 30005], ['print', 30005, '', '']]
 stackFunc = []
 memoryFunc = {}
 paramsFunc = {}
 memoryERA = {}
-
 #swap directions and values
-for i in memory:
-    if i == 'global' or i == 'Temp' or i == 'local':
-        for j in memory[i]:
-            if j != 'arrays':
-                memory[i][j] = dict (zip(memory[i][j].values(),memory[i][j].keys()))
-    else:
-        for j in memory[i]:
-            if j != 'functype':
-                memory[i][j] = dict (zip(memory[i][j].values(),memory[i][j].keys()))
 
-def virtual_machine (quad):
+def virtual_machine (quad, memory):
+    print quad
+    for i in memory:
+        if i == 'global' or i == 'Temp' or i == 'local':
+            for j in memory[i]:
+                if j != 'arrays':
+                    memory[i][j] = dict (zip(memory[i][j].values(),memory[i][j].keys()))
+        else:
+            for j in memory[i]:
+                if j != 'functype':
+                    memory[i][j] = dict (zip(memory[i][j].values(),memory[i][j].keys()))
     print "It's inside the machine"
 
     #obtiene el valor a partir de una direccion de memoria
@@ -435,4 +435,4 @@ def virtual_machine (quad):
             print "end"
             i +=1
 
-virtual_machine(quad)
+#virtual_machine(quad)

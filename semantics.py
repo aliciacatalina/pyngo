@@ -6,6 +6,7 @@ globaltable = Vartable()
 localtable = Vartable(15001, 20001, 25001)
 temptable = Vartable(30001, 35001, 40001)
 nextreturn = ["", "", "", ""]
+memory = []
 class Node(object):
 	def __init__(self, t, *args):
 		self.type = t
@@ -52,7 +53,7 @@ class Node(object):
 			for element in self.args[1:]:
 				if element is not None:
 					element.semantic(function_name, result)
-			print dict(globaltable.items() + localtable.items() + temptable.items()), cuadruplos
+			memory.append(dict(globaltable.items() + localtable.items() + temptable.items()))
 		#receives type functions ans sends a function
 		elif self.type == "functions":
 			for element in self.args:
@@ -120,7 +121,7 @@ class Node(object):
 					currenttable.add(function_name, self.args[0].args[0], i)
 
 		elif self.type == "asignmany":
-			result = self.args[0].expression(function_name, result)
+			result = self.args[0].semantic(function_name, result)
 			if self.args[1] is not None:
 				result = self.args[1].semantic(function_name, result)
 		# receives the model, that works as a main
@@ -224,6 +225,11 @@ class Node(object):
 			print "builing"
 		elif self.type == "where" :
 			print "these are my conditions"
+		elif self.type == "asign":
+			left_type, left_address = self.args[1].expression(function_name, result)
+			right_type, right_address = self.args[2][0].expression(function_name, result)
+			cuadruplos.append([self.args[0], right_address, "", left_address])
+			print self.args[0]
 		else:
 			print "type not found"
 
