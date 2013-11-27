@@ -7,19 +7,19 @@ class Vartable(dict):
 		self.boolpointer = boolpointer
 		self.temp = 0
 		self.lastpointer = 0
-
+	#function to get int pointer form the current table
 	def getintpointer(self):
 		return self.intpointer
-
+	#function to get float pointer form the current table
 	def getfloatpointer(self):
 		return self.floatpointer
-
+	#function to get bool pointer form the current table
 	def getboolpointer(self):
 		return self.boolpointer
-
+	#function to get last pointer form the current table, ignoring types
 	def getlastpointer(self):
 		return self.last.pointer
-
+	#function add a new variable to either a local, temp or global table
 	def add(self, function_name, t, name):
 		if function_name not in self:
 			self[function_name] = {}
@@ -47,7 +47,7 @@ class Vartable(dict):
 		else:
 			raise Exception("No type")
 		return self.lastpointer
-
+	#creates an array dictionary
 	def addarray(self, function_name, t, name, begin, size, dimensions):
 		if "arrays" not in self[function_name]:
 			self[function_name]["arrays"] = {}

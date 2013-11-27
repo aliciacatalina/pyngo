@@ -4,12 +4,10 @@ model {
 	}
 
 	data {
-		a = 1, 2, 3, 4;
+		a = 4, 1, 6, 10;
 		b = 2, 3, 4, 5;
 	}
 
-	print a * b;
-	for i in .a {
-		print 5*5+2;
-	}
+	print a * 5;
+	print b * 6;
 }

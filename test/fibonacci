@@ -1,0 +1,22 @@
+func int fib(int n) {
+	vars {
+	}
+	data {
+	}
+	if n == 1 || n==2{
+	return 1;
+	}
+
+	else {
+	return fib(n-1) + fib(n-2);
+	}
+}
+model {
+	vars {
+	 int: a;
+	}
+	data {
+		a = 4;
+	}
+	print fib(a);
+}

@@ -1,0 +1,20 @@
+func int factorial(int n) {
+	data {
+	}
+	if n == 0 {
+	return 1;
+	}
+	else {
+	return n * factorial(n-1);
+	}
+}
+
+model {
+	vars {
+	 int: a;
+	}
+	data {
+		a = 5;
+	}
+	print factorial(a);
+}

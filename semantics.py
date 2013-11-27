@@ -125,7 +125,7 @@ class Node(object):
 				result = self.args[1].semantic(function_name, result)
 		# receives the model, that works as a main
 		elif self.type == "model":
-			print "model"
+
 			result = self.args[0].semantic(function_name, result)
 		# this can receive several statements between { }
 		elif self.type == "bloque":
@@ -133,12 +133,12 @@ class Node(object):
 				result = self.args[0].semantic(function_name, result)
 		#statements
 		elif self.type == "statement":
-			print "STAAAATE", result
+
 			if self.args[0] is not None:
 				result = self.args[0].semantic(function_name, result)
 		# may receive several statements
 		elif self.type == "bloque2":
-			print "BLOQUE", result
+
 			if self.args[0] is not None:
 				result = self.args[0].semantic(function_name, result)
 			if len(self.args) > 1 and self.args[1] is not None:
@@ -146,10 +146,10 @@ class Node(object):
 
 		#conditions
 		elif self.type == "condition":
-			print 'args', self.args[0]
+
 			tipo, direccion = self.args[0].expression(function_name, result)
 			if tipo != 'bool':
-				raise Exception("Condicion debe ser tipo bool")
+				raise Exception("Condition must be boolean")
 			#GOTO when the condition is false
 			gotof = ['gotof', direccion, " ", " "]
 			cuadruplos.append(gotof)
@@ -171,7 +171,9 @@ class Node(object):
 			pointer = currenttable.getintpointer()
 			currenttable.add(function_name, 'int', self.args[0])
 			# i = 0
-			cuadruplos.append(['=', 0 , '', currenttable[function_name]['int'][self.args[0]]])
+			currenttable.add(function_name, 'int', 0)
+			print currenttable
+			cuadruplos.append(['=', currenttable[function_name]['int'][0] , '', currenttable[function_name]['int'][self.args[0]]])
 			# length array id
 			for key in currenttable[function_name]:
 				if self.args[2] in currenttable[function_name][key].keys():
@@ -182,14 +184,15 @@ class Node(object):
 					raise Exception("The array is not defined")
 			#saves the result of a boolean expression
 			savebool = temptable.add("Temp", "int", "temp")
-			cuadruplos.append(['<',currenttable[function_name]['int'][self.args[0]] ,currenttable[function_name][key][self.args[2]], savebool])
+			cuadruplos.append(['<',currenttable[function_name]['int'][self.args[0]] ,savelength, savebool])
 			#gotof when the result of the expression is not true
 			gotof = ['gotof', savebool, " ", " "]
 			cuadruplos.append(gotof)
 			lena = len(cuadruplos)
 			result = self.args[3].semantic(function_name, result)
-			cuadruplos.append(['+', 1, currenttable[function_name]['int'][self.args[0]], currenttable[function_name]['int'][self.args[0]]])
-			goto = ['goto', back - len(cuadruplos), " ", ]
+			currenttable.add(function_name, 'int', 1)
+			cuadruplos.append(['+', currenttable[function_name]['int'][1], currenttable[function_name]['int'][self.args[0]], currenttable[function_name]['int'][self.args[0]]])
+			goto = ['goto', " ", " ", back - len(cuadruplos)]
 			cuadruplos.append(goto)
 			#adds the forth item on the list, where to go when it is false
 			gotof[3] = len(cuadruplos) - lena
@@ -268,7 +271,6 @@ class Node(object):
 
 
 		elif self.type == "expresiones":
-			print "expresiones"
 			result = self.args[0].semantic(function_name, result)
 			if self.args[1] is not None:
 				result = self.args[1].semantic(function_name, result)
